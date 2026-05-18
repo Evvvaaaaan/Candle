@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/format_utils.dart';
 import '../../domain/entities/prediction.dart';
-import '../widgets/bottom_nav.dart';
 
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
@@ -27,7 +27,6 @@ class HistoryScreen extends StatelessWidget {
                       ? const _EmptyState()
                       : _HistoryList(predictions: _mockHistory),
                 ),
-                const BottomNav(currentIndex: 2),
               ],
             ),
           ),
@@ -42,10 +41,15 @@ class _HistoryHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.background,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+      height: 56,
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Row(
         children: [
-          Text('예측 기록', style: AppTextStyles.titleLarge),
+          IconButton(
+            icon: const Icon(Icons.arrow_back_ios, size: 20),
+            onPressed: () => context.pop(),
+          ),
+          Text('예측 기록', style: AppTextStyles.headlineMedium),
         ],
       ),
     );

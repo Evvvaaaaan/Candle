@@ -17,6 +17,9 @@ import '../presentation/screens/onboarding_screen.dart';
 import '../presentation/screens/prediction_screen.dart';
 import '../presentation/screens/ranking_screen.dart';
 import '../presentation/screens/result_screen.dart';
+import '../presentation/screens/notification_settings_screen.dart';
+import '../presentation/screens/point_store_screen.dart';
+import '../presentation/screens/reward_claim_screen.dart';
 import '../presentation/screens/settings_screen.dart';
 import '../presentation/screens/stock_search_screen.dart';
 
@@ -94,11 +97,19 @@ final appRouter = GoRouter(
       ),
     ),
     GoRoute(
-      path: '/settings',
-      builder: (_, __) => const SettingsScreen(),
+      path: '/point-store',
+      builder: (_, __) => const PointStoreScreen(),
+    ),
+    GoRoute(
+      path: '/reward',
+      builder: (_, __) => const RewardClaimScreen(),
     ),
     GoRoute(
       path: '/notification-settings',
+      builder: (_, __) => const NotificationSettingsScreen(),
+    ),
+    GoRoute(
+      path: '/settings',
       builder: (_, __) => const SettingsScreen(),
     ),
   ],
