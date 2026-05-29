@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Candle - 오늘의 예측</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../src/css/base/reset.css">
+  <link rel="stylesheet" href="../src/css/base/variables.css">
+  <link rel="stylesheet" href="../src/css/components/layout.css">
+  <style>
+    .pred-header {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: white;
+      border-bottom: 1px solid var(--color-border);
+      flex-shrink: 0;
+      z-index: 20;
+    }
+
+    .pred-timer {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-primary);
+      width: 72px;
+      text-align: right;
+    }
+
+    .stock-card {
+      margin: 16px;
+      background: var(--color-bg-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .stock-header { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 12px; }
+    .stock-name { font-size: 20px; font-weight: 600; color: var(--color-text-dark); letter-spacing: -0.02em; line-height: 1; }
+    .stock-code { font-size: 12px; color: var(--color-text-mid); margin-bottom: 2px; }
+    .stock-divider { height: 1px; background: var(--color-border-mid); margin-bottom: 12px; }
+    .stock-price { font-family: var(--font-mono); font-size: 24px; font-weight: 700; color: var(--color-text-dark); letter-spacing: -0.03em; margin-bottom: 8px; }
+    .stock-change-row { display: flex; justify-content: space-between; align-items: flex-start; }
+    .change-info { display: flex; align-items: center; gap: 8px; }
+    .change-label { font-size: 12px; color: var(--color-text-mid); }
+    .change-rate { font-family: var(--font-mono); font-size: 16px; font-weight: 700; line-height: 1; }
+    .change-rate.up { color: var(--color-success); }
+    .change-rate.down { color: var(--color-danger); }
+    .stock-volume { font-size: 12px; color: var(--color-text-mid); }
+    .stock-note { margin-top: 20px; font-size: 11px; color: var(--color-text-mid); text-align: center; }
+
+    /* Prediction buttons */
+    .pred-actions {
+      display: flex;
+      gap: 12px;
+      padding: 0 16px;
+      height: 140px;
+    }
+
+    .pred-btn {
+      flex: 1;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+      position: relative;
+      cursor: pointer;
+      border: 2px solid;
+    }
+
+    .pred-btn.up {
+      background: rgba(0, 200, 150, 0.1);
+      border-color: var(--color-success);
+    }
+
+    .pred-btn.down {
+      background: rgba(255, 77, 106, 0.1);
+      border-color: var(--color-danger);
+    }
+
+    .pred-btn.selected-up {
+      background: rgba(0, 200, 150, 0.2);
+      border: 3px solid var(--color-success);
+    }
+
+    .pred-btn.selected-down {
+      background: rgba(255, 77, 106, 0.2);
+      border: 3px solid var(--color-danger);
+    }
+
+    .pred-btn.dimmed { opacity: 0.5; }
+    .pred-btn:disabled { cursor: default; }
+
+    .pred-btn-label { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; }
+    .pred-btn-sub { font-size: 12px; font-weight: 500; }
+    .pred-btn.up .pred-btn-label, .pred-btn.up .pred-btn-sub { color: var(--color-success); }
+    .pred-btn.down .pred-btn-label, .pred-btn.down .pred-btn-sub { color: var(--color-danger); }
+    .pred-btn.selected-up .pred-btn-label, .pred-btn.selected-up .pred-btn-sub { color: var(--color-success); }
+    .pred-btn.selected-down .pred-btn-label, .pred-btn.selected-down .pred-btn-sub { color: var(--color-danger); }
+
+    .check-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .check-badge.up { background: var(--color-success); }
+    .check-badge.down { background: var(--color-danger); }
+
+    /* Toast */
+    .toast {
+      position: absolute;
+      top: 72px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: var(--color-text-dark);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      box-shadow: 0 8px 16px rgba(15,23,42,0.15);
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 50;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .back-btn {
+      width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+      margin-left: -4px; border-radius: 50%; color: var(--color-text-dark);
+    }
+    .back-btn:hover { background: var(--color-bg-slate); }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <div class="screen" style="background:white;">
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00C896" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      예측 완료
+    </div>
+
+    <!-- Header -->
+    <div class="pred-header">
+      <button class="back-btn" onclick="history.back()">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <h1 style="font-size:18px;font-weight:600;letter-spacing:-0.02em;">오늘의 예측</h1>
+      <div class="pred-timer" id="timer">02:14:49</div>
+    </div>
+
+    <!-- Content -->
+    <div style="flex:1;display:flex;flex-direction:column;padding:16px 0 32px;position:relative;z-index:10;">
+
+      <!-- Stock card -->
+      <div class="stock-card">
+        <div class="stock-header">
+          <h2 class="stock-name" id="stock-name">삼성전자</h2>
+          <span class="stock-code" id="stock-code">005930</span>
+        </div>
+        <div class="stock-divider"></div>
+        <div class="stock-change-row">
+          <div>
+            <div class="stock-price" id="stock-price">74,500원</div>
+            <div class="change-info">
+              <span class="change-label">전일 대비</span>
+              <span class="change-rate up" id="change-rate">+1.20%</span>
+            </div>
+          </div>
+          <div class="stock-volume">거래량 12,453,200</div>
+        </div>
+        <div class="stock-note">기준: 전날 종가 대비 오늘 종가</div>
+      </div>
+
+      <div style="flex:1;"></div>
+
+      <!-- Prediction buttons -->
+      <div class="pred-actions" id="pred-actions">
+        <button class="pred-btn up" id="btn-up" onclick="selectPrediction('up')">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00C896" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          <div>
+            <div class="pred-btn-label">상승</div>
+            <div class="pred-btn-sub">▲ UP</div>
+          </div>
+        </button>
+        <button class="pred-btn down" id="btn-down" onclick="selectPrediction('down')">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FF4D6A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+          <div>
+            <div class="pred-btn-label">하락</div>
+            <div class="pred-btn-sub">▼ DOWN</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../src/js/utils/storage.js"></script>
+<script src="../src/js/utils/router.js"></script>
+<script>
+  let selected = null;
+
+  // Load stock data from session
+  const params = (() => {
+    try { return JSON.parse(sessionStorage.getItem('routeParams')) ?? {}; }
+    catch { return {}; }
+  })();
+
+  if (params.stockName) {
+    document.getElementById('stock-name').textContent = params.stockName;
+    document.getElementById('stock-code').textContent = params.ticker || '';
+    if (params.currentPrice) {
+      document.getElementById('stock-price').textContent = params.currentPrice.toLocaleString() + '원';
+    }
+    if (params.changeRate !== undefined) {
+      const el = document.getElementById('change-rate');
+      const isUp = params.changeRate >= 0;
+      el.textContent = (isUp ? '+' : '') + params.changeRate.toFixed(2) + '%';
+      el.className = 'change-rate ' + (isUp ? 'up' : 'down');
+    }
+  }
+
+  // Timer
+  let timerSec = 2 * 3600 + 14 * 60 + 49;
+  function updateTimer() {
+    const h = Math.floor(timerSec / 3600);
+    const m = Math.floor((timerSec % 3600) / 60);
+    const s = timerSec % 60;
+    document.getElementById('timer').textContent =
+      [h,m,s].map(v => String(v).padStart(2,'0')).join(':');
+    if (timerSec > 0) timerSec--;
+  }
+  updateTimer();
+  setInterval(updateTimer, 1000);
+
+  function selectPrediction(dir) {
+    if (selected) return;
+    selected = dir;
+
+    const btnUp = document.getElementById('btn-up');
+    const btnDown = document.getElementById('btn-down');
+
+    if (dir === 'up') {
+      btnUp.className = 'pred-btn selected-up';
+      btnUp.innerHTML += '<div class="check-badge up"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>';
+      btnDown.className = 'pred-btn down dimmed';
+    } else {
+      btnDown.className = 'pred-btn selected-down';
+      btnDown.innerHTML += '<div class="check-badge down"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>';
+      btnUp.className = 'pred-btn up dimmed';
+    }
+
+    btnUp.disabled = true;
+    btnDown.disabled = true;
+
+    // Show toast
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+
+    setTimeout(() => {
+      sessionStorage.removeItem('routeParams');
+      location.href = './home.html';
+    }, 2000);
+  }
+</script>
+</body>
+</html>

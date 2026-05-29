@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Candle - 리워드 신청</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../src/css/base/reset.css">
+  <link rel="stylesheet" href="../src/css/base/variables.css">
+  <link rel="stylesheet" href="../src/css/components/layout.css">
+  <style>
+    .step { position: absolute; inset: 0; display: flex; flex-direction: column; transition: opacity 0.3s; }
+    .step.hidden { opacity: 0; pointer-events: none; }
+
+    /* Celebration */
+    .celebration { background: white; align-items: center; justify-content: center; }
+
+    .confetti-dot {
+      position: absolute;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      animation: confettiFly 2.5s ease-out forwards;
+    }
+
+    @keyframes confettiFly {
+      0% { transform: translate(-50vw, -50vh) scale(0); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+    }
+
+    .trophy-glow { position: relative; }
+    .trophy-glow::before { content:''; position:absolute;inset:-20px;background:#22C55E;border-radius:50%;filter:blur(24px);opacity:0.15; }
+
+    .gradient-text {
+      background: linear-gradient(to right, #00C896, #22C55E);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Form */
+    .form-header { height: 56px; display: flex; align-items: center; padding: 0 16px; background: white; border-bottom: 1px solid var(--color-border); flex-shrink: 0; position: sticky; top: 0; z-index: 20; }
+    .form-scroll { flex: 1; overflow-y: auto; padding-bottom: 120px; }
+    .form-scroll::-webkit-scrollbar { display: none; }
+    .form-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .reward-amount-badge { background: linear-gradient(to right, #00C896, #22C55E); color: white; padding: 12px 20px; border-radius: 16px; font-family: var(--font-mono); font-size: 24px; font-weight: 700; letter-spacing: -0.03em; box-shadow: 0 8px 20px rgba(0,200,150,0.25); }
+
+    .form-input {
+      width: 100%; height: 56px; background: var(--color-bg-subtle); border: 1.5px solid var(--color-border);
+      border-radius: 12px; padding: 0 16px; font-size: 15px; color: var(--color-text-dark);
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: var(--color-primary); }
+    .form-input.phone { padding-left: 48px; font-family: var(--font-mono); }
+
+    .form-label { font-size: 13px; font-weight: 500; color: var(--color-text-mid); margin-bottom: 6px; display: block; }
+    .form-hint { font-size: 12px; color: var(--color-text-mid); margin-top: 8px; display: flex; align-items: flex-start; gap: 6px; }
+    .form-hint-dot { color: var(--color-primary); font-weight: 700; }
+
+    .info-box { background: #F0FDF4; border: 1px solid var(--color-success); border-radius: 14px; padding: 16px; margin-bottom: 24px; display: flex; gap: 12px; align-items: flex-start; }
+    .naver-box { background: var(--color-primary-light); border: 1px solid var(--color-primary); border-radius: 16px; padding: 20px; margin-top: 32px; }
+    .naver-box-title { font-size: 14px; font-weight: 600; color: var(--color-text-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .naver-check { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 10px; font-size: 13px; color: var(--color-text-dark); line-height: 1.5; }
+
+    .form-sticky-footer {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: white; border-top: 1px solid var(--color-border);
+      padding: 16px 20px 32px; z-index: 30;
+    }
+
+    .checkbox-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; cursor: pointer; }
+    .checkbox { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--color-border-mid); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+    .checkbox.checked { background: var(--color-primary); border-color: var(--color-primary); }
+    .checkbox-label { font-size: 14px; color: var(--color-text-dark); line-height: 1.4; }
+
+    /* Success */
+    .success-step { background: white; align-items: center; justify-content: center; padding: 24px; }
+
+    .stepper { width: 100%; max-width: 280px; background: var(--color-bg-subtle); border: 1px solid var(--color-border); border-radius: 20px; padding: 24px; margin-bottom: 48px; }
+    .stepper-inner { display: flex; justify-content: space-between; align-items: center; position: relative; }
+    .stepper-line-bg { position: absolute; left: '15%'; right: '15%'; top: 16px; height: 2px; background: var(--color-border); }
+    .stepper-line-fill { position: absolute; left: 0; width: 50%; top: 16px; height: 2px; background: var(--color-primary); }
+    .step-dot { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .step-circle { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+    .step-circle.done { background: var(--color-success); color: white; }
+    .step-circle.current { background: white; border: 2px solid var(--color-primary); color: var(--color-primary); box-shadow: 0 1px 4px rgba(15,23,42,0.06); }
+    .step-circle.pending { background: var(--color-bg-subtle); border: 2px solid var(--color-border-mid); color: var(--color-text-light); }
+    .step-label { font-size: 12px; font-weight: 700; }
+    .step-label.done { color: var(--color-success); }
+    .step-label.current { color: var(--color-primary); }
+    .step-label.pending { color: var(--color-text-light); font-weight: 500; }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <div class="screen">
+
+    <!-- Celebration -->
+    <div class="step celebration" id="step-celebration">
+      <div id="confetti-container" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;"></div>
+      <div class="trophy-glow" style="margin-bottom:24px;">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:relative;z-index:1;">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>
+        </svg>
+      </div>
+      <h1 class="gradient-text" style="font-size:32px;font-weight:700;letter-spacing:-0.02em;margin-bottom:12px;text-align:center;">10연승 달성!</h1>
+      <p style="font-size:16px;color:var(--color-text-dark);text-align:center;font-weight:500;line-height:1.6;">축하합니다!<br>40만원 리워드 신청 자격이 생겼어요</p>
+    </div>
+
+    <!-- Form -->
+    <div class="step hidden" id="step-form">
+      <div class="form-header">
+        <button style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-left:-8px;border-radius:50%;color:var(--color-text-dark);" onclick="history.back()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span style="font-size:18px;font-weight:600;letter-spacing:-0.02em;margin-left:8px;">리워드 신청</span>
+      </div>
+
+      <div class="form-scroll">
+        <!-- Amount header -->
+        <div style="padding:24px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+          <div class="reward-amount-badge">400,000원</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:12px;margin-bottom:4px;">
+            <span style="font-size:16px;font-weight:700;color:var(--color-text-dark);">네이버페이로 전액 지급</span>
+          </div>
+          <p style="font-size:13px;color:var(--color-text-mid);">신청 후 1-3 영업일 내 지급됩니다</p>
+        </div>
+
+        <div style="padding:0 20px;">
+          <!-- Info box -->
+          <div class="info-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <p style="font-size:13px;color:var(--color-text-dark);line-height:1.6;"><span style="font-weight:600;">네이버페이 간편송금</span>으로 지급됩니다. 네이버페이 앱에서 수신 확인 후 본인 계좌로 출금 가능합니다.</p>
+          </div>
+
+          <!-- Phone input -->
+          <div style="margin-bottom:16px;">
+            <label class="form-label">휴대폰 번호 (네이버페이 연결 번호)</label>
+            <div style="position:relative;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              <input type="tel" id="phone" class="form-input phone" placeholder="01012345678 (- 없이 입력)" maxlength="11">
+            </div>
+            <div class="form-hint"><span class="form-hint-dot">•</span><span>네이버페이에 등록된 휴대폰 번호를 입력해주세요.</span></div>
+          </div>
+
+          <!-- Name input -->
+          <div style="margin-bottom:0;">
+            <label class="form-label">이름 (실명 확인용)</label>
+            <input type="text" id="name" class="form-input" placeholder="홍길동">
+            <div class="form-hint"><span class="form-hint-dot">•</span><span>본인 확인을 위해 실명을 입력해주세요.</span></div>
+          </div>
+
+          <!-- Naver pay info -->
+          <div class="naver-box">
+            <div class="naver-box-title">네이버페이 지급 안내</div>
+            ${[
+              ['<span style="font-weight:600;">세금 없이 전액 40만원</span>이 지급됩니다.'],
+              ['신청 후 <span style="font-weight:600;">1-3 영업일 내</span> 네이버페이로 입금됩니다.'],
+              ['네이버페이 앱에서 수신 확인 후 본인 계좌로 출금 가능합니다.'],
+            ].map(([text]) => `
+              <div class="naver-check">
+                <span style="color:var(--color-success);font-weight:700;margin-top:2px;">✓</span>
+                <span>${text}</span>
+              </div>
+            `).join('')}
+            <div style="padding-top:16px;border-top:1px solid #BFDBFE;margin-top:8px;">
+              <p style="font-size:12px;color:var(--color-text-mid);">* 네이버페이 간편송금은 소득세법상 과세 대상이 아니므로 세금이 부과되지 않습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sticky footer -->
+      <div class="form-sticky-footer">
+        <div class="checkbox-row" onclick="toggleAgree()">
+          <div class="checkbox" id="agree-checkbox"></div>
+          <label class="checkbox-label">개인정보 수집 및 이용, 네이버페이 지급 안내에 동의합니다.</label>
+        </div>
+        <button id="submit-btn" class="btn btn-full" style="height:56px;font-size:16px;background:var(--color-border);color:var(--color-text-light);cursor:not-allowed;border-radius:14px;" disabled onclick="submitForm()">
+          40만원 리워드 신청하기
+        </button>
+        <p style="font-size:11px;color:var(--color-danger-alt);text-align:center;margin-top:12px;font-weight:500;">* 부정한 방법으로 참여가 적발될 경우 지급이 취소되며 계정이 정지됩니다.</p>
+      </div>
+    </div>
+
+    <!-- Success -->
+    <div class="step hidden success-step" id="step-success">
+      <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:24px;">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      <h2 style="font-size:24px;font-weight:700;color:var(--color-text-dark);margin-bottom:8px;">신청이 완료되었습니다!</h2>
+      <p style="font-size:15px;color:var(--color-text-mid);text-align:center;margin-bottom:40px;line-height:1.6;">영업일 기준 72시간 내 처리될 예정입니다.<br><span style="font-weight:600;color:var(--color-text-dark);display:block;margin-top:4px;" id="complete-date"></span></p>
+
+      <!-- Stepper -->
+      <div class="stepper">
+        <div class="stepper-inner">
+          <div class="stepper-line-bg" style="position:absolute;left:15%;right:15%;top:16px;height:2px;background:var(--color-border);"></div>
+          <div class="stepper-line-fill" style="position:absolute;left:15%;width:35%;top:16px;height:2px;background:var(--color-primary);"></div>
+          <div class="step-dot">
+            <div class="step-circle done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span class="step-label done">신청완료</span>
+          </div>
+          <div class="step-dot">
+            <div class="step-circle current">2</div>
+            <span class="step-label current">검토중</span>
+          </div>
+          <div class="step-dot">
+            <div class="step-circle pending">3</div>
+            <span class="step-label pending">지급완료</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="width:100%;display:flex;flex-direction:column;gap:12px;">
+        <button style="width:100%;height:56px;background:var(--color-primary);color:white;border-radius:14px;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;" onclick="location.href='./home.html'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          홈으로 돌아가기
+        </button>
+        <button style="width:100%;height:56px;background:white;color:var(--color-primary);border:2px solid var(--color-primary);border-radius:14px;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          친구에게 자랑하기
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let agreed = false;
+
+  // Confetti
+  const container = document.getElementById('confetti-container');
+  const colors = ['#22C55E','#00C896','#2563EB','#F59E0B','#EF4444','#8B5CF6'];
+  for (let i = 0; i < 30; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'confetti-dot';
+    const tx = (Math.random() * 200 - 100) + 'vw';
+    const ty = (Math.random() * 200 - 100) + 'vh';
+    dot.style.cssText = `--tx:${tx};--ty:${ty};left:50%;top:50%;background:${colors[i%colors.length]};animation-delay:${Math.random()*0.5}s;animation-duration:${2+Math.random()*2}s;`;
+    container.appendChild(dot);
+  }
+
+  // After celebration, show form
+  setTimeout(() => {
+    document.getElementById('step-celebration').classList.add('hidden');
+    document.getElementById('step-form').classList.remove('hidden');
+  }, 3000);
+
+  function toggleAgree() {
+    agreed = !agreed;
+    const cb = document.getElementById('agree-checkbox');
+    cb.classList.toggle('checked', agreed);
+    cb.innerHTML = agreed ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : '';
+    updateSubmitBtn();
+  }
+
+  function updateSubmitBtn() {
+    const phone = document.getElementById('phone').value.trim();
+    const name = document.getElementById('name').value.trim();
+    const canSubmit = agreed && phone.length >= 10 && name.length >= 2;
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = !canSubmit;
+    btn.style.background = canSubmit ? 'var(--color-primary)' : 'var(--color-border)';
+    btn.style.color = canSubmit ? 'white' : 'var(--color-text-light)';
+    btn.style.cursor = canSubmit ? 'pointer' : 'not-allowed';
+    btn.style.boxShadow = canSubmit ? '0 4px 12px rgba(37,99,235,0.2)' : 'none';
+  }
+
+  document.getElementById('phone').addEventListener('input', updateSubmitBtn);
+  document.getElementById('name').addEventListener('input', updateSubmitBtn);
+
+  function submitForm() {
+    const btn = document.getElementById('submit-btn');
+    if (btn.disabled) return;
+
+    const date = new Date();
+    date.setDate(date.getDate() + 3);
+    document.getElementById('complete-date').textContent = `예상 완료일: ${date.getMonth()+1}월 ${date.getDate()}일`;
+
+    document.getElementById('step-form').classList.add('hidden');
+    document.getElementById('step-success').classList.remove('hidden');
+    document.getElementById('step-success').style.display = 'flex';
+    document.getElementById('step-success').style.flexDirection = 'column';
+    document.getElementById('step-success').style.alignItems = 'center';
+    document.getElementById('step-success').style.justifyContent = 'center';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-sheet {
+  background: var(--color-bg);
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 448px;
+  padding: 28px 24px 40px;
+  box-shadow: 0 -4px 24px rgba(15, 23, 42, 0.12);
+  animation: slideUp 0.25s ease-out;
+}
+
+.modal-handle {
+  width: 36px;
+  height: 4px;
+  background: var(--color-border-mid);
+  border-radius: 2px;
+  margin: 0 auto 24px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 8px;
+}
+
+.modal-desc {
+  font-size: 14px;
+  color: var(--color-text-mid);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.modal-actions .btn {
+  flex: 1;
+  height: 50px;
+  font-size: 15px;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
