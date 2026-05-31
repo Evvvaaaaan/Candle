@@ -258,12 +258,11 @@
 <script src="../src/js/utils/storage.js"></script>
 <script src="../src/js/utils/router.js"></script>
 <script src="../src/js/utils/format.js"></script>
+<script src="../src/js/services/api.js"></script>
+<script src="../src/js/services/user.service.js"></script>
 <script src="../src/js/components/bottom-nav.js"></script>
 <script>
   renderBottomNav('home');
-
-  // Streak data (mock)
-  const STREAK = 7;
 
   // Count-up animation
   function countUp(el, target, duration = 800) {
@@ -322,17 +321,18 @@
     }, 1000);
   }
 
-  // Streak number color
-  const streakEl = document.getElementById('streak-num');
-  if (STREAK >= 3) streakEl.classList.add('streak-high');
-
-  // Initialize
-  setTimeout(() => {
-    countUp(streakEl, STREAK);
-    updateProgress(STREAK);
-    buildCalendar(STREAK);
+  async function init() {
+    const user = await UserService.getProfile();
+    const streak = user.streak;
+    const streakEl = document.getElementById('streak-num');
+    if (streak >= 3) streakEl.classList.add('streak-high');
+    countUp(streakEl, streak);
+    updateProgress(streak);
+    buildCalendar(streak);
     startTimer();
-  }, 100);
+  }
+
+  init();
 </script>
 </body>
 </html>

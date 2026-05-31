@@ -106,22 +106,22 @@
         <div class="avatar">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
-        <div class="profile-name">주식고수123</div>
-        <div class="profile-date">가입 일자: 2025-12-15</div>
+        <div class="profile-name" id="profile-name">-</div>
+        <div class="profile-date" id="profile-date">가입 일자: -</div>
         <div class="profile-divider"></div>
         <div class="stats-row">
           <div class="stat-item">
-            <span class="stat-value" style="color:var(--color-primary);">7</span>
+            <span class="stat-value" id="stat-streak" style="color:var(--color-primary);">-</span>
             <span class="stat-label">현재 연승</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
-            <span class="stat-value" style="color:var(--color-success);">42</span>
+            <span class="stat-value" id="stat-best-streak" style="color:var(--color-success);">-</span>
             <span class="stat-label">최고 연승</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
-            <span class="stat-value" style="color:#F59E0B;">72%</span>
+            <span class="stat-value" id="stat-accuracy" style="color:#F59E0B;">-%</span>
             <span class="stat-label">정확도</span>
           </div>
         </div>
@@ -132,11 +132,11 @@
         <h3 style="font-size:16px;font-weight:600;color:var(--color-text-dark);margin-bottom:12px;">나의 예측 통계</h3>
         <div class="detail-row">
           <span style="font-size:13px;color:var(--color-text-mid);">총 예측 횟수</span>
-          <span style="font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--color-text-dark);">127회</span>
+          <span id="stat-total" style="font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--color-text-dark);">-회</span>
         </div>
         <div class="detail-row">
           <span style="font-size:13px;color:var(--color-text-mid);">맞춘 횟수</span>
-          <span style="font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--color-success);">91회</span>
+          <span id="stat-correct" style="font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--color-success);">-회</span>
         </div>
       </div>
 
@@ -181,8 +181,26 @@
   </div>
 </div>
 
+<script src="../src/js/utils/storage.js"></script>
 <script src="../src/js/utils/router.js"></script>
+<script src="../src/js/services/api.js"></script>
+<script src="../src/js/services/user.service.js"></script>
 <script src="../src/js/components/bottom-nav.js"></script>
-<script>renderBottomNav('mypage');</script>
+<script>
+  renderBottomNav('mypage');
+
+  async function init() {
+    const user = await UserService.getProfile();
+    document.getElementById('profile-name').textContent = user.nickname;
+    document.getElementById('profile-date').textContent = `가입 일자: ${user.joinDate}`;
+    document.getElementById('stat-streak').textContent = user.streak;
+    document.getElementById('stat-best-streak').textContent = user.bestStreak;
+    document.getElementById('stat-accuracy').textContent = user.accuracy + '%';
+    document.getElementById('stat-total').textContent = user.totalPredictions + '회';
+    document.getElementById('stat-correct').textContent = user.correctPredictions + '회';
+  }
+
+  init();
+</script>
 </body>
 </html>

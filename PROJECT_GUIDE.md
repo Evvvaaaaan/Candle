@@ -1,6 +1,6 @@
 # Candle — 프로젝트 실행 가이드
 
-주식 예측 챌린지 앱. Vanilla HTML/CSS/JS MPA(Multi-Page Application).
+주식 예측 챌린지 앱. Vanilla HTML/CSS/JS MPA — 네이티브 박스앱(WebView 래퍼)으로 Android/iOS 배포.
 
 ---
 
@@ -26,6 +26,7 @@
 | 앱 이름 | Candle |
 | 목적 | 주식 상승/하락 예측 챌린지, 연승 기록 및 랭킹 경쟁 |
 | 아키텍처 | Vanilla HTML/CSS/JS MPA (빌드 도구 없음) |
+| 배포 타겟 | Android / iOS — 네이티브 박스앱(WebView 래퍼) |
 | 디자인 소스 | Figma Make — `Fi8RXBRiavF4rIOBB0iA6x` |
 | 데이터 | 현재 mock 모드, Spring Boot 연동 준비 완료 |
 

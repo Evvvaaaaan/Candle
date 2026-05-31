@@ -131,7 +131,7 @@
           <span class="point-card-label">내 포인트</span>
         </div>
         <div style="display:flex;align-items:baseline;">
-          <span class="point-balance">127,500</span>
+          <span class="point-balance" id="point-balance">-</span>
           <span class="point-unit">P</span>
         </div>
         <div class="point-footer">
@@ -280,12 +280,15 @@
   </div>
 </div>
 
+<script src="../src/js/utils/storage.js"></script>
 <script src="../src/js/utils/router.js"></script>
+<script src="../src/js/services/api.js"></script>
+<script src="../src/js/services/user.service.js"></script>
 <script src="../src/js/components/bottom-nav.js"></script>
 <script>
   renderBottomNav('point-store');
 
-  const USER_POINTS = 127500;
+  let USER_POINTS = 0;
   const OPTIONS = [
     { id: '1', points: 10000, cash: 10000 },
     { id: '2', points: 50000, cash: 50000, badge: '인기', popular: true },
@@ -365,7 +368,14 @@
     alert('교환 신청이 완료되었습니다! 네이버페이로 지급됩니다.');
   }
 
-  renderExchangeList();
+  async function init() {
+    const user = await UserService.getProfile();
+    USER_POINTS = user.points;
+    document.getElementById('point-balance').textContent = USER_POINTS.toLocaleString();
+    renderExchangeList();
+  }
+
+  init();
 </script>
 </body>
 </html>

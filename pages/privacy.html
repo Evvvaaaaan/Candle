@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Candle - 개인정보처리방침</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../src/css/base/reset.css">
+  <link rel="stylesheet" href="../src/css/base/variables.css">
+  <link rel="stylesheet" href="../src/css/components/layout.css">
+  <style>
+    .legal-header {
+      height: 56px;
+      background: white;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      flex-shrink: 0;
+      box-shadow: 0 1px 4px rgba(15,23,42,0.06);
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      color: var(--color-text-dark);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .back-btn:hover { background: var(--color-bg-subtle); }
+
+    .legal-body {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 24px 20px 48px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .legal-body::-webkit-scrollbar { display: none; }
+
+    /* TOC */
+    .toc {
+      background: var(--color-bg-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .toc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .toc-item {
+      font-size: 13px;
+      color: var(--color-primary);
+      text-decoration: none;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+    .toc-item:hover { text-decoration: underline; }
+
+    /* Document */
+    .doc-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--color-text-dark);
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+    .doc-meta {
+      font-size: 12px;
+      color: var(--color-text-light);
+      margin-bottom: 28px;
+      font-family: var(--font-mono);
+    }
+
+    .alert-box {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 28px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .alert-icon { flex-shrink: 0; margin-top: 1px; }
+    .alert-text { font-size: 13px; color: #1E40AF; line-height: 1.6; font-weight: 500; }
+
+    .section {
+      margin-bottom: 32px;
+    }
+    .section-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-text-dark);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .section-body {
+      font-size: 14px;
+      color: var(--color-text-mid);
+      line-height: 1.8;
+    }
+    .section-body p {
+      margin-bottom: 10px;
+    }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    .clause-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .clause-list li {
+      font-size: 14px;
+      color: var(--color-text-mid);
+      line-height: 1.7;
+      padding-left: 16px;
+      position: relative;
+    }
+    .clause-list li::before {
+      content: '·';
+      position: absolute;
+      left: 4px;
+      color: var(--color-text-light);
+    }
+
+    .numbered-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+      counter-reset: clause-counter;
+    }
+    .numbered-list li {
+      font-size: 14px;
+      color: var(--color-text-mid);
+      line-height: 1.7;
+      padding-left: 22px;
+      position: relative;
+      counter-increment: clause-counter;
+    }
+    .numbered-list li::before {
+      content: counter(clause-counter) '.';
+      position: absolute;
+      left: 0;
+      color: var(--color-text-light);
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .table-wrap {
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 12px 0;
+      overflow-x: auto;
+    }
+    .legal-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 340px;
+    }
+    .legal-table th {
+      background: var(--color-bg-subtle);
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--color-text-dark);
+      border-bottom: 1px solid var(--color-border);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .legal-table td {
+      padding: 10px 12px;
+      color: var(--color-text-mid);
+      border-bottom: 1px solid var(--color-border);
+      vertical-align: top;
+      line-height: 1.6;
+    }
+    .legal-table tr:last-child td { border-bottom: none; }
+
+    .highlight-box {
+      background: var(--color-bg-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 12px 0;
+    }
+    .highlight-box p {
+      font-size: 13px;
+      color: var(--color-text-mid);
+      line-height: 1.7;
+      margin: 0;
+    }
+    .highlight-box strong { color: var(--color-text-dark); font-weight: 700; }
+
+    .divider {
+      height: 1px;
+      background: var(--color-border);
+      margin: 28px 0;
+    }
+
+    .contact-card {
+      background: var(--color-bg-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+    .contact-card p {
+      font-size: 13px;
+      color: var(--color-text-mid);
+      line-height: 1.8;
+      margin: 0;
+    }
+    .contact-card strong { color: var(--color-text-dark); font-weight: 700; }
+
+    .right-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .right-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .right-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--color-primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .right-info { flex: 1; }
+    .right-title { font-size: 14px; font-weight: 700; color: var(--color-text-dark); margin-bottom: 2px; }
+    .right-desc { font-size: 12px; color: var(--color-text-light); line-height: 1.5; }
+
+    .version-history {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--color-border);
+    }
+    .version-row {
+      font-size: 12px;
+      color: var(--color-text-light);
+      margin-bottom: 4px;
+      font-family: var(--font-mono);
+    }
+    .version-current { color: var(--color-primary); font-weight: 700; }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-right: 4px;
+    }
+    .tag-required { background: #FEE2E2; color: #991B1B; }
+    .tag-optional { background: var(--color-bg-subtle); color: var(--color-text-mid); }
+    .tag-auto     { background: #EFF6FF; color: #1E40AF; }
+    .tag-third    { background: #FFF7ED; color: #92400E; }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <div class="screen" style="background: white;">
+
+    <!-- Header -->
+    <div class="legal-header">
+      <button class="back-btn" onclick="history.back()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div style="flex:1; font-size:17px; font-weight:700; color:var(--color-text-dark); margin-left:8px;">개인정보처리방침</div>
+    </div>
+
+    <!-- Content -->
+    <div class="legal-body">
+
+      <div class="doc-title">Candle 개인정보처리방침</div>
+      <div class="doc-meta">시행일: 2026년 6월 1일 &nbsp;|&nbsp; 버전 1.0</div>
+
+      <!-- 요약 안내 -->
+      <div class="alert-box">
+        <div class="alert-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="alert-text">
+          캔들 주식회사(이하 "회사")는 「개인정보 보호법」 제30조에 따라 이용자의 개인정보를 보호하고 권익을 보장하기 위해 본 처리방침을 수립·공개합니다. 본 방침은 서비스 이용 시작 시 적용됩니다.
+        </div>
+      </div>
+
+      <!-- 목차 -->
+      <div class="toc">
+        <div class="toc-title">목차</div>
+        <div class="toc-list">
+          <a class="toc-item" onclick="document.getElementById('p1').scrollIntoView({behavior:'smooth'})">1. 수집하는 개인정보 항목</a>
+          <a class="toc-item" onclick="document.getElementById('p2').scrollIntoView({behavior:'smooth'})">2. 개인정보 수집 및 이용 목적</a>
+          <a class="toc-item" onclick="document.getElementById('p3').scrollIntoView({behavior:'smooth'})">3. 개인정보 보유 및 이용 기간</a>
+          <a class="toc-item" onclick="document.getElementById('p4').scrollIntoView({behavior:'smooth'})">4. 개인정보 제3자 제공</a>
+          <a class="toc-item" onclick="document.getElementById('p5').scrollIntoView({behavior:'smooth'})">5. 개인정보 처리 위탁</a>
+          <a class="toc-item" onclick="document.getElementById('p6').scrollIntoView({behavior:'smooth'})">6. 자동으로 수집되는 정보</a>
+          <a class="toc-item" onclick="document.getElementById('p7').scrollIntoView({behavior:'smooth'})">7. 개인정보의 파기</a>
+          <a class="toc-item" onclick="document.getElementById('p8').scrollIntoView({behavior:'smooth'})">8. 이용자의 권리 및 행사 방법</a>
+          <a class="toc-item" onclick="document.getElementById('p9').scrollIntoView({behavior:'smooth'})">9. 개인정보 안전성 확보 조치</a>
+          <a class="toc-item" onclick="document.getElementById('p10').scrollIntoView({behavior:'smooth'})">10. 광고 네트워크 및 쿠키</a>
+          <a class="toc-item" onclick="document.getElementById('p11').scrollIntoView({behavior:'smooth'})">11. 만 14세 미만 아동 정책</a>
+          <a class="toc-item" onclick="document.getElementById('p12').scrollIntoView({behavior:'smooth'})">12. 개인정보 보호책임자</a>
+          <a class="toc-item" onclick="document.getElementById('p13').scrollIntoView({behavior:'smooth'})">13. 권익 침해 구제 방법</a>
+          <a class="toc-item" onclick="document.getElementById('p14').scrollIntoView({behavior:'smooth'})">14. 방침 변경 이력</a>
+        </div>
+      </div>
+
+      <!-- 1. 수집 항목 -->
+      <div class="section" id="p1">
+        <div class="section-num">제1조</div>
+        <div class="section-title">수집하는 개인정보 항목</div>
+        <div class="section-body">
+          <p>회사는 다음의 개인정보를 수집합니다.</p>
+
+          <p style="font-size:12px; color:var(--color-text-light); margin-bottom:6px;">
+            <span class="tag tag-required">필수</span>서비스 이용에 반드시 필요
+            <span class="tag tag-optional" style="margin-left:6px;">선택</span>미제공 시에도 기본 이용 가능
+            <span class="tag tag-auto" style="margin-left:6px;">자동</span>이용 과정에서 자동 생성
+            <span class="tag tag-third" style="margin-left:6px;">제3자</span>타 서비스 경유 수집
+          </p>
+
+          <div class="table-wrap">
+            <table class="legal-table">
+              <thead>
+                <tr><th>수집 시점</th><th>항목</th><th>구분</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>카카오 로그인 시</strong></td>
+                  <td>카카오 회원번호(고유 식별자), 이메일 주소</td>
+                  <td><span class="tag tag-third">제3자</span><span class="tag tag-required">필수</span></td>
+                </tr>
+                <tr>
+                  <td><strong>닉네임 설정 시</strong></td>
+                  <td>닉네임 (이용자 직접 입력)</td>
+                  <td><span class="tag tag-required">필수</span></td>
+                </tr>
+                <tr>
+                  <td><strong>서비스 이용 중</strong></td>
+                  <td>예측 기록, 연승 횟수, 포인트 잔액, 예측 정확도</td>
+                  <td><span class="tag tag-auto">자동</span></td>
+                </tr>
+                <tr>
+                  <td><strong>리워드 신청 시</strong></td>
+                  <td>실명, 휴대폰 번호</td>
+                  <td><span class="tag tag-required">필수</span></td>
+                </tr>
+                <tr>
+                  <td><strong>알림 설정 시</strong></td>
+                  <td>푸시 알림 수신 동의 여부, 알림 시간 설정값</td>
+                  <td><span class="tag tag-optional">선택</span></td>
+                </tr>
+                <tr>
+                  <td><strong>서비스 이용 전반</strong></td>
+                  <td>접속 IP 주소, 브라우저 종류, OS 버전, 방문 일시, 서비스 이용 기록</td>
+                  <td><span class="tag tag-auto">자동</span></td>
+                </tr>
+                <tr>
+                  <td><strong>광고 시청 시</strong></td>
+                  <td>광고 시청 기록, 광고 네트워크가 수집하는 기기 식별자(ADID/IDFA)</td>
+                  <td><span class="tag tag-auto">자동</span><span class="tag tag-third">제3자</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="highlight-box">
+            <p><strong>민감정보 미수집:</strong> 회사는 사상·신념, 노동조합 가입 여부, 정치적 견해, 건강 정보, 성생활, 유전 정보, 범죄 기록 등 「개인정보 보호법」 제23조의 민감정보와 주민등록번호·여권번호 등 고유식별정보를 수집하지 않습니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 2. 이용 목적 -->
+      <div class="section" id="p2">
+        <div class="section-num">제2조</div>
+        <div class="section-title">개인정보 수집 및 이용 목적</div>
+        <div class="section-body">
+          <div class="table-wrap">
+            <table class="legal-table">
+              <thead>
+                <tr><th>목적</th><th>사용 항목</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>회원 가입 및 본인 확인</strong></td>
+                  <td>카카오 회원번호, 이메일, 닉네임</td>
+                </tr>
+                <tr>
+                  <td><strong>예측 챌린지 서비스 제공</strong></td>
+                  <td>예측 기록, 연승 정보, 포인트</td>
+                </tr>
+                <tr>
+                  <td><strong>리워드(현금) 지급 처리</strong></td>
+                  <td>실명, 휴대폰 번호, 포인트 잔액</td>
+                </tr>
+                <tr>
+                  <td><strong>랭킹 서비스 제공</strong></td>
+                  <td>닉네임, 연승 횟수, 예측 정확도</td>
+                </tr>
+                <tr>
+                  <td><strong>서비스 알림 발송</strong></td>
+                  <td>이메일, 푸시 알림 동의 여부</td>
+                </tr>
+                <tr>
+                  <td><strong>부정 이용 방지 및 법적 의무 이행</strong></td>
+                  <td>접속 IP, 이용 기록, 기기 정보</td>
+                </tr>
+                <tr>
+                  <td><strong>서비스 품질 개선 및 통계</strong></td>
+                  <td>이용 기록 (비식별 처리 후 분석)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin-top:12px;">수집 목적 이외의 용도로 이용자의 개인정보를 이용하지 않습니다. 목적이 변경될 경우 사전에 동의를 받습니다.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 3. 보유 기간 -->
+      <div class="section" id="p3">
+        <div class="section-num">제3조</div>
+        <div class="section-title">개인정보 보유 및 이용 기간</div>
+        <div class="section-body">
+          <p>회사는 이용자의 개인정보를 원칙적으로 이용 목적 달성 후 즉시 파기합니다. 단, 다음의 사유로 보관이 필요한 경우 해당 기간 동안 보관합니다.</p>
+
+          <p style="font-weight:700; color:var(--color-text-dark); margin-bottom:8px;">① 서비스 내 보관</p>
+          <div class="table-wrap">
+            <table class="legal-table">
+              <thead><tr><th>항목</th><th>보유 기간</th><th>사유</th></tr></thead>
+              <tbody>
+                <tr><td>회원 정보 전반</td><td>탈퇴 즉시 파기</td><td>이용 목적 달성</td></tr>
+                <tr><td>리워드 지급 기록(실명·연락처)</td><td>지급 완료 후 <strong>5년</strong></td><td>전자상거래법 제6조</td></tr>
+                <tr><td>서비스 이용 기록·접속 로그</td><td><strong>3개월</strong></td><td>통신비밀보호법 제15조의2</td></tr>
+                <tr><td>광고 시청 기록</td><td><strong>3개월</strong></td><td>부정 이용 방지</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p style="font-weight:700; color:var(--color-text-dark); margin-bottom:8px; margin-top:16px;">② 법령에 따른 의무 보관</p>
+          <div class="table-wrap">
+            <table class="legal-table">
+              <thead><tr><th>근거 법령</th><th>항목</th><th>보유 기간</th></tr></thead>
+              <tbody>
+                <tr><td>전자상거래 등 소비자보호에 관한 법률</td><td>계약·청약 철회 기록</td><td>5년</td></tr>
+                <tr><td>전자상거래 등 소비자보호에 관한 법률</td><td>대금 결제 및 재화 공급 기록</td><td>5년</td></tr>
+                <tr><td>전자상거래 등 소비자보호에 관한 법률</td><td>소비자 불만·분쟁 처리 기록</td><td>3년</td></tr>
+                <tr><td>통신비밀보호법</td><td>서비스 이용 관련 접속 기록</td><td>3개월</td></tr>
+                <tr><td>국세기본법</td><td>리워드 관련 세금 처리 장부</td><td>5년</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 4. 제3자 제공 -->
+      <div class="section" id="p4">
+        <div class="section-num">제4조</div>
+        <div class="section-title">개인정보 제3자 제공</div>
+        <div class="section-body">
+          <p>회사는 원칙적으로 이용자의 개인정보를 외부에 제공하지 않습니다. 단, 아래의 경우에 한해 제공합니다.</p>
+
+          <div class="table-wrap">
+            <table class="legal-table">
+              <thead>
+                <tr><th>제공받는 자</th><th>제공 목적</th><th>제공 항목</th><th>보유·이용 기간</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>네이버파이낸셜(주)<br>(네이버페이)</strong></td>
+                  <td>리워드(현금성 포인트) 지급 처리</td>
+                  <td>실명, 휴대폰 번호, 지급액</td>
+                  <td>지급 완료 후 5년<br>(전자상거래법)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p style="margin-top:12px;">그 외에는 이용자의 사전 동의 없이 개인정보를 제3자에게 제공하지 않습니다. 다만, 다음의 경우는 예외입니다.</p>
+          <ul class="clause-list">
+            <li>이용자가 사전에 동의한 경우</li>
+            <li>법령의 규정에 의거하거나 수사·조사 목적으로 법령에 정해진 절차와 방법에 따라 수사기관·감독기관의 요구가 있는 경우</li>
+            <li>통계 작성, 학술 연구, 시장 조사를 위해 특정 개인을 식별할 수 없는 형태로 제공하는 경우</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 5. 처리 위탁 -->
+      <div class="section" id="p5">
+        <div class="section-num">제5조</div>
+        <div class="section-title">개인정보 처리 위탁</div>
+        <div class="section-body">
+          <p>회사는 서비스 제공을 위해 아래와 같이 개인정보 처리 업무를 위탁하고 있습니다.</p>
+
+          <div class="table-wrap">
+            <table class="legal-table">
+              <thead>
+                <tr><th>수탁업체</th><th>위탁 업무</th><th>보유 기간</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>카카오(주)</strong></td>
+                  <td>카카오 소셜 로그인 인증 처리</td>
+                  <td>위탁 계약 종료 시까지</td>
+                </tr>
+                <tr>
+                  <td><strong>Amazon Web Services(AWS)</strong></td>
+                  <td>서버 인프라 운영 및 데이터 저장</td>
+                  <td>위탁 계약 종료 시까지</td>
+                </tr>
+                <tr>
+                  <td><strong>광고 네트워크<br>(구글 AdMob 등)</strong></td>
+                  <td>광고 노출 및 광고 효과 측정</td>
+                  <td>각 광고 네트워크의 개인정보처리방침에 따름</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="highlight-box" style="margin-top:12px;">
+            <p>회사는 위탁 계약 체결 시 수탁업체의 개인정보 보호 조치를 확인하고, 재위탁 제한, 보안 관리, 위탁 목적 외 이용 금지 등의 조항을 계약서에 명시합니다. (개인정보 보호법 제26조)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 6. 자동 수집 -->
+      <div class="section" id="p6">
+        <div class="section-num">제6조</div>
+        <div class="section-title">자동으로 수집되는 정보</div>
+        <div class="section-body">
+          <ul class="numbered-list">
+            <li><strong>서비스 이용 기록:</strong> 서비스 접속 일시, 예측 행동 로그, 광고 시청 완료 여부 등이 자동으로 기록됩니다. 이는 부정 이용 방지 및 서비스 개선에 사용됩니다.</li>
+            <li><strong>기기 정보:</strong> 웹 브라우저 종류·버전, 운영체제, 화면 해상도, 언어 설정 등이 수집됩니다. 서비스 호환성 확보 목적이며, 개인 식별에 활용하지 않습니다.</li>
+            <li><strong>IP 주소:</strong> 접속 시 자동으로 기록됩니다. 부정 로그인 감지, 지역별 서비스 제공, 통계 분석에 사용되며 법령에 따라 보관됩니다.</li>
+            <li><strong>로컬스토리지·세션스토리지:</strong> 로그인 상태 유지, 예측 임시 저장 등을 위해 브라우저 로컬스토리지에 데이터가 저장됩니다. 이는 이용자 기기 내에만 저장되며 서버로 전송되지 않습니다. 브라우저 설정에서 언제든지 삭제할 수 있습니다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 7. 파기 -->
+      <div class="section" id="p7">
+        <div class="section-num">제7조</div>
+        <div class="section-title">개인정보의 파기</div>
+        <div class="section-body">
+          <ul class="numbered-list">
+            <li><strong>파기 원칙:</strong> 보유 기간이 경과하거나 처리 목적이 달성된 개인정보는 지체 없이 파기합니다. (개인정보 보호법 제21조)</li>
+            <li><strong>파기 방법:</strong>
+              <ul class="clause-list" style="margin-top:6px;">
+                <li>전자적 파일: 복구 불가능한 방법으로 영구 삭제 (덮어쓰기 또는 디가우징)</li>
+                <li>출력물·문서: 분쇄 또는 소각</li>
+              </ul>
+            </li>
+            <li><strong>탈퇴 시 처리:</strong> 이용자가 탈퇴하면 탈퇴일로부터 <strong>즉시</strong> 회원 정보(닉네임, 예측 기록, 연승, 포인트)를 파기합니다. 단, 법령에 따른 의무 보관 항목(리워드 지급 기록 등)은 별도 보관 후 기간 만료 시 파기합니다.</li>
+            <li><strong>휴면 계정:</strong> 1년 이상 서비스 미이용 시 이용자에게 사전 통보 후 휴면 상태로 전환하고, 별도 데이터베이스에 분리 보관합니다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 8. 이용자 권리 -->
+      <div class="section" id="p8">
+        <div class="section-num">제8조</div>
+        <div class="section-title">이용자의 권리 및 행사 방법</div>
+        <div class="section-body">
+          <p>이용자는 언제든지 다음의 권리를 행사할 수 있습니다. (개인정보 보호법 제35조~제37조)</p>
+
+          <div style="border:1px solid var(--color-border); border-radius:10px; overflow:hidden; margin:12px 0;">
+            <div class="right-row" style="padding:12px 14px;">
+              <div class="right-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </div>
+              <div class="right-info">
+                <div class="right-title">열람권</div>
+                <div class="right-desc">회사가 처리하는 본인의 개인정보 확인 요청</div>
+              </div>
+            </div>
+            <div class="right-row" style="padding:12px 14px;">
+              <div class="right-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </div>
+              <div class="right-info">
+                <div class="right-title">정정권</div>
+                <div class="right-desc">부정확하거나 불완전한 개인정보 수정 요청</div>
+              </div>
+            </div>
+            <div class="right-row" style="padding:12px 14px;">
+              <div class="right-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+              </div>
+              <div class="right-info">
+                <div class="right-title">삭제권 (잊힐 권리)</div>
+                <div class="right-desc">처리 근거가 소멸한 개인정보 삭제 요청. 법령 보관 의무 항목은 제외</div>
+              </div>
+            </div>
+            <div class="right-row" style="padding:12px 14px; border-bottom:none;">
+              <div class="right-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              </div>
+              <div class="right-info">
+                <div class="right-title">처리정지권</div>
+                <div class="right-desc">동의 철회 또는 처리 중단 요청. 단, 법령 의무 이행에 필요한 처리는 정지 불가</div>
+              </div>
+            </div>
+          </div>
+
+          <p><strong>행사 방법:</strong> 이메일(support@candle-app.kr)로 요청하거나 서비스 내 [설정 → 계정 탈퇴]를 통해 직접 처리할 수 있습니다. 요청 접수 후 <strong>10일 이내</strong>에 처리 결과를 통보합니다. (개인정보 보호법 제38조)</p>
+          <p>법정대리인도 만 14세 미만 아동을 대리하여 권리를 행사할 수 있습니다. 단, 본 서비스는 만 14세 미만 아동의 이용을 허용하지 않습니다.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 9. 안전성 확보 -->
+      <div class="section" id="p9">
+        <div class="section-num">제9조</div>
+        <div class="section-title">개인정보 안전성 확보 조치</div>
+        <div class="section-body">
+          <p>회사는 「개인정보 보호법」 제29조 및 시행령 제30조에 따라 다음의 조치를 취합니다.</p>
+          <ul class="numbered-list">
+            <li><strong>관리적 조치:</strong> 개인정보 취급 직원 최소화, 개인정보 보호 교육 실시, 내부 개인정보보호 규정 수립 및 운영</li>
+            <li><strong>기술적 조치:</strong> 개인정보 처리 시스템에 대한 접근 권한 관리, 접속 기록 보관, 개인정보 암호화 저장 (비밀번호, 고유식별정보 등), 보안 프로그램 설치 및 갱신, HTTPS 통신으로 전송 구간 암호화</li>
+            <li><strong>물리적 조치:</strong> 개인정보 처리 시스템이 운영되는 시설에 대한 출입 통제</li>
+            <li><strong>사고 대응:</strong> 개인정보 침해 사고 발생 시 이용자에게 지체 없이 통보하고, 개인정보보호위원회에 72시간 이내 신고합니다. (개인정보 보호법 제34조)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 10. 광고 및 쿠키 -->
+      <div class="section" id="p10">
+        <div class="section-num">제10조</div>
+        <div class="section-title">광고 네트워크 및 쿠키</div>
+        <div class="section-body">
+          <ul class="numbered-list">
+            <li><strong>광고 SDK:</strong> 서비스 내 광고는 Google AdMob 등 제3자 광고 네트워크를 통해 제공됩니다. 광고 네트워크는 이용자의 기기 식별자(IDFA/ADID), 관심사 기반 데이터를 수집하여 맞춤형 광고를 제공할 수 있습니다. 해당 광고 네트워크의 개인정보처리방침을 확인하세요.</li>
+            <li><strong>맞춤형 광고 거부:</strong> 이용자는 기기 설정에서 광고 추적을 제한할 수 있습니다.
+              <ul class="clause-list" style="margin-top:6px;">
+                <li>iOS: 설정 → 개인정보 보호 → 추적 → 앱이 추적을 요청하도록 허용 해제</li>
+                <li>Android: 설정 → 개인정보 보호 → 광고 → 광고 개인최적화 선택 해제</li>
+              </ul>
+            </li>
+            <li><strong>로컬스토리지 사용:</strong> 로그인 토큰, 사용자 설정 등을 브라우저 로컬스토리지에 저장합니다. 서버로 자동 전송되지 않으며 브라우저 데이터 삭제로 제거됩니다. 로컬스토리지를 차단할 경우 로그인이 유지되지 않을 수 있습니다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 11. 아동 -->
+      <div class="section" id="p11">
+        <div class="section-num">제11조</div>
+        <div class="section-title">만 14세 미만 아동 정책</div>
+        <div class="section-body">
+          <p>본 서비스는 만 14세 미만 아동을 대상으로 하지 않습니다. 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제31조에 따라 만 14세 미만 아동의 개인정보를 법정대리인의 동의 없이 수집하지 않습니다.</p>
+          <p>카카오 로그인을 통해 가입하므로 카카오 계정 운영 정책상 만 14세 미만은 가입이 제한됩니다. 만 14세 미만 이용자로 확인될 경우 계정과 모든 관련 데이터를 즉시 삭제합니다.</p>
+          <p>만 14세 미만 아동이 무단으로 서비스를 이용하고 있다고 판단될 경우 고객센터(support@candle-app.kr)로 신고해 주시기 바랍니다.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 12. 보호책임자 -->
+      <div class="section" id="p12">
+        <div class="section-num">제12조</div>
+        <div class="section-title">개인정보 보호책임자</div>
+        <div class="section-body">
+          <p>회사는 개인정보 처리에 관한 업무를 총괄하고 개인정보 관련 불만 처리 및 피해 구제를 위해 아래와 같이 개인정보 보호책임자를 지정합니다. (개인정보 보호법 제31조)</p>
+          <div class="contact-card">
+            <p>
+              <strong>개인정보 보호책임자(CPO)</strong><br>
+              성명: [담당자 이름]<br>
+              직책: 대표이사<br>
+              이메일: privacy@candle-app.kr<br>
+              고객센터: support@candle-app.kr<br>
+              운영시간: 평일 10:00 – 18:00 (공휴일 제외)
+            </p>
+          </div>
+          <p style="margin-top:12px;">개인정보 열람청구는 「개인정보 보호법」 제35조에 따라 위 연락처로 접수할 수 있습니다. 회사는 요청 접수 후 10일 이내에 처리 결과를 통보합니다.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 13. 권익 침해 -->
+      <div class="section" id="p13">
+        <div class="section-num">제13조</div>
+        <div class="section-title">권익 침해 구제 방법</div>
+        <div class="section-body">
+          <p>개인정보 침해로 인한 피해를 구제받기 위해 아래 기관에 신고·상담할 수 있습니다.</p>
+          <div class="table-wrap">
+            <table class="legal-table">
+              <thead><tr><th>기관</th><th>연락처</th><th>역할</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>개인정보보호위원회</strong></td>
+                  <td>privacy.go.kr / ☎ 182</td>
+                  <td>개인정보 침해 신고·상담</td>
+                </tr>
+                <tr>
+                  <td><strong>한국인터넷진흥원<br>(개인정보 침해신고센터)</strong></td>
+                  <td>privacy.kisa.or.kr / ☎ 118</td>
+                  <td>개인정보 침해 신고·상담</td>
+                </tr>
+                <tr>
+                  <td><strong>경찰청 사이버수사국</strong></td>
+                  <td>ecrm.cyber.go.kr / ☎ 182</td>
+                  <td>개인정보 도용·불법 유출 신고</td>
+                </tr>
+                <tr>
+                  <td><strong>대검찰청 사이버범죄수사단</strong></td>
+                  <td>spo.go.kr / ☎ 1301</td>
+                  <td>개인정보 관련 범죄 수사</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 14. 변경 이력 -->
+      <div class="section" id="p14">
+        <div class="section-num">제14조</div>
+        <div class="section-title">방침 변경 이력</div>
+        <div class="section-body">
+          <p>본 방침이 변경될 경우 변경 사항을 서비스 내 공지사항을 통해 사전에 안내합니다. 이용자에게 불리한 내용 변경 시 <strong>30일 전</strong>에 고지합니다.</p>
+          <div class="contact-card">
+            <div class="version-row version-current">v1.0 &nbsp; 2026-06-01 &nbsp; 최초 제정</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.legal-body -->
+  </div><!-- /.screen -->
+</div><!-- /.app-wrapper -->
+</body>
+</html>
