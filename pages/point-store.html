@@ -163,52 +163,101 @@
           <button style="font-size:12px;color:var(--color-text-mid);cursor:pointer;">전체보기</button>
         </div>
         <div class="history-card">
-          ${[
-            {type:'use', points:50000, desc:'네이버페이 교환', date:'2026-05-14', status:'completed'},
-            {type:'earn', points:100, desc:'삼성전자 예측 성공', date:'2026-05-13'},
-            {type:'earn', points:500, desc:'5연승 보너스', date:'2026-05-13'},
-            {type:'earn', points:100, desc:'SK하이닉스 예측 성공', date:'2026-05-12'},
-            {type:'use', points:10000, desc:'네이버페이 교환', date:'2026-05-10', status:'pending'},
-          ].map(h => {
-            const isEarn = h.type === 'earn';
-            return `
-              <div class="history-row">
-                <div style="display:flex;align-items:center;gap:12px;flex:1;">
-                  <div class="history-icon" style="background:${isEarn?'#F0FDF4':'#FFF1F3'};">
-                    ${isEarn
-                      ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00C896" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>`
-                      : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF4D6A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>`
-                    }
-                  </div>
-                  <div style="flex:1;">
-                    <div class="history-desc">${h.desc}</div>
-                    <div class="history-meta">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                      <span class="history-date">${h.date}</span>
-                      ${h.status ? `<span class="history-status ${h.status}">${h.status==='completed'?'완료':'처리중'}</span>` : ''}
-                    </div>
-                  </div>
-                </div>
-                <span class="history-amount" style="color:${isEarn?'#00C896':'#FF4D6A'};">${isEarn?'+':'-'}${h.points.toLocaleString()}P</span>
+          <div class="history-row">
+            <div style="display:flex;align-items:center;gap:12px;flex:1;">
+              <div class="history-icon" style="background:#FFF1F3;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF4D6A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
               </div>
-            `;
-          }).join('')}
+              <div style="flex:1;">
+                <div class="history-desc">네이버페이 교환</div>
+                <div class="history-meta">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span class="history-date">2026-05-14</span>
+                  <span class="history-status completed">완료</span>
+                </div>
+              </div>
+            </div>
+            <span class="history-amount" style="color:#FF4D6A;">-50,000P</span>
+          </div>
+          <div class="history-row">
+            <div style="display:flex;align-items:center;gap:12px;flex:1;">
+              <div class="history-icon" style="background:#F0FDF4;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00C896" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div class="history-desc">삼성전자 예측 성공</div>
+                <div class="history-meta">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span class="history-date">2026-05-13</span>
+                </div>
+              </div>
+            </div>
+            <span class="history-amount" style="color:#00C896;">+100P</span>
+          </div>
+          <div class="history-row">
+            <div style="display:flex;align-items:center;gap:12px;flex:1;">
+              <div class="history-icon" style="background:#F0FDF4;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00C896" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div class="history-desc">5연승 보너스</div>
+                <div class="history-meta">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span class="history-date">2026-05-13</span>
+                </div>
+              </div>
+            </div>
+            <span class="history-amount" style="color:#00C896;">+500P</span>
+          </div>
+          <div class="history-row">
+            <div style="display:flex;align-items:center;gap:12px;flex:1;">
+              <div class="history-icon" style="background:#F0FDF4;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00C896" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div class="history-desc">SK하이닉스 예측 성공</div>
+                <div class="history-meta">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span class="history-date">2026-05-12</span>
+                </div>
+              </div>
+            </div>
+            <span class="history-amount" style="color:#00C896;">+100P</span>
+          </div>
+          <div class="history-row">
+            <div style="display:flex;align-items:center;gap:12px;flex:1;">
+              <div class="history-icon" style="background:#FFF1F3;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF4D6A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div class="history-desc">네이버페이 교환</div>
+                <div class="history-meta">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span class="history-date">2026-05-10</span>
+                  <span class="history-status pending">처리중</span>
+                </div>
+              </div>
+            </div>
+            <span class="history-amount" style="color:#FF4D6A;">-10,000P</span>
+          </div>
         </div>
       </div>
 
       <!-- Earn guide -->
       <div class="earn-guide">
         <div class="earn-guide-title">포인트 적립 방법</div>
-        ${[
-          ['예측 성공 시 ', '100P', ' 지급'],
-          ['연속 성공 보너스 ', '최대 500P', ''],
-          ['10연승 달성 시 ', '400,000P', ' 지급'],
-        ].map(([pre, bold, post]) => `
-          <div class="earn-guide-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C896" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <span class="earn-guide-text">${pre}<span style="font-weight:600;color:var(--color-text-dark);">${bold}</span>${post}</span>
-          </div>
-        `).join('')}
+        <div class="earn-guide-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C896" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span class="earn-guide-text">예측 성공 시 <span style="font-weight:600;color:var(--color-text-dark);">100P</span> 지급</span>
+        </div>
+        <div class="earn-guide-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C896" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span class="earn-guide-text">연속 성공 보너스 <span style="font-weight:600;color:var(--color-text-dark);">최대 500P</span></span>
+        </div>
+        <div class="earn-guide-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C896" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span class="earn-guide-text">10연승 달성 시 <span style="font-weight:600;color:var(--color-text-dark);">400,000P</span> 지급</span>
+        </div>
       </div>
 
     </div>

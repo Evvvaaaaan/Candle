@@ -58,31 +58,6 @@
       margin-bottom: 8px;
     }
 
-    .streak-progress-text {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--color-text-dark);
-    }
-
-    .streak-milestones {
-      display: flex;
-      gap: 4px;
-    }
-
-    .milestone-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .milestone-item span {
-      font-size: 9px;
-      font-family: var(--font-mono);
-      font-weight: 700;
-      color: var(--color-text-mid);
-      margin-top: 2px;
-    }
-
     .progress-bar-bg {
       width: 100%;
       height: 8px;
@@ -250,27 +225,6 @@
 
         <!-- Progress -->
         <div class="streak-progress-wrap">
-          <div class="streak-progress-header">
-            <span class="streak-progress-text" id="progress-text">다음 마일스톤까지 3일</span>
-            <div class="streak-milestones">
-              <div class="milestone-item">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="transparent" stroke="#E2E8F0" stroke-width="2" id="star-3"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span>3</span>
-              </div>
-              <div class="milestone-item">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="transparent" stroke="#E2E8F0" stroke-width="2" id="star-5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span>5</span>
-              </div>
-              <div class="milestone-item">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="transparent" stroke="#E2E8F0" stroke-width="2" id="star-7"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span>7</span>
-              </div>
-              <div class="milestone-item">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="transparent" stroke="#E2E8F0" stroke-width="2" id="star-10"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span>10</span>
-              </div>
-            </div>
-          </div>
           <div class="progress-bar-bg">
             <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
           </div>
@@ -310,7 +264,6 @@
 
   // Streak data (mock)
   const STREAK = 7;
-  const MILESTONES = [3, 5, 7, 10];
 
   // Count-up animation
   function countUp(el, target, duration = 800) {
@@ -324,29 +277,10 @@
     requestAnimationFrame(animate);
   }
 
-  // Update stars
-  function updateMilestones(streak) {
-    MILESTONES.forEach(m => {
-      const star = document.getElementById(`star-${m}`);
-      if (star) {
-        if (streak >= m) {
-          star.setAttribute('fill', '#2563EB');
-          star.setAttribute('stroke', '#2563EB');
-        }
-      }
-    });
-  }
-
   // Progress bar
   function updateProgress(streak) {
-    const next = MILESTONES.find(m => m > streak) || 10;
-    const prev = [...MILESTONES].reverse().find(m => m <= streak) || 0;
-    const pct = streak >= 10 ? 100 : ((streak - prev) / (next - prev)) * 100;
+    const pct = Math.min((streak / 10) * 100, 100);
     document.getElementById('progress-fill').style.width = `${pct}%`;
-    const daysLeft = next - streak;
-    document.getElementById('progress-text').textContent =
-      streak >= 10 ? '🎉 10연승 달성!' : `다음 마일스톤까지 ${daysLeft}일`;
-    updateMilestones(streak);
   }
 
   // Calendar
