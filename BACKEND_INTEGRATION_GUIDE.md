@@ -3,6 +3,8 @@
 Spring Boot 백엔드 연동 시 변경해야 할 파일과 순서를 설명합니다.
 현재 프로젝트는 `USE_MOCK = true` 상태로 동작하며, 전환 시 mock 데이터 없이 실제 API를 호출합니다.
 
+> 이 문서는 기존 카카오 로그인 기준의 초기 연동 예시입니다. Google 로그인, 가입 동의, 광고 검증, 포인트 원장, 네이버페이 지급 정책은 먼저 [`BACKEND_DISCUSSION_CHECKLIST.md`](./BACKEND_DISCUSSION_CHECKLIST.md)에서 합의한 뒤 이 문서의 엔드포인트를 확정해야 합니다.
+
 ---
 
 ## 1. API 설정 변경 (필수, 1개 파일)
