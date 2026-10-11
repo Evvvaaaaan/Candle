@@ -73,7 +73,7 @@ export const errorMessage = (error) =>
     AD_UNAVAILABLE: '현재 참여 가능한 광고가 없어요. 나중에 다시 시도해 주세요.',
     AGREEMENT_REQUIRED: '필수 약관을 모두 확인하고 동의해 주세요.',
     INVALID_RESPONSE: '서비스 정보를 확인하지 못했어요. 잠시 후 다시 시도해 주세요.',
-    STORAGE_UNAVAILABLE: '데모 기록을 저장하지 못했어요. 브라우저 저장 설정을 확인해 주세요.',
+    STORAGE_UNAVAILABLE: '기록을 저장하지 못했어요. 브라우저 저장 설정을 확인해 주세요.',
     VALIDATION_ERROR: '입력한 정보를 확인해 주세요.',
     RATE_LIMITED: '요청이 많아요. 잠시 후 다시 시도해 주세요.',
     IDEMPOTENCY_CONFLICT: '이전에 보낸 요청과 정보가 달라요. 기존 처리 내역을 먼저 확인해 주세요.',

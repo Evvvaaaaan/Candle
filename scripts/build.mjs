@@ -16,6 +16,8 @@ for (const file of [
   'src/css/core-flow.css',
   'src/assets/core-flow',
   'src/js/core-flow.js',
+  'src/js/screens',
+  'src/js/ui',
   'src/js/api-client.mjs',
   'src/js/candle-service.mjs',
 ]) {

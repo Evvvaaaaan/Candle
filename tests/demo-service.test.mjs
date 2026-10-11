@@ -25,7 +25,7 @@ test('reward request debits wallet, creates history, deduplicates and never stor
   const body = {
     rewardId: 'naverpay-5000',
     recipient: { name: '테스트고객', phone: '01012345678' },
-    agreementVersion: 'demo-reward-1',
+    agreementVersion: 'preview-reward-1',
   };
   await service.mutate('reward', body, 'reward-1');
   await service.mutate('reward', body, 'reward-1');
@@ -71,4 +71,20 @@ test('blocked browser storage causes a visible error, never a success', async ()
     },
   });
   await assert.rejects(service.mutate('attendance', {}, 'a1'), /STORAGE_UNAVAILABLE/);
+});
+
+test('existing preview records keep balances while removing prototype labels', async () => {
+  const { service, values, storage } = setup();
+  await service.login();
+  await service.mutate('attendance', {}, 'existing-attendance');
+  const key = [...values.keys()][0];
+  const account = JSON.parse(values.get(key));
+  account.user.nickname = '데모 회원';
+  account.transactions[0].title = '데모 출석 보상';
+  values.set(key, JSON.stringify(account));
+  const restored = createDemoService(storage);
+  assert.equal((await restored.session()).user.nickname, '캔들 회원');
+  const snapshot = await restored.load();
+  assert.equal(snapshot.wallet.balance, 12810);
+  assert.equal(snapshot.wallet.items[0].title, '출석 보상');
 });

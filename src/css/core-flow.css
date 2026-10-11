@@ -42,66 +42,10 @@ input:focus-visible {
   outline-offset: 2px;
 }
 
-.prototype-shell {
+.app-shell {
   min-height: 100dvh;
   display: grid;
-  grid-template-columns: minmax(230px, 290px) 390px;
-  justify-content: center;
-  align-items: center;
-  gap: 54px;
-  padding: 36px;
-}
-
-.prototype-panel {
-  align-self: center;
-}
-
-.prototype-eyebrow {
-  color: var(--primary);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-
-.prototype-panel h1 {
-  margin-top: 8px;
-  font-size: 34px;
-  line-height: 1.2;
-  letter-spacing: -.04em;
-}
-
-.prototype-panel > p:not(.prototype-eyebrow) {
-  margin-top: 12px;
-  color: var(--text-mid);
-  font-size: 14px;
-  line-height: 1.65;
-}
-
-.screen-picker {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px;
-  margin-top: 24px;
-}
-
-.screen-picker button {
-  min-height: 38px;
-  padding: 8px 10px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: #fff;
-  color: var(--text-mid);
-  font-size: 11px;
-  font-weight: 500;
-  text-align: left;
-}
-
-.screen-picker button[aria-current="page"] {
-  border-color: var(--primary);
-  background: var(--primary-light);
-  color: var(--primary);
-  font-weight: 700;
+  place-items: center;
 }
 
 .device-stage {
@@ -113,13 +57,12 @@ input:focus-visible {
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --nav-height: calc(80px + var(--safe-area-bottom));
   position: relative;
-  width: 390px;
-  height: min(844px, calc(100dvh - 72px));
+  width: min(480px, 100vw);
+  height: 100dvh;
   overflow: hidden;
   border: 0;
-  border-radius: 28px;
   background: var(--surface);
-  box-shadow: inset 0 0 0 1px var(--border-mid), 0 30px 80px rgba(15, 23, 42, .12);
+  box-shadow: 0 0 0 1px var(--border);
 }
 
 .screen-view {
@@ -269,6 +212,10 @@ input:focus-visible {
   font-weight: 700;
   line-height: 32px;
   letter-spacing: -.02em;
+}
+
+h1[tabindex="-1"]:focus {
+  outline: none;
 }
 
 .subheading {
@@ -449,7 +396,6 @@ input:focus-visible {
 }
 
 .stock-card {
-  height: 281px;
   margin-top: 9px;
   padding: 16px;
 }
@@ -677,12 +623,6 @@ input:focus-visible {
   color: var(--warning);
 }
 
-.stock-chart {
-  width: 100%;
-  height: 82px;
-  margin-top: 12px;
-}
-
 .quote-row,
 .distribution-labels {
   display: flex;
@@ -693,7 +633,12 @@ input:focus-visible {
 }
 
 .quote-row {
-  margin-top: 12px;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
 }
 
 .up-text { color: var(--market-up); }
@@ -758,12 +703,12 @@ input:focus-visible {
 }
 
 .direction-card.selected {
-  border: 2px solid var(--market-up);
+  border: 2px solid #f1aaa5;
   background: var(--market-up-bg);
 }
 
 .direction-card.selected[data-direction="down"] {
-  border-color: var(--market-down);
+  border-color: #a6c9ef;
   background: var(--market-down-bg);
 }
 
@@ -791,15 +736,11 @@ input:focus-visible {
 }
 
 .direction-card.selected .direction-icon {
-  background: var(--market-up);
+  background: #ffe2df;
 }
 
 .direction-card.selected .direction-icon.down {
-  background: var(--market-down);
-}
-
-.direction-card.selected .direction-icon.down img {
-  filter: brightness(0) invert(1);
+  background: #dcecff;
 }
 
 .direction-card:disabled {
@@ -2131,8 +2072,7 @@ input:focus-visible {
 
 @media (max-width: 760px) {
   body { background: #fff; }
-  .prototype-shell { display: block; min-height: 100dvh; padding: 0; }
-  .prototype-panel { display: none; }
+  .app-shell { display: block; min-height: 100dvh; }
   .phone {
     width: min(480px, 100vw);
     height: 100dvh;
@@ -2150,7 +2090,6 @@ input:focus-visible {
 }
 
 [hidden] { display: none !important; }
-.live-shell { grid-template-columns: minmax(0, 390px); }
 .content > .primary-button,
 .content > .secondary-button { margin-top: 12px; }
 .consent-screen, .legal-screen { display: flex; flex-direction: column; }

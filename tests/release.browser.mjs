@@ -45,6 +45,12 @@ const click = async (selector) => {
 };
 const wait = async (route) => page.locator(`[data-screen="${route}"]`).waitFor();
 try {
+  await page.goto(`${base}/`);
+  await wait('signup');
+  check(
+    'first visit opens login without a screen selection step',
+    (await page.locator('#screen-picker,.prototype-panel').count()) === 0
+  );
   await page.goto(`${base}/#signup`);
   await wait('signup');
   check(
@@ -74,6 +80,43 @@ try {
   await click('#consent-submit');
   await wait('home');
   check('home header has no more button', (await page.locator('.more-button').count()) === 0);
+  await page.goto(`${base}/`);
+  await wait('home');
+  check('returning member enters home directly', !page.url().includes('#signup'));
+  await click('[data-direction=up]');
+  await wait('prediction');
+  const upColors = await page.locator('[data-direction=up] .direction-icon').evaluate(async (el) => {
+    const svg = new DOMParser().parseFromString(
+      await (await fetch(el.querySelector('img').src)).text(),
+      'image/svg+xml'
+    );
+    return {
+      background: getComputedStyle(el).backgroundColor,
+      stroke: svg.querySelector('path').getAttribute('stroke'),
+    };
+  });
+  const luminance = (rgb) =>
+    rgb
+      .map((v) => v / 255)
+      .map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4))
+      .reduce((v, c, i) => v + c * [0.2126, 0.7152, 0.0722][i], 0);
+  const foreground = luminance(
+    upColors.stroke
+      .slice(1)
+      .match(/../g)
+      .map((x) => parseInt(x, 16))
+  );
+  const background = luminance(upColors.background.match(/\d+/g).map(Number));
+  check(
+    'selected up arrow contrasts at least 3 to 1 with its soft background',
+    (background + 0.05) / (foreground + 0.05) >= 3
+  );
+  check(
+    'direction choice exposes its selected state',
+    (await page.locator('[data-direction=up]').getAttribute('aria-pressed')) === 'true'
+  );
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: `${output}/prediction-up-mobile.png` });
   await click('[data-direction=down]');
   await wait('prediction');
   await click('[data-stock-picker]');
@@ -221,6 +264,11 @@ try {
       // SPA navigation preserves selected product for exchange and payout views.
       await page.evaluate((route) => (location.hash = route), route);
       await wait(route);
+      check(
+        `${width}x${height} ${route}: no prototype labels or controls`,
+        !/demo|데모/i.test(await page.locator('#app').innerText()) &&
+          (await page.locator('#screen-picker,.prototype-panel').count()) === 0
+      );
       const failures = await page.evaluate(() => {
         const errors = [],
           phone = document.querySelector('.phone').getBoundingClientRect();
@@ -251,6 +299,8 @@ try {
   await page.setViewportSize({ width: 390, height: 844 });
   await go('home');
   await page.screenshot({ path: `${output}/home-mobile.png` });
+  await go('signup');
+  await page.screenshot({ path: `${output}/signup-mobile.png` });
 
   // Exercise actual HTTP/cookie API mode against the local contract simulator.
   const live = await browser.newContext();
@@ -264,8 +314,8 @@ try {
   await apiPage.goto(`${base}/?mode=api#home`);
   await apiPage.locator('[data-screen=signup]').waitFor();
   check(
-    'API mode guards protected deep links and hides preview navigation',
-    await apiPage.locator('.prototype-panel').isHidden()
+    'API mode guards protected deep links and has no prototype navigation',
+    (await apiPage.locator('#screen-picker,.prototype-panel').count()) === 0
   );
   await apiPage.locator('[data-login=kakao]').click();
   await apiPage.locator('[data-screen=consent]').waitFor();
@@ -451,8 +501,8 @@ try {
     await prodPage.goto(`${prodBase}/#home`);
     await prodPage.locator('[data-screen=signup]').waitFor();
     check(
-      'production build starts in API mode with preview controls hidden',
-      await prodPage.locator('.prototype-panel').isHidden()
+      'production build starts in API mode without prototype controls',
+      (await prodPage.locator('#screen-picker,.prototype-panel').count()) === 0
     );
     for (const path of ['/src/js/demo-service.mjs', '/pages/home.html', '/scripts/serve.mjs', '/.git/config'])
       check(`production excludes ${path}`, (await prodPage.request.get(prodBase + path)).status() === 404);

@@ -16,23 +16,23 @@ export const demoLegal = {
     {
       id: 'age',
       title: '만 14세 이상입니다',
-      version: 'demo-1',
+      version: 'preview-1',
       required: true,
-      body: '데모 가입 흐름 확인용 연령 확인 항목입니다. 운영 정책은 서비스 출시 전에 확정합니다.',
+      body: '미리보기 가입 흐름 확인용 연령 확인 항목입니다. 운영 정책은 서비스 출시 전에 확정합니다.',
     },
     {
       id: 'terms',
       title: '서비스 이용약관 동의',
-      version: 'demo-1',
+      version: 'preview-1',
       required: true,
-      body: '이 화면은 기능 확인용 데모입니다. 예측·포인트·리워드는 실제 금전적 가치가 없으며 실제 지급은 발생하지 않습니다. 운영용 이용약관은 백엔드에서 승인된 버전으로 제공해야 합니다.',
+      body: '이 화면은 기능 확인용 미리보기입니다. 예측·포인트·리워드는 실제 금전적 가치가 없으며 실제 지급은 발생하지 않습니다. 운영용 이용약관은 백엔드에서 승인된 버전으로 제공해야 합니다.',
     },
     {
       id: 'privacy',
       title: '개인정보 처리방침 동의',
-      version: 'demo-1',
+      version: 'preview-1',
       required: true,
-      body: '데모에는 실제 개인정보를 입력하지 마세요. 데모 기록은 현재 브라우저에 저장됩니다. 지급 폼의 이름과 전화번호 원문은 저장하지 않습니다. 운영용 개인정보 처리방침은 처리 목적, 항목, 보관 기간과 책임자를 확정한 뒤 제공합니다.',
+      body: '미리보기에는 실제 개인정보를 입력하지 마세요. 미리보기 기록은 현재 브라우저에 저장됩니다. 지급 폼의 이름과 전화번호 원문은 저장하지 않습니다. 운영용 개인정보 처리방침은 처리 목적, 항목, 보관 기간과 책임자를 확정한 뒤 제공합니다.',
     },
   ],
 };
@@ -60,10 +60,10 @@ export const demoCatalog = {
     points,
     amount: points,
     available: true,
-    deliveryNotice: '데모 · 실제 발송 없음',
-    agreementVersion: 'demo-reward-1',
+    deliveryNotice: '미리보기 · 실제 발송 없음',
+    agreementVersion: 'preview-reward-1',
     agreementBody:
-      '교환 흐름 확인용 데모입니다. 실제 개인정보를 입력하지 마세요. 입력한 이름과 전화번호 원문은 저장하지 않으며 실제 지급 신청이나 발송은 발생하지 않습니다.',
+      '교환 흐름 확인용 미리보기입니다. 실제 개인정보를 입력하지 마세요. 입력한 이름과 전화번호 원문은 저장하지 않으며 실제 지급 신청이나 발송은 발생하지 않습니다.',
   })),
 };
 
@@ -76,7 +76,7 @@ export function freshAccount() {
     claims: [],
     transactions: [],
     completed: {},
-    user: { id: 'demo-user', nickname: '데모 회원', consentRequired: false },
+    user: null,
   };
 }
 
@@ -141,6 +141,10 @@ export function createDemoService(storage = localStorage) {
         !account.completed
       )
         throw Error('invalid');
+      if (account.user?.nickname === '데모 회원') account.user.nickname = '캔들 회원';
+      account.transactions.forEach((item) => {
+        item.title = item.title.replace(/^데모 /, '');
+      });
       const ledger = restoreLedger(JSON.parse(storage.getItem(STORAGE_KEY) || 'null'));
       account.ledger = restoreLedger(account.ledger || ledger);
       return { account, ledger: account.ledger };
@@ -171,7 +175,7 @@ export function createDemoService(storage = localStorage) {
         )
       )
         throw new ApiError('AGREEMENT_REQUIRED');
-      account.user = { id: 'demo-user', nickname: '데모 회원', consentRequired: false };
+      account.user = { id: 'demo-user', nickname: '캔들 회원', consentRequired: false };
     } else if (action === 'prediction') {
       const submitted = submitPrediction(ledger, {
         id: key,
@@ -182,19 +186,19 @@ export function createDemoService(storage = localStorage) {
       if (submitted.status === 'stock-used') throw new ApiError('ALREADY_PREDICTED');
       if (submitted.status === 'invalid') throw new ApiError('VALIDATION_ERROR');
       if (submitted.status === 'accepted' && !ledger.predictions.length)
-        transaction(account, '데모 예측 미션', 10, `prediction-${ledger.day}`);
+        transaction(account, '예측 미션', 10, `prediction-${ledger.day}`);
       save(account, submitted.ledger);
       return { id: submitted.record.id };
     } else if (action === 'attendance') {
       if (account.attendedDay === dayKey()) throw new ApiError('ALREADY_CLAIMED');
       account.attendedDay = dayKey();
       account.streak += 1;
-      transaction(account, '데모 출석 보상', 10, key);
+      transaction(account, '출석 보상', 10, key);
     } else if (action === 'claim') {
       if (body.predictionId !== 'demo-result' || account.claimed.includes(body.predictionId))
         throw new ApiError('ALREADY_CLAIMED');
       account.claimed.push(body.predictionId);
-      transaction(account, '데모 예측 적중 보상', 15, key);
+      transaction(account, '예측 적중 보상', 15, key);
     } else if (action === 'reward') {
       const product = demoCatalog.items.find((p) => p.id === body.rewardId);
       if (
@@ -213,7 +217,7 @@ export function createDemoService(storage = localStorage) {
         createdAt: new Date().toISOString(),
       };
       account.claims.unshift(claim);
-      transaction(account, '데모 포인트 교환', -product.points, key);
+      transaction(account, '포인트 교환', -product.points, key);
       result = { id: claim.id };
     } else if (action === 'adStart') {
       if (!ticketBalance(ledger).adRemaining) throw new ApiError('AD_UNAVAILABLE');
@@ -225,7 +229,7 @@ export function createDemoService(storage = localStorage) {
       const reward = rewardAd(ledger, adSession);
       if (!['awarded', 'duplicate'].includes(reward.status)) throw new ApiError('AD_UNAVAILABLE');
       if (reward.status === 'awarded' && !ledger.adRewards.length)
-        transaction(account, '데모 광고 미션', 5, `ad-${ledger.day}`);
+        transaction(account, '광고 미션', 5, `ad-${ledger.day}`);
       save(account, reward.ledger);
       return { status: 'VERIFIED' };
     } else if (action === 'logout') {
@@ -253,7 +257,7 @@ export function createDemoService(storage = localStorage) {
     },
     async login() {
       const { account } = read();
-      account.user = { id: 'demo-user', nickname: '데모 회원', consentRequired: true };
+      account.user = { id: 'demo-user', nickname: '캔들 회원', consentRequired: true };
       save(account);
     },
     mutate(action, body, key) {
