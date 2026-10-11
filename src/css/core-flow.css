@@ -195,10 +195,6 @@ input:focus-visible {
   display: none;
 }
 
-.screen-view[data-screen="confirm"] .content {
-  bottom: calc(var(--nav-height) + 203px);
-}
-
 .screen-view[data-screen="confirm"] .confirmation-empty {
   bottom: var(--nav-height);
 }
@@ -233,13 +229,14 @@ h1[tabindex="-1"]:focus {
 }
 
 .card {
+  padding: 16px;
   border: 1px solid var(--border);
   border-radius: 16px;
   background: #fff;
 }
 
 .points-card {
-  height: 78px;
+  min-height: 78px;
   margin-top: 9px;
   padding: 16px;
   display: flex;
@@ -1025,6 +1022,7 @@ h1[tabindex="-1"]:focus {
 }
 
 .summary-card {
+  margin-top: 12px;
   padding: 14px;
 }
 
@@ -1094,7 +1092,6 @@ h1[tabindex="-1"]:focus {
 }
 
 .result-card {
-  height: 183px;
   margin-top: 12px;
   padding: 16px;
 }
@@ -1116,7 +1113,6 @@ h1[tabindex="-1"]:focus {
 }
 
 .attendance-card {
-  height: 182px;
   margin-top: 10px;
   padding: 16px;
 }
@@ -1170,7 +1166,11 @@ h1[tabindex="-1"]:focus {
 }
 
 .mission-row {
-  height: 92px;
+  min-height: 92px;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
   margin-top: 11px;
   padding: 14px;
 }
@@ -1181,7 +1181,7 @@ h1[tabindex="-1"]:focus {
 
 .product-card {
   width: 100%;
-  height: 100px;
+  min-height: 100px;
   margin-top: 11px;
   padding: 14px;
   display: flex;
@@ -1194,21 +1194,15 @@ h1[tabindex="-1"]:focus {
 }
 
 .product-card.compact {
-  width: 216px;
+  width: 100%;
   margin-top: 11px;
 }
 
 .npay-logo {
-  width: 52px;
+  width: 56px;
   height: 56px;
-  flex: 0 0 52px;
-  display: grid;
-  place-items: center;
-  border-radius: 12px;
-  color: #089b69;
-  background: #e1f5ee;
-  font-size: 14px;
-  font-weight: 700;
+  flex: 0 0 56px;
+  object-fit: contain;
 }
 
 .product-copy {
@@ -1247,7 +1241,6 @@ h1[tabindex="-1"]:focus {
 }
 
 .request-card {
-  height: 119px;
   margin-top: 11px;
   padding: 14px;
 }
@@ -1264,20 +1257,22 @@ h1[tabindex="-1"]:focus {
 }
 
 .account-card {
-  height: 95px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
   margin-top: 11px;
   padding: 16px;
 }
 
 .stats-card {
-  height: 116px;
   margin-top: 11px;
   padding: 16px;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 10px;
   text-align: center;
 }
@@ -1301,7 +1296,9 @@ h1[tabindex="-1"]:focus {
 
 .menu-row {
   width: 100%;
-  height: 48px;
+  min-height: 64px;
+  padding: 10px 0;
+  gap: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1476,6 +1473,12 @@ h1[tabindex="-1"]:focus {
   object-fit: contain;
 }
 
+.auth-button.apple img {
+  left: 5px;
+  width: 40px;
+  height: 40px;
+}
+
 .signup-note {
   flex-shrink: 0;
   margin: 12px 24px calc(24px + var(--safe-area-bottom));
@@ -1607,7 +1610,7 @@ h1[tabindex="-1"]:focus {
 }
 
 .payout-summary {
-  height: 76px;
+  min-height: 76px;
   margin-top: 32px;
   padding: 14px 16px;
   background: var(--primary-light);
@@ -1670,7 +1673,7 @@ h1[tabindex="-1"]:focus {
 .fraud-note {
   flex-shrink: 0;
   margin: 10px 18px calc(24px + var(--safe-area-bottom));
-  color: #ef4444;
+  color: var(--text-mid);
   font-size: 11px;
   line-height: 16px;
   text-align: center;
@@ -2092,6 +2095,7 @@ h1[tabindex="-1"]:focus {
 [hidden] { display: none !important; }
 .content > .primary-button,
 .content > .secondary-button { margin-top: 12px; }
+.content > .heading + .card { margin-top: 12px; }
 .consent-screen, .legal-screen { display: flex; flex-direction: column; }
 .legal-copy { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; line-height: 1.8; margin-top: 20px; }
 .loading-state, .empty-state { padding: 32px 24px; font-size: 14px; line-height: 1.7; }
@@ -2108,3 +2112,75 @@ a.primary-button { display: flex; justify-content: center; align-items: center; 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+
+.ui-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.icon-tile {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--primary);
+  background: #eff5ff;
+}
+
+.icon-tile.neutral { color: var(--text-mid); background: var(--surface-subtle); }
+.icon-tile.complete { color: var(--success); background: var(--success-bg); }
+.account-avatar, .attendance-icon { width: 56px; height: 56px; border-radius: 18px; }
+.account-avatar .ui-icon, .attendance-icon .ui-icon { width: 30px; height: 30px; }
+.account-copy, .points-copy { min-width: 0; }
+.account-copy > strong { display: block; margin-top: 4px; font-size: 18px; line-height: 26px; }
+.points-copy .number { overflow-wrap: anywhere; }
+.card-heading { font-size: 13px; font-weight: 500; color: var(--text-mid); line-height: 20px; }
+.stats-grid > div { padding: 2px 8px; }
+.stats-grid > div + div { border-left: 1px solid var(--border); }
+.stats-grid .stat-label { display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 12px; }
+.stat-label .ui-icon { width: 16px; height: 16px; }
+.stats-grid strong { margin-top: 6px; font-variant-numeric: tabular-nums; }
+.stats-grid strong small { margin-left: 3px; font-size: 12px; font-weight: 500; }
+.menu-label { min-width: 0; display: flex; align-items: center; gap: 12px; overflow-wrap: anywhere; }
+.menu-icon { width: 32px; height: 32px; border-radius: 10px; }
+.menu-icon .ui-icon { width: 19px; height: 19px; }
+.menu-chevron, .product-chevron { width: 16px; height: 16px; color: var(--text-light); }
+
+.screen-view[data-screen="wallet"] .points-card { min-height: 104px; background: #f7faff; }
+.points-icon { width: 48px; height: 48px; border-radius: 16px; background: var(--primary-light); }
+.wallet-transaction { margin-top: 10px; display: flex; align-items: center; gap: 12px; }
+.transaction-copy { min-width: 0; flex: 1; }
+.transaction-copy h3, .mission-copy h3 { font-size: 14px; font-weight: 700; line-height: 21px; overflow-wrap: anywhere; }
+.transaction-copy time { display: block; margin-top: 4px; color: var(--text-mid); font-size: 11px; line-height: 16px; }
+.transaction-amount { max-width: 45%; text-align: right; overflow-wrap: anywhere; }
+.transaction-amount strong { display: block; font-size: 15px; line-height: 22px; font-variant-numeric: tabular-nums; }
+.transaction-amount strong small { margin-left: 2px; font-size: 11px; }
+.transaction-amount > span { display: block; margin-top: 4px; color: var(--text-mid); font-size: 11px; line-height: 16px; }
+.transaction-amount.earned strong { color: var(--primary); }
+
+.attendance-summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.attendance-count { font-size: 30px; line-height: 38px; font-weight: 700; letter-spacing: -.02em; }
+.attendance-count > span { margin-left: 4px; font-size: 16px; font-weight: 500; }
+.attendance-copy { margin-top: 12px; color: var(--text-mid); font-size: 12px; line-height: 19px; }
+#attendance { display: flex; align-items: center; justify-content: center; gap: 6px; }
+#attendance.attendance-complete { background: var(--success-bg); color: var(--success); opacity: 1; }
+#attendance .ui-icon { width: 18px; height: 18px; }
+.section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 22px; }
+.section-heading .section-title { margin-top: 0; }
+.section-heading > span { flex-shrink: 0; color: var(--text-mid); font-size: 11px; }
+.mission-status { display: inline-block; margin-top: 5px; color: var(--text-mid); font-size: 11px; line-height: 18px; }
+.mission-status.complete { color: var(--success); }
+.mission-reward { color: var(--primary); font-size: 15px; font-weight: 700; white-space: nowrap; }
+.mission-reward small { margin-left: 2px; font-size: 11px; }
+.record-heading { display: flex; align-items: center; gap: 10px; }
+.record-heading > strong { min-width: 0; flex: 1; font-size: 14px; line-height: 21px; overflow-wrap: anywhere; }
+.record-heading .badge { flex-shrink: 0; }
+.record-date { margin-top: 12px; color: var(--text-mid); font-size: 11px; }
+.record-points { font-size: 16px; font-weight: 700; }
+.empty-state { text-align: center; color: var(--text-mid); }
+.empty-icon { width: 52px; height: 52px; margin-bottom: 12px; background: var(--surface-subtle); color: var(--text-mid); }

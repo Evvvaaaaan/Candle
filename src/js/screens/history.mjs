@@ -1,3 +1,5 @@
+import { uiIcon } from '../ui/icons.mjs';
+
 const claimLabels = {
   REQUESTED: '신청 접수',
   PROCESSING: '처리 중',
@@ -11,7 +13,7 @@ export default function render(context) {
   const { e, n, data, empty, title, more, shell } = context;
   return shell(
     'history',
-    `${title('교환 내역', '신청한 상품과 지급 상태를 확인하세요.')}${data.claims.items.map((c) => `<section class="card request-card"><div class="row-between"><strong>${e(c.title)}</strong><span class="badge">${claimLabels[c.status]}</span></div><p>${e(c.createdAt.slice(0, 10))}</p><p>${n(c.points)}P</p></section>`).join('') || empty('아직 교환 신청 내역이 없어요.', 'shop', '상품 보기')}${more('claims')}`,
+    `${title('교환 내역', '신청한 상품과 지급 상태를 확인하세요.')}${data.claims.items.map((c) => `<section class="card request-card"><div class="record-heading"><span class="icon-tile">${uiIcon('gift')}</span><strong>${e(c.title)}</strong><span class="badge">${claimLabels[c.status]}</span></div><p class="record-date">${e(c.createdAt.slice(0, 10))}</p><p class="record-points">${n(c.points)}P</p></section>`).join('') || empty('아직 교환 신청 내역이 없어요.', 'shop', '상품 보기')}${more('claims')}`,
     'shop'
   );
 }

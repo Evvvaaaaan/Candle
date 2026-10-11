@@ -42,6 +42,18 @@
 - [모바일 예측](screenshots/prediction-up-mobile.png), [모바일 로그인](screenshots/signup-mobile.png), [모바일 홈](screenshots/home-mobile.png)을 직접 검토했다.
 - [README](../README.md)에 화면별 코드, 백엔드 연결 순서, API 계약, 인증·원장 처리, 필요한 담당자별 결정사항과 출시 체크리스트를 상세히 기록했다.
 
+## 화면 스타일과 브랜드 자산 보완 (2026-10-11)
+
+- 시작 기준: 단위·계약 29개, 브라우저 468개 및 원격 CI 통과.
+- 실제 캡처에서 포인트 내역의 여백 누락, 2개 통계 항목에 적용된 3열 레이아웃, 아이콘 없는 미션·메뉴, 글자로 대체한 Npay 로고를 확인했다.
+- 공식 네이버페이 SVG를 원본 그대로 반영했다. 다운로드 출처와 운영 전 제휴 검수 확인은 [브랜드 자산 기록](BRAND_ASSETS.md)에 남겼다.
+- 내 정보에는 아바타·2열 통계·메뉴 아이콘, 포인트 내역에는 적립/사용 아이콘·날짜·금액 구분, 미션에는 달력·완료 아이콘을 추가했다. 원래의 파란색, 얇은 선, 둥근 카드 스타일을 유지한다.
+- 교환 내역·예측 결과·약관·빈 내역 화면에도 공통 아이콘을 사용한다. 고정 높이로 내용이 넘치던 카드와 지급 요약을 내용에 맞게 조정하고 확인 화면의 카드 간격을 정리했다. 예측 확인 화면에서 사용하지 않는 하단 패널 공간 203px을 제거했다.
+- Apple 로그인 아이콘의 원본 내부 여백 때문에 실제 도형이 너무 작게 보이는 문제를 CSS 표시 크기로 조정했다. 이미지 자체는 변경하지 않았다.
+- 첫 회귀 검사에서 `AssertionError: wallet debit and four ledger entries persist`가 발생했다. 캡처에 잔액 2,835P와 거래 4건이 정상 표시됨을 확인했고, 이전 DOM 구조를 세던 검사를 새 거래 목록 선택자로 수정했다.
+- 최종 검사: 단위·계약 **29개**, 브라우저 **474개**, JavaScript 오류 **0개**, 포맷·빌드 통과. 마지막 아이콘 크기 조정 후 운영 빌드와 브라우저 474개를 다시 통과했다. 카드 여백, 두 통계의 정렬, 완료 미션, 적립/사용 표시, 공식 로고 로딩·원본 비율을 추가 검증했다.
+- 직접 확인한 캡처: [내 정보](screenshots/profile-mobile.png), [포인트 내역](screenshots/wallet-mobile.png), [미션](screenshots/missions-mobile.png), [상점](screenshots/shop-mobile.png), [교환 내역](screenshots/history-mobile.png), [결과](screenshots/result-mobile.png), [약관 메뉴](screenshots/settings-mobile.png).
+
 ## 실제 출시 승인에 필요한 외부 작업
 
 - 명세의 인증·약관·예측·포인트·광고·교환 API를 서버에 구현하고 스테이징에서 검증.

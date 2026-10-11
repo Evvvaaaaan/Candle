@@ -187,7 +187,7 @@ try {
   check(
     'wallet debit and four ledger entries persist',
     (await page.locator('.points-card').textContent()).includes('2,835') &&
-      (await page.locator('.content > .card').count()) === 5
+      (await page.locator('.wallet-transaction').count()) === 4
   );
   check(
     'recipient is absent from persistent browser storage',
@@ -301,6 +301,62 @@ try {
   await page.screenshot({ path: `${output}/home-mobile.png` });
   await go('signup');
   await page.screenshot({ path: `${output}/signup-mobile.png` });
+
+  for (const route of ['profile', 'wallet', 'missions', 'shop', 'history', 'result', 'settings']) {
+    await go(route);
+    await page.screenshot({ path: `${output}/${route}-mobile.png` });
+  }
+  await go('wallet');
+  check(
+    'wallet rows have readable internal padding and separate spacing',
+    await page
+      .locator('.wallet-transaction')
+      .first()
+      .evaluate((row) => {
+        const style = getComputedStyle(row);
+        return parseFloat(style.paddingLeft) >= 14 && parseFloat(style.marginTop) >= 8;
+      })
+  );
+  check(
+    'wallet distinguishes credits and debits with text and icons',
+    (await page.locator('.transaction-amount.earned').count()) === 4 &&
+      (await page.locator('.transaction-amount:not(.earned)').textContent()).includes('사용')
+  );
+  await go('profile');
+  check(
+    'both profile statistics fill their row evenly',
+    await page.locator('.stats-grid').evaluate((row) => {
+      const [first, second] = [...row.children].map((x) => x.getBoundingClientRect());
+      const rect = row.getBoundingClientRect();
+      return Math.abs(first.width - second.width) < 1 && Math.abs(second.right - rect.right) < 1;
+    })
+  );
+  check(
+    'profile activity menu includes icons and preserves real navigation',
+    (await page.locator('.menu-row .menu-icon .ui-icon').count()) === 4
+  );
+  await click('.menu-row[data-route=wallet]');
+  await wait('wallet');
+  await go('missions');
+  check(
+    'completed attendance and missions remain visible after the style update',
+    (await page.locator('#attendance').isDisabled()) &&
+      (await page.locator('.mission-status.complete').count()) === 2
+  );
+  await go('shop');
+  check(
+    'official Npay artwork loads with its original square proportions',
+    await page
+      .locator('img.npay-logo')
+      .first()
+      .evaluate(
+        (img) =>
+          img.complete &&
+          img.naturalWidth === 140 &&
+          img.naturalHeight === 140 &&
+          img.clientWidth === img.clientHeight
+      )
+  );
 
   // Exercise actual HTTP/cookie API mode against the local contract simulator.
   const live = await browser.newContext();

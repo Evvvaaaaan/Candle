@@ -83,6 +83,7 @@ CANDLE_API_BASE_URL=https://api.example.com/api/v1 npm run build
 | [core-flow.html](core-flow.html) | 앱의 HTML 진입점 |
 | [src/js/screens/index.mjs](src/js/screens/index.mjs) | 라우트·제목·화면 모듈 등록 |
 | [src/js/core-flow.js](src/js/core-flow.js) | 세션 보호, 공통 컴포넌트, 이벤트, 변경 요청과 새로고침 |
+| [src/js/ui/icons.mjs](src/js/ui/icons.mjs) | 기존 내비게이션과 선 굵기를 맞춘 공통 SVG 아이콘 |
 | [src/js/ui/results-list.mjs](src/js/ui/results-list.mjs) | 결과·예측 내역이 공유하는 목록 |
 | [src/js/candle-service.mjs](src/js/candle-service.mjs) | 백엔드 경로, 응답 검증, 종목 DTO 변환 |
 | [src/js/api-client.mjs](src/js/api-client.mjs) | 쿠키·CSRF·멱등 키·타임아웃·오류 코드 |
@@ -90,6 +91,8 @@ CANDLE_API_BASE_URL=https://api.example.com/api/v1 npm run build
 | `src/js/demo-service.mjs`, `prediction-ledger.mjs` | 로컬 개발 전용 어댑터와 원장; 운영 산출물 제외 |
 
 내부 `demo` 식별자와 저장 키는 기존 로컬 기록 호환용입니다. 서비스 화면에는 해당 이름이나 화면 선택 패널을 표시하지 않습니다. 과거 `pages/`, `src/js/services/api.js`는 현재 앱 경로에 연결되지 않습니다. 구형 `USE_MOCK` 설정을 바꿔도 이 앱에는 적용되지 않습니다.
+
+네이버페이 상품 로고는 공식 배포 SVG를 사용합니다. 출처·원본 파일·사용 위치와 출시 전 제휴 검수 확인은 [브랜드 자산 기록](docs/BRAND_ASSETS.md)에 정리했습니다.
 
 ## 3. 백엔드 팀: 먼저 확인할 구현 범위
 

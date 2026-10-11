@@ -1,5 +1,5 @@
 {
-  "passed": 468,
+  "passed": 474,
   "checks": [
     "first visit opens login without a screen selection step",
     "root preserves route and opens the canonical Core Flow",
@@ -447,6 +447,12 @@
     "1440x1000 settings: no overflow",
     "1440x1000 legal: no prototype labels or controls",
     "1440x1000 legal: no overflow",
+    "wallet rows have readable internal padding and separate spacing",
+    "wallet distinguishes credits and debits with text and icons",
+    "both profile statistics fill their row evenly",
+    "profile activity menu includes icons and preserves real navigation",
+    "completed attendance and missions remain visible after the style update",
+    "official Npay artwork loads with its original square proportions",
     "API mode guards protected deep links and has no prototype navigation",
     "API login callback, session cookie and versioned consent work",
     "API prediction sends one request with CSRF and idempotency keys",
