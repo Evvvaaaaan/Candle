@@ -286,6 +286,7 @@ try {
       'consent',
       'home',
       'challenge',
+      'challenge-reward',
       'stock-select',
       'prediction',
       'confirm',
@@ -385,8 +386,12 @@ try {
   );
   check(
     'profile activity menu includes icons and preserves real navigation',
-    (await page.locator('.menu-row .menu-icon .ui-icon').count()) === 4
+    (await page.locator('.menu-row .menu-icon .ui-icon').count()) === 5
   );
+  await click('.menu-row[data-route=challenge-reward]');
+  await wait('challenge-reward');
+  check('profile opens the prize receipt page', (await page.locator('.prize-hero').count()) === 1);
+  await go('profile');
   await click('.menu-row[data-route=wallet]');
   await wait('wallet');
   await go('missions');

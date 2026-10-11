@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { mutations } from '../src/js/candle-service.mjs';
-import { demoSnapshot, demoLegal } from '../src/js/demo-service.mjs';
+import { demoSnapshot, demoLegal, demoChallengeReward } from '../src/js/demo-service.mjs';
 
 const spec = JSON.parse(await readFile(new URL('../docs/openapi.json', import.meta.url), 'utf8'));
 // Validate fixture responses against the published schema subset used here.
@@ -72,6 +72,7 @@ test('published response schemas accept the actual contract fixtures', () => {
   }))
     validate(snapshot[key], spec.components.schemas[type]);
   validate(demoLegal, spec.components.schemas.Agreements);
+  validate(demoChallengeReward(), spec.components.schemas.ChallengeReward);
 });
 test('OpenAPI references resolve and implemented endpoints are not overstated', () => {
   const refs = JSON.stringify(spec).matchAll(/"\$ref":"#\/components\/schemas\/([^"]+)"/g);

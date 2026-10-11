@@ -446,7 +446,7 @@
                 },
                 "example": {
                   "status": "OPEN",
-                  "serverTime": "2026-10-11T09:51:00.002Z",
+                  "serverTime": "2026-10-11T10:46:32.218Z",
                   "closesAt": "2026-10-11T23:59:59+09:00",
                   "nextCursor": null,
                   "items": [
@@ -1122,6 +1122,128 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/RewardRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/challenges/ten-wins/reward": {
+      "get": {
+        "operationId": "getChallengesTenWinsReward",
+        "description": "당첨자 수령 상태. 서버가 대상·금액·방식·기한·세금 안내·승인된 동의문을 결정한다. ELIGIBLE에는 awardId, claimDeadline, collection 동의(직접 적립은 provision도)가 필수. REQUESTED/PROCESSING/PAID에는 claimId 필수. 계약 미준비 시 503. 네이버 공식 API가 아닌 Candle 제안 계약.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChallengeReward"
+                },
+                "example": {
+                  "status": "ELIGIBLE",
+                  "awardId": "preview-ten-wins",
+                  "claimId": null,
+                  "amount": 1000000,
+                  "payoutPoints": 1000000,
+                  "method": "NAVER_ID",
+                  "serverTime": "2026-10-11T10:46:32.218Z",
+                  "claimDeadline": "2026-10-18T10:46:32.218Z",
+                  "taxNotice": "미리보기 지급 예시입니다. 실제 세금 부담 및 실수령 포인트는 운영 정책 확정 후 안내합니다.",
+                  "deliveryNotice": "미리보기에서는 신청 흐름만 확인하며 실제 적립이나 쿠폰 발송은 발생하지 않습니다.",
+                  "statusNote": "미리보기 신청을 접수했습니다. 실제 당첨 또는 지급 내역이 아닙니다.",
+                  "agreements": [
+                    {
+                      "id": "collection",
+                      "title": "수령 정보 수집·이용 동의",
+                      "version": "preview-prize-1",
+                      "body": "흐름 확인용 예시입니다. 운영 시 수집 주체, 네이버 ID 수집 목적·항목, 보유 기간, 거부 권리와 수령 제한을 명시해야 합니다. 이 미리보기는 입력 원문을 저장하지 않습니다."
+                    },
+                    {
+                      "id": "provision",
+                      "title": "개인정보 제3자 제공 동의",
+                      "version": "preview-prize-1",
+                      "body": "흐름 확인용 예시입니다. 운영 시 네이버파이낸셜 등 실제 제공받는 자, 포인트 적립 목적, 제공 항목, 보유 기간, 거부 권리와 수령 제한을 승인된 문구로 제공합니다. 미리보기에서는 외부 제공이 없습니다."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           }
@@ -1856,6 +1978,130 @@
                   "predictionId"
                 ],
                 "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/challenges/ten-wins/claims": {
+      "post": {
+        "operationId": "postChallengesTenWinsClaims",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChallengeRewardRequest"
               }
             }
           }
@@ -2933,6 +3179,196 @@
           "rewardId",
           "recipient",
           "agreementVersion"
+        ],
+        "additionalProperties": false
+      },
+      "ChallengeReward": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "enum": [
+              "NOT_ELIGIBLE",
+              "AWAITING_DRAW",
+              "ELIGIBLE",
+              "REQUESTED",
+              "PROCESSING",
+              "PAID",
+              "REJECTED",
+              "EXPIRED"
+            ]
+          },
+          "awardId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "claimId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "amount": {
+            "const": 1000000
+          },
+          "payoutPoints": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+          },
+          "method": {
+            "enum": [
+              "NAVER_ID",
+              "COUPON_SMS"
+            ]
+          },
+          "serverTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "claimDeadline": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "taxNotice": {
+            "type": "string"
+          },
+          "deliveryNotice": {
+            "type": "string"
+          },
+          "statusNote": {
+            "type": "string"
+          },
+          "agreements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "enum": [
+                    "collection",
+                    "provision"
+                  ]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                },
+                "body": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "version",
+                "body"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "status",
+          "awardId",
+          "claimId",
+          "amount",
+          "payoutPoints",
+          "method",
+          "serverTime",
+          "claimDeadline",
+          "taxNotice",
+          "deliveryNotice",
+          "statusNote",
+          "agreements"
+        ],
+        "additionalProperties": false
+      },
+      "ChallengeRewardRequest": {
+        "type": "object",
+        "properties": {
+          "awardId": {
+            "type": "string"
+          },
+          "method": {
+            "enum": [
+              "NAVER_ID",
+              "COUPON_SMS"
+            ]
+          },
+          "recipient": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "naverId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  }
+                },
+                "required": [
+                  "naverId"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "phone": {
+                    "type": "string",
+                    "pattern": "^010\\d{8}$"
+                  }
+                },
+                "required": [
+                  "phone"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "agreements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "enum": [
+                    "collection",
+                    "provision"
+                  ]
+                },
+                "version": {
+                  "type": "string"
+                },
+                "accepted": {
+                  "const": true
+                }
+              },
+              "required": [
+                "id",
+                "version",
+                "accepted"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "npayTermsConfirmed": {
+            "const": true
+          }
+        },
+        "required": [
+          "awardId",
+          "method",
+          "recipient",
+          "agreements",
+          "npayTermsConfirmed"
         ],
         "additionalProperties": false
       },

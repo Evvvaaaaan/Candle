@@ -68,6 +68,7 @@ export function createServer({ contract = false, directory = root } = {}) {
         }
         if (!service) return json(res, 401, { success: false, error: { code: 'SESSION_EXPIRED' } });
         if (req.method === 'GET') {
+          if (route === '/challenges/ten-wins/reward') return json(res, 200, await service.challengeReward());
           const data = await service.load();
           const get = {
             '/stocks/top-list': data.stocks.map((s) => ({

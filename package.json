@@ -10,7 +10,7 @@
     "dev": "node scripts/serve.mjs",
     "dev:contract": "node scripts/serve.mjs --contract",
     "test": "node --test tests/*.test.mjs",
-    "test:e2e": "node tests/release.browser.mjs",
+    "test:e2e": "node tests/release.browser.mjs && node tests/challenge-reward.browser.mjs",
     "build": "node scripts/build.mjs",
     "format": "prettier --write src/js/core-flow.js src/js/*-*.mjs 'src/js/screens/*.mjs' 'src/js/ui/*.mjs' scripts/*.mjs tests/*.mjs",
     "format:check": "prettier --check src/js/core-flow.js src/js/*-*.mjs 'src/js/screens/*.mjs' 'src/js/ui/*.mjs' scripts/*.mjs tests/*.mjs",

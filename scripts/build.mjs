@@ -20,6 +20,7 @@ for (const file of [
   'src/js/ui',
   'src/js/api-client.mjs',
   'src/js/candle-service.mjs',
+  'src/js/challenge-reward.mjs',
 ]) {
   await mkdir(path.dirname(path.join(out, file)), { recursive: true });
   await cp(path.join(root, file), path.join(out, file), { recursive: true });

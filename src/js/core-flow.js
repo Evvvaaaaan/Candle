@@ -1,4 +1,5 @@
 import { uiIcon } from './ui/icons.mjs';
+import { recipientValue, validRecipient, validateChallengeReward } from './challenge-reward.mjs';
 import { pages, screens } from './screens/index.mjs';
 import { ApiError, errorMessage } from './api-client.mjs';
 import { createCandleService, resolveConfig, validateSnapshot } from './candle-service.mjs';
@@ -43,7 +44,12 @@ const state = {
   payoutDraft: null,
   operation: null,
   errors: '',
+  challengeReward: null,
+  rewardError: '',
 };
+let rewardLoading = false,
+  rewardRevision = 0,
+  rewardLoadedAt = 0;
 const e = (value) =>
   String(value ?? '').replace(
     /[&<>"']/g,
@@ -184,6 +190,8 @@ function render() {
   });
   document.title = `Candle · ${screens.find(([id]) => id === active)[1]}`;
   bind();
+  if (active === 'challenge-reward' && !state.challengeReward && !state.rewardError && !rewardLoading)
+    loadChallengeReward();
   if (state.errors) showError(state.errors);
   if (active === 'ad' && demo && state.ad) {
     const update = () => {
@@ -209,6 +217,10 @@ function showError(message) {
   box.textContent = message;
 }
 function expireSession() {
+  rewardRevision++;
+  rewardLoading = false;
+  state.challengeReward = null;
+  state.rewardError = '';
   data = null;
   session = { user: null, providers: session?.providers || [] };
   state.attempt = null;
@@ -261,7 +273,13 @@ async function action(name, body, destination, onSuccess) {
   if (busy) return;
   // Retain the same key after an unknown network outcome, including across a reload.
   // Store only a fingerprint for non-PII payloads; reward retries use a non-PII product ID.
-  const fingerprint = JSON.stringify(name === 'reward' ? { rewardId: body.rewardId } : body);
+  const fingerprint = JSON.stringify(
+    name === 'reward'
+      ? { rewardId: body.rewardId }
+      : name === 'challengeReward'
+        ? { awardId: body.awardId }
+        : body
+  );
   const storageKey = 'candle.pending-operations.v1';
   const identity = JSON.stringify([session?.user?.id, name, fingerprint]);
   let operations = state.operation || {};
@@ -290,7 +308,10 @@ async function action(name, body, destination, onSuccess) {
   let committed = false;
   try {
     const result = await service.mutate(name, body, pending.key);
-    if ((name === 'prediction' || name === 'reward' || name === 'adStart') && typeof result?.id !== 'string')
+    if (
+      ['prediction', 'reward', 'challengeReward', 'adStart'].includes(name) &&
+      typeof result?.id !== 'string'
+    )
       throw new ApiError('INVALID_RESPONSE');
     if (name === 'adComplete' && result?.status !== 'VERIFIED') throw new ApiError('AD_NOT_VERIFIED');
     committed = true;
@@ -298,6 +319,10 @@ async function action(name, body, destination, onSuccess) {
     persist();
     if (onSuccess) onSuccess(result);
     if (name === 'logout') {
+      rewardRevision++;
+      rewardLoading = false;
+      state.challengeReward = null;
+      state.rewardError = '';
       session = null;
       data = null;
       state.attempt = null;
@@ -342,7 +367,84 @@ async function action(name, body, destination, onSuccess) {
     });
   }
 }
+async function loadChallengeReward() {
+  if (rewardLoading) return;
+  const seq = ++rewardRevision;
+  rewardLoading = true;
+  state.challengeReward = null;
+  state.rewardError = '';
+  if (routeName() === 'challenge-reward') render();
+  try {
+    const reward = validateChallengeReward(await service.challengeReward());
+    if (seq !== rewardRevision) return;
+    state.challengeReward = reward;
+    rewardLoadedAt = performance.now();
+  } catch (error) {
+    if (seq !== rewardRevision) return;
+    if (error.code === 'SESSION_EXPIRED') return expireSession();
+    state.rewardError =
+      error.status === 404 || error.status === 503
+        ? '리워드 수령 안내를 준비 중이에요. 잠시 후 다시 확인해 주세요.'
+        : errorMessage(error);
+  } finally {
+    if (seq === rewardRevision) {
+      rewardLoading = false;
+      if (routeName() === 'challenge-reward') render();
+    }
+  }
+}
 function bind() {
+  document.getElementById('retry-reward')?.addEventListener('click', loadChallengeReward);
+  const rewardForm = document.getElementById('challenge-reward-form');
+  if (rewardForm)
+    rewardForm.onsubmit = (event) => {
+      event.preventDefault();
+      if (busy) return;
+      const r = state.challengeReward;
+      const recipient = document.getElementById('reward-recipient');
+      const confirm = document.getElementById('reward-confirm');
+      const error = document.getElementById('reward-form-error');
+      const reject = (message, input) => {
+        error.textContent = message;
+        if (input) {
+          input.setAttribute('aria-invalid', 'true');
+          input.focus();
+        }
+      };
+      [recipient, confirm].forEach((input) => input.removeAttribute('aria-invalid'));
+      if (r.status !== 'ELIGIBLE') return reject('수령 가능 여부를 다시 확인해 주세요.');
+      if (Date.parse(r.claimDeadline) <= Date.parse(r.serverTime) + performance.now() - rewardLoadedAt)
+        return reject('수령 신청 기간이 지났어요. 챌린지 안내에서 다시 확인해 주세요.');
+      if (!validRecipient(r.method, recipient.value))
+        return reject('올바른 수령 정보를 입력해 주세요.', recipient);
+      const value = recipientValue(r.method, recipient.value);
+      if (value !== recipientValue(r.method, confirm.value))
+        return reject('두 번 입력한 수령 정보가 일치하지 않아요.', confirm);
+      const agreements = r.agreements.map((a) => ({
+        id: a.id,
+        version: a.version,
+        accepted: document.querySelector(`[data-reward-agreement="${a.id}"]`).checked,
+      }));
+      if (agreements.some((a) => !a.accepted) || !document.getElementById('reward-account-ready').checked)
+        return reject('필수 동의와 네이버페이 이용 준비 여부를 확인해 주세요.');
+      error.textContent = '';
+      action(
+        'challengeReward',
+        {
+          awardId: r.awardId,
+          method: r.method,
+          recipient: r.method === 'NAVER_ID' ? { naverId: value } : { phone: value },
+          agreements,
+          npayTermsConfirmed: true,
+        },
+        'challenge-reward',
+        () => {
+          state.challengeReward = null;
+          state.rewardError = '';
+          rewardForm.reset();
+        }
+      );
+    };
   document.querySelectorAll('[data-route]').forEach((b) => (b.onclick = () => route(b.dataset.route)));
   document.querySelectorAll('[data-login]').forEach(
     (b) =>
@@ -554,12 +656,16 @@ function bind() {
 }
 window.addEventListener('hashchange', () => {
   if (!busy) {
+    if (routeName() === 'challenge-reward') {
+      state.challengeReward = null;
+      state.rewardError = '';
+    }
     state.errors = '';
     if (!['payout', 'legal'].includes(routeName())) state.payoutDraft = null;
     if (
       data &&
       performance.now() - loadedAt > 30000 &&
-      !['payout', 'consent', 'legal', 'ad', 'confirm'].includes(routeName())
+      !['payout', 'challenge-reward', 'consent', 'legal', 'ad', 'confirm'].includes(routeName())
     )
       initialize();
     else render();
@@ -572,7 +678,7 @@ document.addEventListener('visibilitychange', () => {
     !busy &&
     data &&
     performance.now() - loadedAt > 30000 &&
-    !['payout', 'consent', 'legal', 'ad', 'confirm'].includes(routeName())
+    !['payout', 'challenge-reward', 'consent', 'legal', 'ad', 'confirm'].includes(routeName())
   )
     initialize();
 });
@@ -584,7 +690,7 @@ window.addEventListener('storage', (event) => {
     demo &&
     event.key?.startsWith('candle.') &&
     !busy &&
-    !['payout', 'consent', 'legal', 'ad'].includes(routeName())
+    !['payout', 'challenge-reward', 'consent', 'legal', 'ad'].includes(routeName())
   )
     initialize();
 });

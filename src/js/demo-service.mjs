@@ -9,6 +9,37 @@ import {
   rewardAd,
 } from './prediction-ledger.mjs';
 import { ApiError } from './api-client.mjs';
+import { validRecipient } from './challenge-reward.mjs';
+
+export function demoChallengeReward(account = {}) {
+  return {
+    status: account.challengeClaim ? 'REQUESTED' : 'ELIGIBLE',
+    awardId: 'preview-ten-wins',
+    claimId: account.challengeClaim?.id || null,
+    amount: 1000000,
+    payoutPoints: 1000000,
+    method: 'NAVER_ID',
+    serverTime: new Date().toISOString(),
+    claimDeadline: new Date(Date.now() + 7 * 86400000).toISOString(),
+    taxNotice: '미리보기 지급 예시입니다. 실제 세금 부담 및 실수령 포인트는 운영 정책 확정 후 안내합니다.',
+    deliveryNotice: '미리보기에서는 신청 흐름만 확인하며 실제 적립이나 쿠폰 발송은 발생하지 않습니다.',
+    statusNote: '미리보기 신청을 접수했습니다. 실제 당첨 또는 지급 내역이 아닙니다.',
+    agreements: [
+      {
+        id: 'collection',
+        title: '수령 정보 수집·이용 동의',
+        version: 'preview-prize-1',
+        body: '흐름 확인용 예시입니다. 운영 시 수집 주체, 네이버 ID 수집 목적·항목, 보유 기간, 거부 권리와 수령 제한을 명시해야 합니다. 이 미리보기는 입력 원문을 저장하지 않습니다.',
+      },
+      {
+        id: 'provision',
+        title: '개인정보 제3자 제공 동의',
+        version: 'preview-prize-1',
+        body: '흐름 확인용 예시입니다. 운영 시 네이버파이낸셜 등 실제 제공받는 자, 포인트 적립 목적, 제공 항목, 보유 기간, 거부 권리와 수령 제한을 승인된 문구로 제공합니다. 미리보기에서는 외부 제공이 없습니다.',
+      },
+    ],
+  };
+}
 
 export const ACCOUNT_KEY = 'candle.demo.account.v1';
 export const demoLegal = {
@@ -199,6 +230,25 @@ export function createDemoService(storage = localStorage) {
         throw new ApiError('ALREADY_CLAIMED');
       account.claimed.push(body.predictionId);
       transaction(account, '예측 적중 보상', 15, key);
+    } else if (action === 'challengeReward') {
+      const reward = demoChallengeReward(account);
+      if (!account.user || account.user.consentRequired) throw new ApiError('SESSION_EXPIRED', 401);
+      if (reward.status !== 'ELIGIBLE') throw new ApiError('ALREADY_CLAIMED', 409);
+      if (
+        body.awardId !== reward.awardId ||
+        body.method !== reward.method ||
+        !validRecipient(reward.method, body.recipient?.naverId || '') ||
+        !body.npayTermsConfirmed
+      )
+        throw new ApiError('VALIDATION_ERROR', 400);
+      if (
+        !reward.agreements.every((a) =>
+          body.agreements?.some((x) => x.id === a.id && x.version === a.version && x.accepted)
+        )
+      )
+        throw new ApiError('AGREEMENT_REQUIRED', 400);
+      account.challengeClaim = { id: key, createdAt: new Date().toISOString() };
+      result = { id: key };
     } else if (action === 'reward') {
       const product = demoCatalog.items.find((p) => p.id === body.rewardId);
       if (
@@ -250,6 +300,9 @@ export function createDemoService(storage = localStorage) {
     },
     async legal() {
       return structuredClone(demoLegal);
+    },
+    async challengeReward() {
+      return demoChallengeReward(read().account);
     },
     async load() {
       const { account, ledger } = read();

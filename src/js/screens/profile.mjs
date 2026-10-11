@@ -24,6 +24,7 @@ export default function render(context) {
         ['예측 내역', 'prediction-history', 'chart'],
         ['포인트 내역', 'wallet', 'wallet'],
         ['교환 내역', 'history', 'gift'],
+        ['10연승 리워드', 'challenge-reward', 'target'],
         ['계정 · 약관', 'settings', 'settings'],
       ]
         .map(

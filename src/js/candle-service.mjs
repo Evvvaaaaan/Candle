@@ -1,4 +1,5 @@
 import { createApiClient, ApiError } from './api-client.mjs';
+import { validateChallengeReward } from './challenge-reward.mjs';
 
 export const mutations = {
   consent: ['POST', '/legal/agreements'],
@@ -6,6 +7,7 @@ export const mutations = {
   attendance: ['POST', '/missions/attendance'],
   claim: ['POST', '/predictions/claim'],
   reward: ['POST', '/reward-claims'],
+  challengeReward: ['POST', '/challenges/ten-wins/claims'],
   adStart: ['POST', '/ads/sessions'],
   adComplete: ['POST', '/ads/sessions/verify'],
   logout: ['POST', '/auth/logout'],
@@ -170,6 +172,9 @@ export function createCandleService(config) {
     },
     async legal() {
       return validateLegal(await api.request('/legal/agreements/current'));
+    },
+    async challengeReward() {
+      return validateChallengeReward(await api.request('/challenges/ten-wins/reward'));
     },
     async load() {
       const [stocks, tickets, predictions, wallet, missions, catalog, claims] = await Promise.all([

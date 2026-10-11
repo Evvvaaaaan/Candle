@@ -20,6 +20,6 @@ export default function render(context) {
       </ol>
       <p class="field-help">리워드는 추첨으로 지급되며, 10연승 달성만으로 지급이 확정되지는 않습니다.</p>
     </section>
-    ${button('예측하러 가기', 'prediction')}${button('내 예측 결과 확인', 'result', 'secondary-button')}`
+    ${button('당첨 확인 · 리워드 수령', 'challenge-reward')}${button('예측하러 가기', 'prediction', 'secondary-button')}${button('내 예측 결과 확인', 'result', 'secondary-button')}`
   );
 }

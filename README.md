@@ -58,6 +58,7 @@ CANDLE_API_BASE_URL=https://api.example.com/api/v1 npm run build
 | `#consent` | [consent.mjs](src/js/screens/consent.mjs) | 필수 동의가 필요한 계정의 가입 단계 |
 | `#home` | [home.mjs](src/js/screens/home.mjs) | 10연승 안내·포인트·광고·종목·방향 선택 |
 | `#challenge` | [challenge.mjs](src/js/screens/challenge.mjs) | 10연승 달성자 대상 추첨 리워드 안내 |
+| `#challenge-reward` | [challenge-reward.mjs](src/js/screens/challenge-reward.mjs) | 당첨 여부·네이버페이 수령 정보·신청 및 지급 상태 |
 | `#stock-select` | [stock-select.mjs](src/js/screens/stock-select.mjs) | 종목 변경, 검색·시장 필터 |
 | `#prediction` | [prediction.mjs](src/js/screens/prediction.mjs) | 방향과 예측권 확인 |
 | `#confirm` | [confirm.mjs](src/js/screens/confirm.mjs) | 제출 직전 확인 |
@@ -100,9 +101,21 @@ CANDLE_API_BASE_URL=https://api.example.com/api/v1 npm run build
 기존 Core Flow 디자인의 순서인 **10연승 안내, 포인트 카드, AD 배너, 종목 카드**를 유지합니다. 백엔드 미연결을 이유로 이 영역을 화면에서 삭제하지 않습니다.
 
 - 연승 문구는 기존 디자인의 ‘10연승하고 100만원 리워드에 도전’과 ‘달성자 중 추첨’을 유지합니다. 클릭하면 `#challenge` 안내를 열고 예측·결과 화면으로 이동할 수 있습니다. 현재 연승 수나 당첨 여부를 임의로 만들거나, 포인트 교환 신청을 연승 리워드 신청으로 취급하지 않습니다.
-- 실제 연승 판정, 추첨 회차·기간·선정 인원, 신청 자격·지급 상태는 백엔드에서 제공해야 합니다. 현재 상세 화면은 안내이며 추첨/지급 처리는 구현되어 있지 않습니다. 출시 전에 운영 정책과 API를 확정해야 합니다.
+- 실제 연승 판정, 추첨 회차·기간·선정 인원, 신청 자격·지급 상태는 백엔드에서 제공해야 합니다. 프론트의 `#challenge-reward`에서 서버 상태 조회와 수령 신청을 처리합니다. 실제 추첨/지급 백엔드 및 네이버페이 연동은 아직 확인하지 않았습니다. 출시 전에 운영 정책과 API를 확정해야 합니다.
 - AD 배너는 기존 파란 그라데이션과 ‘하루 1분, 금융 감각을 키우는 습관’ 문구를 유지합니다. 현재 광고주는 Candle 자체이고 클릭하면 예측 화면으로 이동합니다. 클릭만으로 예측권이나 포인트를 지급하지 않습니다.
 - 외부 광고 도입 시 광고 소재·광고주 표시·랜딩 주소·노출/클릭 집계 계약을 연결해야 합니다. 홈페이지 배너와 `/ads/sessions`의 보상형 영상 광고는 별개입니다. 광고 사업자가 미정이어도 배너의 자리와 디자인은 보존합니다.
+
+### 10연승 100만원 네이버페이 수령
+
+홈 챌린지 안내의 ‘당첨 확인 · 리워드 수령’ 또는 내 정보의 ‘10연승 리워드’로 진입합니다. 기존 **달성자 중 추첨** 조건을 유지합니다. 당첨자에게만 수령 폼을 열고, 신청 접수·처리 중·지급 완료를 구분합니다. 앱 보유 포인트는 차감하지 않습니다.
+
+공식 자료 조사, 필요한 입력 정보와 동의 항목, 상태별 응답, 개인정보 처리, 세금 검토 사항은 **[네이버페이 리워드 인수 문서](docs/NAVER_PAY_REWARD.md)**에 상세히 정리했습니다.
+
+- `GET /api/v1/challenges/ten-wins/reward`: 수령 화면에서만 조회. 지급 방식·실수령 포인트·신청 기한·세금 안내·동의문을 서버가 결정합니다.
+- `POST /api/v1/challenges/ten-wins/claims`: 당첨 ID, 지급 방식, 수령 정보, 버전별 동의를 전송합니다. 쿠키·CSRF·멱등 키를 사용하며 일반 포인트 교환과 분리합니다.
+- ID 직접 적립은 **네이버 로그인 ID**, 수집·이용 및 제3자 제공 동의를 받습니다. 쿠폰 문자 발송으로 계약하면 서버의 `COUPON_SMS` 설정에 따라 **휴대폰 번호**를 받습니다. 두 방식 모두 네이버페이 이용약관 확인을 받으며, 실제 계정 검증은 서버가 수행해야 합니다.
+- 주민등록번호·신분증·비밀번호는 이 폼에서 받지 않습니다. 세무상 별도 정보가 필요하면 승인된 보안 절차를 마련해야 합니다.
+- 로컬은 가상의 당첨/접수 예제입니다. 운영은 서버가 확인한 상태만 사용합니다. 실제 지급 계약 및 100만원 한도, 세금 부담과 실수령액, 지급 일정, 승인 동의문이 확정되기 전에는 운영 서버에서 신청을 열지 마세요.
 
 ## 3. 백엔드 팀: 먼저 확인할 구현 범위
 
@@ -164,7 +177,7 @@ CANDLE_API_BASE_URL=https://api.example.com/api/v1 npm run build
 - 네트워크 결과가 불확실하면 프론트는 같은 탭에서 보류 키를 유지하고 수동 재시도에 재사용합니다. 지급 재시도 키에는 상품 ID만 남기며 이름·전화번호는 저장하지 않습니다. 수령 정보가 달라지면 서버가 충돌을 확인해야 합니다.
 - 401은 보호 화면을 비우고 로그인으로 이동합니다. 주요 업무 코드는 `PREDICTION_CLOSED`, `ALREADY_PREDICTED`, `INSUFFICIENT_TICKETS`, `INSUFFICIENT_POINTS`, `ALREADY_CLAIMED`, `AD_NOT_VERIFIED`, `AD_UNAVAILABLE`, `AGREEMENT_REQUIRED`, `VALIDATION_ERROR`, `RATE_LIMITED`입니다.
 - 교환 상태는 `REQUESTED/PROCESSING/PAID/FAILED/REJECTED/CANCELED`를 지원합니다. 실패·취소 시 포인트 환불과 사업자 중복 발송 방지는 서버에서 처리해야 합니다.
-- 수령 폼은 현재 `010` + 8자리 전화번호와 2~40자 이름을 요구합니다. 최종 지급 사업자의 요구사항과 대조하세요. 브라우저에 수령 정보를 영구 저장하거나 로깅하지 않습니다.
+- 일반 포인트 교환 수령 폼은 현재 `010` + 8자리 전화번호와 2~40자 이름을 요구합니다. 최종 지급 사업자의 요구사항과 대조하세요. 브라우저에 수령 정보를 영구 저장하거나 로깅하지 않습니다.
 - 광고는 HTTPS 외부 창을 열고 복귀 후 완료를 확인합니다. 서버가 제공자 콜백을 검증해야 합니다. 네이티브 광고 SDK를 선택하면 브리지와 실기기 복귀 처리를 추가해야 하며, 현재 외부 링크 구현이 SDK 연동을 대신하지 않습니다.
 
 ## 4. 출시 전에 사용자·팀이 정해야 할 항목
@@ -177,6 +190,7 @@ CANDLE_API_BASE_URL=https://api.example.com/api/v1 npm run build
 | 출시할 간편 로그인 제공자, 앱 등록 및 콜백 URL | 프로젝트 책임자·백엔드 | `/auth/session.providers`와 서버 OAuth. 실제 로그인·취소·복귀 검사 |
 | 예측 대상·회차·마감·휴장·보합·무효 처리, 보상 정책 | 기획·백엔드 | 예측·정산·예측권 API. 현재 로컬 값은 출시 정책으로 확정된 것이 아님 |
 | 광고 사업자 및 웹/네이티브 SDK 방식 | 프로젝트 책임자·앱·백엔드 | 세션 발급, 완료 콜백 검증, 취소·중복·한도 검사 |
+| 10연승 추첨 정책, 네이버페이 제휴 방식·100만원 지급 가능 조건·세금 부담 | 운영·백엔드·세무 담당 | [리워드 인수 문서](docs/NAVER_PAY_REWARD.md)의 정책·동의문·실제 지급 검증 |
 | 지급 사업자, 상품, 발송 시점, 실패·취소·환불 기준 | 운영·백엔드 | 상품·지급 API와 안내 문구. 실제 소액 지급·실패 시나리오 검사 |
 | 승인된 약관·개인정보·연령 정책, 지급 동의 본문 | 서비스 책임자 | 약관 API. 예제 본문을 운영용으로 배포하지 않음 |
 | 고객 문의 주소, 회원 탈퇴·개인정보 삭제 처리 정책/API | 운영·백엔드 | 설정 화면에 실제 문의·탈퇴 동작 추가 필요. 현재는 약관·로그아웃까지 구현 |
@@ -196,6 +210,6 @@ CANDLE_API_BASE_URL=https://api.example.com/api/v1 npm run build
 - [ ] 지원 대상 브라우저/실기기에서 화면·터치·키보드·외부 로그인·광고 복귀를 확인했다.
 - [ ] 오류 관측, 담당자, 롤백 버전과 배포 기록을 준비했다.
 
-브라우저 자동 검사는 로그인부터 예측·수령·교환까지 실제 버튼으로 진행합니다. 추가로 22개 화면을 10개 화면 크기에서 검사하고, 개발용 문구·메뉴의 부재와 상승 화살표 대비도 확인합니다. API 검사는 로컬 계약 서버를 사용합니다. 실제 OAuth·광고·지급, Safari, Android/iOS 실기기는 별도 인수 검증 대상입니다.
+브라우저 자동 검사는 로그인부터 예측·수령·교환까지 실제 버튼으로 진행합니다. 추가로 23개 화면을 10개 화면 크기에서 검사하고, 개발용 문구·메뉴의 부재와 상승 화살표 대비도 확인합니다. API 검사는 로컬 계약 서버를 사용합니다. 실제 OAuth·광고·지급, Safari, Android/iOS 실기기는 별도 인수 검증 대상입니다.
 
-검사 결과는 `test-results/results.json`, 화면 캡처는 `test-results/*.png`에 생성됩니다. 마지막 공유 결과는 [docs/verification.json](docs/verification.json), 배포·복구 절차는 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md), 출시 범위는 [docs/RELEASE_PLAN.md](docs/RELEASE_PLAN.md)를 참조하세요.
+검사 결과는 `test-results/results.json`, `test-results/challenge-reward-results.json`, 화면 캡처는 `test-results/*.png`에 생성됩니다. 마지막 공유 결과는 [docs/verification.json](docs/verification.json), 배포·복구 절차는 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md), 출시 범위는 [docs/RELEASE_PLAN.md](docs/RELEASE_PLAN.md)를 참조하세요.

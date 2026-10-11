@@ -1,5 +1,5 @@
 import { writeFile } from 'node:fs/promises';
-import { demoSnapshot, demoLegal } from '../src/js/demo-service.mjs';
+import { demoSnapshot, demoLegal, demoChallengeReward } from '../src/js/demo-service.mjs';
 const text = { type: 'string' },
   bool = { type: 'boolean' },
   count = { type: 'integer', minimum: 0 };
@@ -109,6 +109,47 @@ const schemas = {
     }),
     agreementVersion: text,
   }),
+  ChallengeReward: obj({
+    status: {
+      enum: [
+        'NOT_ELIGIBLE',
+        'AWAITING_DRAW',
+        'ELIGIBLE',
+        'REQUESTED',
+        'PROCESSING',
+        'PAID',
+        'REJECTED',
+        'EXPIRED',
+      ],
+    },
+    awardId: cursor,
+    claimId: cursor,
+    amount: { const: 1000000 },
+    payoutPoints: { type: 'integer', minimum: 1, maximum: 1000000 },
+    method: { enum: ['NAVER_ID', 'COUPON_SMS'] },
+    serverTime: { type: 'string', format: 'date-time' },
+    claimDeadline: { type: ['string', 'null'], format: 'date-time' },
+    taxNotice: text,
+    deliveryNotice: text,
+    statusNote: text,
+    agreements: array(
+      obj({ id: { enum: ['collection', 'provision'] }, title: text, version: text, body: text })
+    ),
+  }),
+  ChallengeRewardRequest: obj({
+    awardId: text,
+    method: { enum: ['NAVER_ID', 'COUPON_SMS'] },
+    recipient: {
+      oneOf: [
+        obj({ naverId: { type: 'string', minLength: 1, maxLength: 100 } }),
+        obj({ phone: { type: 'string', pattern: '^010\\d{8}$' } }),
+      ],
+    },
+    agreements: array(
+      obj({ id: { enum: ['collection', 'provision'] }, version: text, accepted: { const: true } })
+    ),
+    npayTermsConfirmed: { const: true },
+  }),
   Id: obj({ id: text }),
   AdSession: obj({
     id: text,
@@ -126,6 +167,7 @@ const examples = {
     csrfToken: 'session-csrf-token',
   },
   Agreements: demoLegal,
+  ChallengeReward: demoChallengeReward(),
   Tickets: snapshot.tickets,
   Predictions: snapshot.predictions,
   Wallet: snapshot.wallet,
@@ -218,6 +260,10 @@ for (const [path, schema] of [
   ['/reward-claims', 'ClaimPage'],
 ])
   endpoint(path, 'get', schema, { pagination: path === '/reward-claims' });
+endpoint('/challenges/ten-wins/reward', 'get', 'ChallengeReward', {
+  description:
+    '당첨자 수령 상태. 서버가 대상·금액·방식·기한·세금 안내·승인된 동의문을 결정한다. ELIGIBLE에는 awardId, claimDeadline, collection 동의(직접 적립은 provision도)가 필수. REQUESTED/PROCESSING/PAID에는 claimId 필수. 계약 미준비 시 503. 네이버 공식 API가 아닌 Candle 제안 계약.',
+});
 endpoint('/predictions/history', 'get', 'PredictionPage', { pagination: true });
 endpoint('/wallet/transactions', 'get', 'TransactionPage', { pagination: true });
 for (const [path, body, response] of [
@@ -226,6 +272,7 @@ for (const [path, body, response] of [
   ['/missions/attendance', obj({}), 'Ok'],
   ['/predictions/claim', obj({ predictionId: text }), 'Ok'],
   ['/reward-claims', 'RewardRequest', 'Id'],
+  ['/challenges/ten-wins/claims', 'ChallengeRewardRequest', 'Id'],
   ['/ads/sessions', obj({}), 'AdSession'],
   ['/ads/sessions/verify', obj({ sessionId: text }), 'AdVerified'],
   ['/auth/logout', obj({}), 'Ok'],
