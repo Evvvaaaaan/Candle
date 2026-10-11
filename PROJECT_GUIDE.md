@@ -1,5 +1,7 @@
 # Candle — 프로젝트 실행 가이드
 
+> 이 문서는 이전 MPA 버전의 기록입니다. 최신 Core Flow 앱 실행·검증·빌드 방법은 [README.md](README.md), 실제 API 계약은 [BACKEND_INTEGRATION_GUIDE.md](BACKEND_INTEGRATION_GUIDE.md)를 사용하세요.
+
 주식 예측 챌린지 앱. Vanilla HTML/CSS/JS MPA — 네이티브 박스앱(WebView 래퍼)으로 Android/iOS 배포.
 
 ---

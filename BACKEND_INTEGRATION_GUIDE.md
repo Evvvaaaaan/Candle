@@ -1,219 +1,74 @@
-# 백엔드 연동 가이드
+# Candle 백엔드 연동 가이드
 
-Spring Boot 백엔드 연동 시 변경해야 할 파일과 순서를 설명합니다.
-현재 프로젝트는 `USE_MOCK = true` 상태로 동작하며, 전환 시 mock 데이터 없이 실제 API를 호출합니다.
+2026-10-11 기준 최신 진입점은 `/core-flow.html`이며 `/`에서 연결됩니다. 기존 `src/js/services/api.js`의 `USE_MOCK` 값을 바꾸는 방법은 최신 앱에 적용되지 않습니다. UI는 `candle-service.mjs` 또는 `demo-service.mjs`에서 받은 동일한 모델을 사용합니다.
 
-> 이 문서는 기존 카카오 로그인 기준의 초기 연동 예시입니다. Google 로그인, 가입 동의, 광고 검증, 포인트 원장, 네이버페이 지급 정책은 먼저 [`BACKEND_DISCUSSION_CHECKLIST.md`](./BACKEND_DISCUSSION_CHECKLIST.md)에서 합의한 뒤 이 문서의 엔드포인트를 확정해야 합니다.
+## 실제 구현 확인과 제안 계약
 
----
+로컬 `Candle-backend/src/main/java/com/example/candlebackend/controller/StockController.java`에서 확인한 경로:
 
-## 1. API 설정 변경 (필수, 1개 파일)
+| 경로 | 상태 |
+|---|---|
+| `GET /api/v1/stocks/top-list` | 구현 확인, 프론트가 그대로 사용 |
+| `GET /api/v1/stocks/{ticker}` | 구현 확인, 현재 화면은 목록 응답 사용 |
+| `GET /api/v1/stocks/logo/{ticker}` | 구현 확인, 현재 화면에서는 요청하지 않음 |
+| 그 외 아래 계약 | 백엔드 구현을 확인하지 못함. 구현/합의 필요 |
 
-**`src/js/services/api.js`**
+종목 DTO의 `ticker`, `name`, `currentPrice`, `changeRate`를 변환합니다. 가격과 등락률 문자열을 파싱하며 잘못된 응답을 임의 가격으로 바꾸지 않습니다. 기존 DTO에 시장 구분이 없으면 ‘국내 주식’을 표시합니다. 실제 차트나 참여 비율은 제공되는 API가 없어 운영 화면에 허구의 차트를 표시하지 않습니다.
 
-```js
-const API_CONFIG = {
-  USE_MOCK: false,                        // true → false 로 변경
-  BASE_URL: 'https://your-server.com/api', // Spring Boot 서버 주소
-  MOCK_DELAY: 500,
-};
-```
+[docs/openapi.json](docs/openapi.json)이 요청/응답 필드의 기준입니다. JSON 직접 응답을 기준으로 하며 `{ success: true, data: ... }` 응답도 지원합니다. 원장·목록 데이터의 정렬은 서버에서 최신순으로 합니다. 초기 목록은 20개를 권장하며 `nextCursor`가 있으면 이전 내역 조회 버튼을 표시합니다. `/predictions/today`에는 오늘의 모든 접수 내역과 최근 결과를 함께 포함해 같은 종목 중복 제출 여부가 누락되지 않아야 합니다.
 
-이 한 줄만 바꾸면 모든 서비스 파일이 실제 API를 호출합니다.  
-각 서비스는 `API_CONFIG.USE_MOCK` 값을 체크해 mock/real을 자동으로 분기합니다.
+## 연결 순서
 
----
+1. `npm ci`, `npm run dev:contract`로 계약 예제를 실행합니다. `http://127.0.0.1:4174/?mode=api`에서 로그인/약관/예측/교환을 확인합니다. 이 서버는 로컬 테스트용이며 운영에 배포하지 않습니다.
+2. 실제 서버에 OpenAPI의 제안 경로를 구현합니다. 먼저 세션·약관, 이후 조회 API, 마지막으로 상태 변경 API를 연결합니다.
+3. `config.js`를 `mode: 'api'`, `apiBaseUrl: 'https://staging.example/api/v1'`로 설정합니다. 스테이징에서 승인한 정확한 프론트 Origin을 CORS에 등록합니다.
+4. 실제 계정으로 로그인, 약관, 예측, 서버 정산, 광고 완료 검증, 교환 실패/취소 및 중복 요청을 검증합니다.
+5. `CANDLE_API_BASE_URL=https://api.example/api/v1 npm run build` 후 `dist/`만 배포합니다. 기본은 동일 출처 `/api/v1`입니다.
 
-## 2. 서비스별 API 엔드포인트
+프론트는 API 실패 시 데모로 전환하지 않습니다. 세션/초기 조회 실패는 오류·재시도 화면, 변경 요청 실패는 현재 화면의 오류 안내를 표시합니다. 성공 응답 뒤 조회가 실패하면 완료 여부를 숨기지 않고 재조회하도록 안내합니다.
 
-### 인증 — `src/js/services/auth.service.js`
+## 인증과 가입
 
-| 기능 | 메서드 | 경로 | 요청 바디 | 응답 |
-|---|---|---|---|---|
-| 카카오 로그인 | POST | `/auth/kakao` | `{ kakaoToken }` | `{ token, isNewUser }` |
-| 닉네임 중복 확인 | GET | `/auth/nickname/check?nickname=` | — | `{ available: boolean }` |
-| 닉네임 설정 | POST | `/auth/nickname` | `{ nickname }` | `{ success: boolean }` |
+- `GET /auth/session`: 비로그인은 HTTP 200 + `user:null`; 로그인 상태는 `user.id`, `nickname`, `consentRequired`, `csrfToken`, 활성 `providers`를 반환합니다.
+- `GET /auth/{provider}/start?returnTo=...`: 서버가 제공자 OAuth를 시작합니다. 서버가 state/nonce 및 필요한 PKCE 검증, 계정 연결, 콜백을 처리합니다. `returnTo`는 등록한 프론트 주소만 허용합니다.
+- 완료 후 HttpOnly·Secure 세션 쿠키를 발급하고 프론트로 돌아옵니다. 토큰을 URL/localStorage/sessionStorage에 넣지 않습니다. 프론트는 `credentials: include`로 요청합니다.
+- `GET /legal/agreements/current`: 약관 ID/필수 여부/제목/버전/본문. 본문은 HTML 실행 없이 텍스트로 표시합니다. 서버에서 승인된 본문을 제공해야 합니다.
+- `POST /legal/agreements`: 사용자가 체크한 ID·버전·동의 여부를 전송합니다. 서버가 필수 누락/구버전을 거부하고 동의 시각을 기록합니다.
+- `POST /auth/logout`: 서버 세션 폐기와 쿠키 만료. 프론트는 사용자 데이터와 보류 키를 지우고 로그인 화면으로 이동합니다.
 
-**카카오 SDK 연동 위치:** `pages/login.html` — `kakao-btn` 클릭 핸들러
+모든 변경 요청은 `X-CSRF-Token`과 `Idempotency-Key`를 전송합니다. CSRF 토큰은 `/auth/session` 응답에서 메모리로만 보관합니다. 서버도 CSRF·Origin을 검증해야 합니다. 외부 Origin을 쓰면 `Access-Control-Allow-Credentials: true`와 정확한 Origin, GET/POST/OPTIONS 및 위 헤더를 허용해야 합니다. 로컬 백엔드의 현재 wildcard CORS만으로 쿠키 인증을 연결할 수 없습니다. 가능하면 동일 출처 리버스 프록시를 사용하세요.
 
-```js
-// pages/login.html 수정 전 (현재)
-document.getElementById('kakao-btn').addEventListener('click', () => {
-  location.href = './nickname.html';
-});
+참고: [MDN Fetch credentials](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch), [OWASP CSRF](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html).
 
-// 수정 후 (Kakao SDK 연동)
-document.getElementById('kakao-btn').addEventListener('click', () => {
-  Kakao.Auth.login({
-    success: async (authObj) => {
-      const res = await AuthService.kakaoLogin(authObj.access_token);
-      Storage.set('auth_token', res.token);
-      if (res.isNewUser) location.href = './nickname.html';
-      else location.href = './home.html';
-    },
-  });
-});
-```
+## 조회와 상태 변경
 
----
+| 기능 | 조회 | 변경 |
+|---|---|---|
+| 예측 | `/predictions/today`, `/predictions/history?cursor=&limit=20` | `POST /predictions` `{stockCode,direction}` |
+| 예측권 | `/prediction-tickets` | 예측·광고 처리와 함께 서버 갱신 |
+| 포인트 | `/wallet`, `/wallet/transactions?cursor=&limit=20` | 서버 원장에서만 계산 |
+| 결과 수령 | 예측 목록의 `status`, `points`, `claimed` | `POST /predictions/claim` `{predictionId}` |
+| 출석·미션 | `/missions` | `POST /missions/attendance` `{}` |
+| 교환 상품 | `/rewards/catalog` | 서버/운영자 관리 |
+| 교환 내역 | `/reward-claims?cursor=&limit=20` | `POST /reward-claims` `{rewardId,recipient:{phone,name},agreementVersion}` |
+| 광고 | `POST /ads/sessions`로 세션과 HTTPS `launchUrl` 발급 | `POST /ads/sessions/verify` `{sessionId}` |
 
-### 주식 — `src/js/services/stock.service.js`
+API 모드에서는 광고가 외부 HTTPS 창에서 열립니다. 제공자 콜백을 서버가 검증하고, 복귀 후 완료 확인 요청이 `status: VERIFIED`를 반환해야 보상 내역을 다시 읽습니다. 클라이언트 타이머나 버튼 클릭만으로 보상을 발급하지 마세요. 선택한 광고 SDK가 외부 링크 방식을 지원하지 않는다면 `watch-ad` 이벤트와 `adStart`의 `launchUrl` 계약을 해당 네이티브 SDK 브리지로 교체하고 실기기 검증해야 합니다. 광고 사업자 미선정 상태에서 SDK 연동 완료를 의미하지 않습니다.
 
-| 기능 | 메서드 | 경로 | 설명 |
-|---|---|---|---|
-| 시가총액 상위 종목 | GET | `/stocks/top` | 종목 코드+이름 목록 |
-| 실시간 시세 | POST | `/stocks/prices` | `{ codes: string[] }` → 시세 배열 |
-| 종목 검색 | GET | `/stocks/search?q=` | 검색어 기반 종목 반환 |
+예측 화면은 서버 `serverTime`, `closesAt`, `status`로 마감을 표시하고 서버가 최종 판정합니다. 기기 시계 대신 로드 후 경과 시간을 사용합니다. 예측 ID·차감 예측권 종류·선택 방향은 서버 목록에서 표시합니다. 출석·미션 포인트 역시 서버 트랜잭션에서 지급해야 합니다.
 
----
+`rewardId`의 가격·재고·수령 동의 버전은 서버에서 다시 확인합니다. 프론트 금액은 지급 권한의 근거가 아닙니다. 현재 수령 번호 형식은 `010` + 8자리, 이름은 2~40자이며 실제 지급 사업자 계약에 맞게 백엔드와 함께 변경하세요. 이름·번호는 전송용 폼 메모리에만 두고 브라우저 영구 저장소나 로그에 넣지 않습니다. 오류 뒤 현재 폼은 유지되고 화면을 떠나면 지워집니다.
 
-### 예측 — `src/js/services/prediction.service.js`
+## 멱등성과 실패
 
-| 기능 | 메서드 | 경로 | 설명 |
-|---|---|---|---|
-| 예측 제출 | POST | `/predictions` | `{ ticker, direction: 'up'|'down' }` |
-| 결과 조회 | GET | `/predictions/result?date=` | 당일 결과 반환 |
-| 히스토리 조회 | GET | `/predictions/history` | 전체 예측 기록 |
+- 같은 키/같은 사용자/같은 본문 요청은 같은 결과를 반환합니다. 다른 본문에 같은 키가 오면 `IDEMPOTENCY_CONFLICT`로 거절합니다.
+- 예측 저장·예측권 차감, 결과 수령·포인트 원장, 교환 접수·포인트 차감은 각각 원자적 트랜잭션이어야 합니다.
+- 네트워크 오류 후 수동 재시도와 같은 탭 새로고침은 보류 중인 키를 재사용합니다. 보류 정보에는 수령인 이름·번호가 없고 상품 ID만 있으므로, 결과가 불확실한 요청의 수령 정보를 바꿔 재시도하면 서버에서 충돌을 거절해야 합니다. 먼저 기존 처리 내역을 확인하세요.
+- 서버는 사용자/종목/회차 중복, 사용자/출석일 중복, 보상/수령 중복을 키와 별도로 제한해야 합니다. 서로 다른 탭이나 기기는 다른 키를 만들 수 있습니다.
+- 세션 만료 401은 보호 화면을 비우고 로그인을 요청합니다. 포인트 부족·마감·중복은 오류 코드로 전달합니다. 서버의 원문 오류 메시지나 스택을 사용자에게 표시하지 않습니다.
 
----
+주요 오류 코드: `SESSION_EXPIRED`, `PREDICTION_CLOSED`, `ALREADY_PREDICTED`, `INSUFFICIENT_TICKETS`, `INSUFFICIENT_POINTS`, `ALREADY_CLAIMED`, `AD_NOT_VERIFIED`, `AD_UNAVAILABLE`, `AGREEMENT_REQUIRED`, `VALIDATION_ERROR`, `RATE_LIMITED`, `IDEMPOTENCY_CONFLICT`.
 
-### 랭킹 — `src/js/services/ranking.service.js`
+## 실제 백엔드 검증의 남은 범위
 
-| 기능 | 메서드 | 경로 | 설명 |
-|---|---|---|---|
-| 연승 랭킹 | GET | `/ranking/streak` | top3 + list + 내 순위 |
-| 승률 랭킹 | GET | `/ranking/winrate` | top3 + list + 내 순위 (분기별) |
-
-**응답 구조 (연승 랭킹):**
-```json
-{
-  "myRank": { "rank": 243, "nickname": "...", "streak": 7, "change": 12 },
-  "top3": [
-    { "rank": 1, "name": "...", "streak": 89 }
-  ],
-  "list": [
-    { "rank": 4, "name": "...", "streak": 42 }
-  ]
-}
-```
-
----
-
-### 유저 — `src/js/services/user.service.js`
-
-| 기능 | 메서드 | 경로 | 설명 |
-|---|---|---|---|
-| 프로필 조회 | GET | `/users/me` | 닉네임, 연승, 정확도 등 |
-| 닉네임 수정 | PUT | `/users/me/nickname` | `{ nickname }` |
-
----
-
-## 3. JWT 인증 처리
-
-`src/js/services/api.js`의 `apiRequest` 함수가 모든 요청에 JWT를 자동으로 첨부합니다.
-
-```js
-// api.js 내부 — 별도 수정 불필요
-const token = Storage.get('auth_token');
-if (token) headers['Authorization'] = `Bearer ${token}`;
-```
-
-토큰 저장/삭제:
-- 저장: 로그인 성공 시 `Storage.set('auth_token', res.token)`
-- 삭제: `src/js/services/auth.service.js` 의 `logout()` 함수 자동 처리
-
-토큰 만료(401) 처리가 필요하면 `apiRequest` 함수에 인터셉터를 추가하세요:
-
-```js
-// api.js — apiRequest 함수 수정
-const res = await fetch(...);
-
-if (res.status === 401) {
-  Storage.remove('auth_token');
-  location.href = '/pages/login.html';
-  return;
-}
-```
-
----
-
-## 4. CORS 설정 (Spring Boot)
-
-```java
-@Configuration
-public class CorsConfig implements WebMvcConfigurer {
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:3000", "https://your-domain.com")
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedHeaders("*")
-                .allowCredentials(true);
-    }
-}
-```
-
----
-
-## 5. API 응답 공통 포맷 (권장)
-
-```json
-{
-  "success": true,
-  "data": { ... },
-  "message": "ok"
-}
-```
-
-현재 서비스 파일은 `res.data` 또는 `res` 직접 접근 방식 모두 지원합니다.  
-Spring Boot 응답 구조가 달라질 경우 `api.js`의 `apiRequest`에서 `res.json()` 파싱 이후 변환 레이어를 추가하면 됩니다.
-
----
-
-## 6. 카카오 로그인 SDK 설정
-
-`pages/login.html` `<head>`에 카카오 SDK 스크립트 추가:
-
-```html
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
-        integrity="sha384-TiCUE00h649CAMonG018J1HnFBfYUCsAkAP7h1OBpjKNM8EMijhFJ/tRbcASIbYz"
-        crossorigin="anonymous"></script>
-<script>
-  Kakao.init('YOUR_KAKAO_APP_KEY');
-</script>
-```
-
----
-
-## 7. 전환 체크리스트
-
-```
-[ ] api.js — USE_MOCK: false, BASE_URL 실제 주소로 변경
-[ ] login.html — Kakao SDK 스크립트 추가 및 초기화
-[ ] login.html — kakao-btn 클릭 핸들러에 실제 SDK 연동
-[ ] Spring Boot — /api/** CORS 허용 설정
-[ ] Spring Boot — JWT 발급/검증 미들웨어 구현
-[ ] 각 서비스 엔드포인트 — Spring Boot 컨트롤러와 경로 일치 확인
-[ ] 배포 환경 — BASE_URL을 프로덕션 주소로 변경
-```
-
----
-
-## 8. mock 코드 제거 (선택, 정리 단계)
-
-`USE_MOCK = false` 전환 후 안정화되면 각 서비스의 mock 분기를 정리합니다.
-
-```js
-// 정리 전
-async getProfile() {
-  if (API_CONFIG.USE_MOCK) return api.mock(this.MOCK_USER);
-  return api.get('/users/me');
-}
-
-// 정리 후
-async getProfile() {
-  return api.get('/users/me');
-}
-```
-
-`MOCK_*` 상수 및 `api.mock()` 호출 라인을 일괄 삭제하면 됩니다.
+자동 테스트의 API 모드는 로컬 계약 시뮬레이터를 사용합니다. Spring 서버 실행, 실제 OAuth 제공자, 광고 서버 콜백, 지급 사업자, 실계정 원장과 네트워크 CORS는 아직 검증하지 않았습니다. 필요한 계약/정책은 [출시 준비 계획](docs/RELEASE_PLAN.md)과 [정책 협의 목록](BACKEND_DISCUSSION_CHECKLIST.md)을 확인하세요.

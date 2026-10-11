@@ -4,14 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Candle</title>
+  <link rel="icon" href="./src/assets/core-flow/candle-logo.png" type="image/png">
   <script>
-    const visited = localStorage.getItem('candle_visited');
-    if (!visited) {
-      localStorage.setItem('candle_visited', 'true');
-      location.replace('./pages/onboarding.html');
-    } else {
-      location.replace('./pages/home.html');
-    }
+    location.replace('./core-flow.html' + location.search + location.hash);
   </script>
 </head>
 <body></body>

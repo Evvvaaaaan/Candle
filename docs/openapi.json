@@ -1,0 +1,2997 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Candle Frontend Integration Contract",
+    "version": "1.0.0",
+    "description": "2026-10-11 프론트 연동 계약. stocks/top-list만 로컬 Spring 코드에서 구현을 확인했다. 나머지는 합의/구현이 필요한 계약이며 실서비스 구현 완료를 의미하지 않는다. 예시는 데모 데이터다."
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "paths": {
+    "/auth/session": {
+      "get": {
+        "operationId": "getAuthSession",
+        "description": "미로그인 상태도 200과 user:null을 반환한다. 인증된 세션은 CSRF 토큰과 온보딩 상태를 반환한다.",
+        "x-implementation-status": "proposed",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                },
+                "example": {
+                  "user": {
+                    "id": "user-123",
+                    "nickname": "Candle 회원",
+                    "consentRequired": false
+                  },
+                  "providers": [
+                    "kakao",
+                    "google"
+                  ],
+                  "csrfToken": "session-csrf-token"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/legal/agreements/current": {
+      "get": {
+        "operationId": "getLegalAgreementsCurrent",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agreements"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": "age",
+                      "title": "만 14세 이상입니다",
+                      "version": "demo-1",
+                      "required": true,
+                      "body": "데모 가입 흐름 확인용 연령 확인 항목입니다. 운영 정책은 서비스 출시 전에 확정합니다."
+                    },
+                    {
+                      "id": "terms",
+                      "title": "서비스 이용약관 동의",
+                      "version": "demo-1",
+                      "required": true,
+                      "body": "이 화면은 기능 확인용 데모입니다. 예측·포인트·리워드는 실제 금전적 가치가 없으며 실제 지급은 발생하지 않습니다. 운영용 이용약관은 백엔드에서 승인된 버전으로 제공해야 합니다."
+                    },
+                    {
+                      "id": "privacy",
+                      "title": "개인정보 처리방침 동의",
+                      "version": "demo-1",
+                      "required": true,
+                      "body": "데모에는 실제 개인정보를 입력하지 마세요. 데모 기록은 현재 브라우저에 저장됩니다. 지급 폼의 이름과 전화번호 원문은 저장하지 않습니다. 운영용 개인정보 처리방침은 처리 목적, 항목, 보관 기간과 책임자를 확정한 뒤 제공합니다."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stocks/top-list": {
+      "get": {
+        "operationId": "getStocksTopList",
+        "description": "로컬 StockController에서 확인한 기존 API. currentPrice/changeRate는 문자열. currentPrice 0인 미수신 종목은 서버가 제외한다.",
+        "x-implementation-status": "verified-in-local-backend",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StockPriceDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/prediction-tickets": {
+      "get": {
+        "operationId": "getPredictionTickets",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tickets"
+                },
+                "example": {
+                  "free": 1,
+                  "ad": 0,
+                  "adCount": 0,
+                  "adLimit": 10
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predictions/today": {
+      "get": {
+        "operationId": "getPredictionsToday",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Predictions"
+                },
+                "example": {
+                  "status": "OPEN",
+                  "serverTime": "2026-10-10T17:29:04.194Z",
+                  "closesAt": "2026-10-11T23:59:59+09:00",
+                  "nextCursor": null,
+                  "items": [
+                    {
+                      "id": "demo-result",
+                      "stockCode": "005930",
+                      "stockName": "삼성전자",
+                      "direction": "up",
+                      "ticket": "free",
+                      "today": false,
+                      "status": "WON",
+                      "points": 15,
+                      "claimed": false
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wallet": {
+      "get": {
+        "operationId": "getWallet",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Wallet"
+                },
+                "example": {
+                  "balance": 12800,
+                  "items": [],
+                  "nextCursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/missions": {
+      "get": {
+        "operationId": "getMissions",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Missions"
+                },
+                "example": {
+                  "attended": false,
+                  "streak": 3,
+                  "items": [
+                    {
+                      "title": "오늘의 예측 완료",
+                      "points": 10,
+                      "complete": false
+                    },
+                    {
+                      "title": "광고 예측권 받기",
+                      "points": 5,
+                      "complete": false
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rewards/catalog": {
+      "get": {
+        "operationId": "getRewardsCatalog",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Catalog"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": "naverpay-5000",
+                      "title": "네이버페이 5,000원권",
+                      "points": 5000,
+                      "amount": 5000,
+                      "available": true,
+                      "deliveryNotice": "데모 · 실제 발송 없음",
+                      "agreementVersion": "demo-reward-1",
+                      "agreementBody": "교환 흐름 확인용 데모입니다. 실제 개인정보를 입력하지 마세요. 입력한 이름과 전화번호 원문은 저장하지 않으며 실제 지급 신청이나 발송은 발생하지 않습니다."
+                    },
+                    {
+                      "id": "naverpay-10000",
+                      "title": "네이버페이 10,000원권",
+                      "points": 10000,
+                      "amount": 10000,
+                      "available": true,
+                      "deliveryNotice": "데모 · 실제 발송 없음",
+                      "agreementVersion": "demo-reward-1",
+                      "agreementBody": "교환 흐름 확인용 데모입니다. 실제 개인정보를 입력하지 마세요. 입력한 이름과 전화번호 원문은 저장하지 않으며 실제 지급 신청이나 발송은 발생하지 않습니다."
+                    },
+                    {
+                      "id": "naverpay-50000",
+                      "title": "네이버페이 50,000원권",
+                      "points": 50000,
+                      "amount": 50000,
+                      "available": true,
+                      "deliveryNotice": "데모 · 실제 발송 없음",
+                      "agreementVersion": "demo-reward-1",
+                      "agreementBody": "교환 흐름 확인용 데모입니다. 실제 개인정보를 입력하지 마세요. 입력한 이름과 전화번호 원문은 저장하지 않으며 실제 지급 신청이나 발송은 발생하지 않습니다."
+                    },
+                    {
+                      "id": "naverpay-100000",
+                      "title": "네이버페이 100,000원권",
+                      "points": 100000,
+                      "amount": 100000,
+                      "available": true,
+                      "deliveryNotice": "데모 · 실제 발송 없음",
+                      "agreementVersion": "demo-reward-1",
+                      "agreementBody": "교환 흐름 확인용 데모입니다. 실제 개인정보를 입력하지 마세요. 입력한 이름과 전화번호 원문은 저장하지 않으며 실제 지급 신청이나 발송은 발생하지 않습니다."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reward-claims": {
+      "get": {
+        "operationId": "getRewardClaims",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimPage"
+                },
+                "example": {
+                  "items": [],
+                  "nextCursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "postRewardClaims",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RewardRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predictions/history": {
+      "get": {
+        "operationId": "getPredictionsHistory",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictionPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wallet/transactions": {
+      "get": {
+        "operationId": "getWalletTransactions",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/legal/agreements": {
+      "post": {
+        "operationId": "postLegalAgreements",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Consent"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predictions": {
+      "post": {
+        "operationId": "postPredictions",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictionRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/missions/attendance": {
+      "post": {
+        "operationId": "postMissionsAttendance",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predictions/claim": {
+      "post": {
+        "operationId": "postPredictionsClaim",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "predictionId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "predictionId"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ads/sessions": {
+      "post": {
+        "operationId": "postAdsSessions",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdSession"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ads/sessions/verify": {
+      "post": {
+        "operationId": "postAdsSessionsVerify",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdVerified"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sessionId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "sessionId"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "postAuthLogout",
+        "description": "프론트에서 호출하는 제안 계약. 백엔드 구현 필요.",
+        "x-implementation-status": "proposed",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공. 직접 JSON 응답이 기준이며 success/data 래퍼도 프론트에서 지원한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "오류. 본문 code에 따라 프론트가 안전한 사용자 문구를 표시한다.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/{provider}/start": {
+      "get": {
+        "operationId": "startOAuth",
+        "description": "서버가 OAuth state/nonce 및 필요 시 PKCE를 검증하고 세션 쿠키를 설정한 후 승인된 returnTo 주소로 리다이렉트한다. 토큰은 URL에 넣지 않는다.",
+        "security": [],
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "kakao",
+                "naver",
+                "google",
+                "apple"
+              ]
+            }
+          },
+          {
+            "name": "returnTo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "제공자 인증 또는 allowlist에 있는 프론트 주소로 이동"
+          },
+          "400": {
+            "description": "허용되지 않은 제공자 또는 returnTo"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "sessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "CANDLE_SESSION",
+        "description": "운영 서버 발급 HttpOnly Secure 쿠키. 프론트는 쿠키를 읽지 않는다."
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": false
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "requestId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "success",
+          "error"
+        ],
+        "additionalProperties": false
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "consentRequired": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "nickname",
+          "consentRequired"
+        ],
+        "additionalProperties": false
+      },
+      "Session": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "providers": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "kakao",
+                "naver",
+                "google",
+                "apple"
+              ]
+            }
+          },
+          "csrfToken": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "user",
+          "providers",
+          "csrfToken"
+        ],
+        "additionalProperties": false
+      },
+      "Agreement": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "version",
+          "body",
+          "required"
+        ],
+        "additionalProperties": false
+      },
+      "Agreements": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Agreement"
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "Consent": {
+        "type": "object",
+        "properties": {
+          "agreements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                },
+                "accepted": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "version",
+                "accepted"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "agreements"
+        ],
+        "additionalProperties": false
+      },
+      "StockPriceDto": {
+        "type": "object",
+        "properties": {
+          "ticker": {
+            "type": "string",
+            "pattern": "^\\d{6}$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "currentPrice": {
+            "type": "string"
+          },
+          "changeRate": {
+            "type": "string"
+          },
+          "changePrice": {
+            "type": "string"
+          },
+          "logoUrl": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "market": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ticker",
+          "name",
+          "currentPrice",
+          "changeRate"
+        ],
+        "additionalProperties": false
+      },
+      "Tickets": {
+        "type": "object",
+        "properties": {
+          "free": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "ad": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "adCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "adLimit": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "free",
+          "ad",
+          "adCount",
+          "adLimit"
+        ],
+        "additionalProperties": false
+      },
+      "Prediction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "stockCode": {
+            "type": "string",
+            "pattern": "^\\d{6}$"
+          },
+          "stockName": {
+            "type": "string"
+          },
+          "direction": {
+            "enum": [
+              "up",
+              "down"
+            ]
+          },
+          "ticket": {
+            "enum": [
+              "free",
+              "ad"
+            ]
+          },
+          "today": {
+            "type": "boolean"
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "WON",
+              "LOST",
+              "VOID"
+            ]
+          },
+          "points": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "claimed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "stockCode",
+          "stockName",
+          "direction",
+          "ticket",
+          "today",
+          "status",
+          "points",
+          "claimed"
+        ],
+        "additionalProperties": false
+      },
+      "Predictions": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "enum": [
+              "OPEN",
+              "CLOSED",
+              "SCHEDULED"
+            ]
+          },
+          "serverTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "closesAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Prediction"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "serverTime",
+          "closesAt",
+          "items",
+          "nextCursor"
+        ],
+        "additionalProperties": false
+      },
+      "PredictionPage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Prediction"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "nextCursor"
+        ],
+        "additionalProperties": false
+      },
+      "PredictionRequest": {
+        "type": "object",
+        "properties": {
+          "stockCode": {
+            "type": "string",
+            "pattern": "^\\d{6}$"
+          },
+          "direction": {
+            "enum": [
+              "up",
+              "down"
+            ]
+          }
+        },
+        "required": [
+          "stockCode",
+          "direction"
+        ],
+        "additionalProperties": false
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "amount",
+          "createdAt"
+        ],
+        "additionalProperties": false
+      },
+      "Wallet": {
+        "type": "object",
+        "properties": {
+          "balance": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Transaction"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "balance",
+          "items",
+          "nextCursor"
+        ],
+        "additionalProperties": false
+      },
+      "TransactionPage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Transaction"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "nextCursor"
+        ],
+        "additionalProperties": false
+      },
+      "Missions": {
+        "type": "object",
+        "properties": {
+          "attended": {
+            "type": "boolean"
+          },
+          "streak": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "points": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "complete": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "title",
+                "points",
+                "complete"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "attended",
+          "streak",
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "points": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "amount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "deliveryNotice": {
+            "type": "string"
+          },
+          "agreementVersion": {
+            "type": "string"
+          },
+          "agreementBody": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "points",
+          "amount",
+          "available",
+          "deliveryNotice",
+          "agreementVersion",
+          "agreementBody"
+        ],
+        "additionalProperties": false
+      },
+      "Catalog": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "RewardClaim": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "points": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "status": {
+            "enum": [
+              "REQUESTED",
+              "PROCESSING",
+              "PAID",
+              "FAILED",
+              "REJECTED",
+              "CANCELED"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "points",
+          "status",
+          "createdAt"
+        ],
+        "additionalProperties": false
+      },
+      "ClaimPage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RewardClaim"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "nextCursor"
+        ],
+        "additionalProperties": false
+      },
+      "RewardRequest": {
+        "type": "object",
+        "properties": {
+          "rewardId": {
+            "type": "string"
+          },
+          "recipient": {
+            "type": "object",
+            "properties": {
+              "phone": {
+                "type": "string",
+                "pattern": "^010\\d{8}$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 40
+              }
+            },
+            "required": [
+              "phone",
+              "name"
+            ],
+            "additionalProperties": false
+          },
+          "agreementVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "rewardId",
+          "recipient",
+          "agreementVersion"
+        ],
+        "additionalProperties": false
+      },
+      "Id": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "AdSession": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "const": "READY"
+          },
+          "launchUrl": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "launchUrl"
+        ],
+        "additionalProperties": false
+      },
+      "AdVerified": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "const": "VERIFIED"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "additionalProperties": false
+      },
+      "Ok": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "const": true
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      }
+    }
+  }
+}
