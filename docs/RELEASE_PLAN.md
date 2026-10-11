@@ -28,6 +28,7 @@
 - 최종 `npm run check` 통과: 코드 포맷 검사, 단위/계약 테스트 **28개**, 운영 빌드, 브라우저 검사 **254개**, JavaScript 오류 **0개**. 브라우저 검사는 21개 화면을 320×568부터 1440×1000까지 10가지 크기로 검사하며, 버튼 접근성·광고 완료·지급 재시도·약관 조회 후 입력 유지·인증 만료·빈 결과·문자열 주입·이전 내역 조회를 포함한다.
 - `dist/`를 직접 서비스한 API 모드의 로그인/동의/홈 진입을 확인했고, 데모 어댑터·구형 화면·개발 서버·Git 파일이 제공되지 않는 것을 검사했다. 외부 Spring/OAuth/광고/지급 서버가 아닌 로컬 계약 시뮬레이터로 검증했다.
 - 검증 결과: [검사 목록](verification.json), [모바일 홈](screenshots/home-mobile.png), [로그인 화면](screenshots/signup-desktop.png). CI는 GitHub Actions의 같은 `npm run check` 절차를 사용한다.
+- GitHub Actions의 첫 실행도 통과했다. 실행 로그의 구형 Action 런타임 지원 중단 경고와 `ubuntu-latest` 전환 안내를 확인하여 공식 Actions 릴리스 및 `ubuntu-24.04`로 고정했다. 재실행 결과는 저장소 Actions 탭에서 해당 커밋과 함께 확인할 수 있다.
 
 ## 실제 출시 승인에 필요한 외부 작업
 
