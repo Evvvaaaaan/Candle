@@ -80,6 +80,48 @@ try {
   await click('#consent-submit');
   await wait('home');
   check('home header has no more button', (await page.locator('.more-button').count()) === 0);
+  check(
+    'home preserves the original challenge, points, advertising and stock order',
+    await page.locator('.content').evaluate((content) => {
+      const cards = [...content.children].filter((x) =>
+        x.matches('.streak-reward,.points-card,.home-ad-slot,.stock-card')
+      );
+      return (
+        cards.length === 4 &&
+        cards[0].matches('.streak-reward') &&
+        cards[1].matches('.points-card') &&
+        cards[2].matches('.home-ad-slot') &&
+        cards[3].matches('.stock-card')
+      );
+    })
+  );
+  check(
+    'challenge banner retains the reward amount and drawing condition',
+    (await page.locator('.streak-reward').textContent()).includes('100만원') &&
+      (await page.locator('.streak-reward').textContent()).includes('달성자 중 추첨')
+  );
+  await click('.streak-reward');
+  await wait('challenge');
+  check(
+    'challenge opens readable details without claiming a guaranteed payout',
+    (await page.locator('.challenge-rules').textContent()).includes('지급이 확정되지는 않습니다')
+  );
+  await page.screenshot({ path: `${output}/challenge-desktop.png` });
+  await click('.content [data-route=prediction]');
+  await wait('prediction');
+  await click('.bottom-nav [data-route=home]');
+  await wait('home');
+  check(
+    'home ad has a visible AD label and names the actual internal advertiser',
+    (await page.locator('.home-ad-meta').textContent()).includes('AD') &&
+      (await page.locator('.home-ad-meta').textContent()).includes('Candle')
+  );
+  await click('.home-ad-slot');
+  await wait('prediction');
+  check(
+    'home ad opens the advertised prediction flow without awarding a ticket',
+    (await page.locator('.ticket-total').textContent()) === '1회'
+  );
   await page.goto(`${base}/`);
   await wait('home');
   check('returning member enters home directly', !page.url().includes('#signup'));
@@ -243,6 +285,7 @@ try {
       'signup',
       'consent',
       'home',
+      'challenge',
       'stock-select',
       'prediction',
       'confirm',
@@ -302,7 +345,16 @@ try {
   await go('signup');
   await page.screenshot({ path: `${output}/signup-mobile.png` });
 
-  for (const route of ['profile', 'wallet', 'missions', 'shop', 'history', 'result', 'settings']) {
+  for (const route of [
+    'profile',
+    'wallet',
+    'missions',
+    'shop',
+    'history',
+    'result',
+    'settings',
+    'challenge',
+  ]) {
     await go(route);
     await page.screenshot({ path: `${output}/${route}-mobile.png` });
   }
@@ -566,6 +618,10 @@ try {
     await prodPage.locator('#agree-all').check();
     await prodPage.locator('#consent-submit').click();
     await prodPage.locator('[data-screen=home]').waitFor();
+    check(
+      'production home retains the challenge and advertisement',
+      (await prodPage.locator('.streak-reward,.home-ad-slot').count()) === 2
+    );
     check(
       'production artifact completes the HTTP login and consent flow',
       (await prodPage.locator('.points-card').count()) === 1

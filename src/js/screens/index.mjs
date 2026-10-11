@@ -2,6 +2,7 @@ import renderSplash from './splash.mjs';
 import renderSignup from './signup.mjs';
 import renderConsent from './consent.mjs';
 import renderHome from './home.mjs';
+import renderChallenge from './challenge.mjs';
 import renderStockSelect from './stock-select.mjs';
 import renderPrediction from './prediction.mjs';
 import renderConfirm from './confirm.mjs';
@@ -25,6 +26,7 @@ export const pages = {
   signup: { title: '로그인', render: renderSignup },
   consent: { title: '가입 전 확인', render: renderConsent },
   home: { title: '홈', render: renderHome },
+  challenge: { title: '10연승 챌린지', render: renderChallenge },
   'stock-select': { title: '종목 선택', render: renderStockSelect },
   prediction: { title: '예측', render: renderPrediction },
   confirm: { title: '예측 확인', render: renderConfirm },

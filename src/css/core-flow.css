@@ -2184,3 +2184,15 @@ a.primary-button { display: flex; justify-content: center; align-items: center; 
 .record-points { font-size: 16px; font-weight: 700; }
 .empty-state { text-align: center; color: var(--text-mid); }
 .empty-icon { width: 52px; height: 52px; margin-bottom: 12px; background: var(--surface-subtle); color: var(--text-mid); }
+
+
+.challenge-card { margin-top: 12px; text-align: center; padding: 24px 16px; }
+.challenge-icon { width: 56px; height: 56px; margin-bottom: 16px; border-radius: 18px; color: #9a6700; background: #fff8e8; }
+.challenge-icon .ui-icon { width: 30px; height: 30px; }
+.challenge-card h2 { margin-top: 6px; font-size: 26px; line-height: 36px; }
+.challenge-card h2 + p { margin-top: 12px; color: var(--text-mid); font-size: 13px; line-height: 21px; }
+.challenge-rules { margin-top: 12px; }
+.challenge-rules ol { margin-top: 14px; display: grid; gap: 14px; }
+.challenge-rules li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 22px; }
+.challenge-rules li > span { width: 22px; height: 22px; flex: 0 0 22px; border-radius: 50%; text-align: center; color: var(--primary); background: var(--primary-light); font-size: 11px; font-weight: 700; }
+.challenge-rules .field-help { margin-top: 16px; }

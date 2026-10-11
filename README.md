@@ -56,7 +56,8 @@ CANDLE_API_BASE_URL=https://api.example.com/api/v1 npm run build
 |---|---|---|
 | `#signup` | [signup.mjs](src/js/screens/signup.mjs) | 비로그인 진입, 서버가 활성화한 간편 로그인 제공자 |
 | `#consent` | [consent.mjs](src/js/screens/consent.mjs) | 필수 동의가 필요한 계정의 가입 단계 |
-| `#home` | [home.mjs](src/js/screens/home.mjs) | 잔액·종목·방향 선택, 결과 확인 |
+| `#home` | [home.mjs](src/js/screens/home.mjs) | 10연승 안내·포인트·광고·종목·방향 선택 |
+| `#challenge` | [challenge.mjs](src/js/screens/challenge.mjs) | 10연승 달성자 대상 추첨 리워드 안내 |
 | `#stock-select` | [stock-select.mjs](src/js/screens/stock-select.mjs) | 종목 변경, 검색·시장 필터 |
 | `#prediction` | [prediction.mjs](src/js/screens/prediction.mjs) | 방향과 예측권 확인 |
 | `#confirm` | [confirm.mjs](src/js/screens/confirm.mjs) | 제출 직전 확인 |
@@ -93,6 +94,15 @@ CANDLE_API_BASE_URL=https://api.example.com/api/v1 npm run build
 내부 `demo` 식별자와 저장 키는 기존 로컬 기록 호환용입니다. 서비스 화면에는 해당 이름이나 화면 선택 패널을 표시하지 않습니다. 과거 `pages/`, `src/js/services/api.js`는 현재 앱 경로에 연결되지 않습니다. 구형 `USE_MOCK` 설정을 바꿔도 이 앱에는 적용되지 않습니다.
 
 네이버페이 상품 로고는 공식 배포 SVG를 사용합니다. 출처·원본 파일·사용 위치와 출시 전 제휴 검수 확인은 [브랜드 자산 기록](docs/BRAND_ASSETS.md)에 정리했습니다.
+
+### 홈의 연승 안내와 광고 영역
+
+기존 Core Flow 디자인의 순서인 **10연승 안내, 포인트 카드, AD 배너, 종목 카드**를 유지합니다. 백엔드 미연결을 이유로 이 영역을 화면에서 삭제하지 않습니다.
+
+- 연승 문구는 기존 디자인의 ‘10연승하고 100만원 리워드에 도전’과 ‘달성자 중 추첨’을 유지합니다. 클릭하면 `#challenge` 안내를 열고 예측·결과 화면으로 이동할 수 있습니다. 현재 연승 수나 당첨 여부를 임의로 만들거나, 포인트 교환 신청을 연승 리워드 신청으로 취급하지 않습니다.
+- 실제 연승 판정, 추첨 회차·기간·선정 인원, 신청 자격·지급 상태는 백엔드에서 제공해야 합니다. 현재 상세 화면은 안내이며 추첨/지급 처리는 구현되어 있지 않습니다. 출시 전에 운영 정책과 API를 확정해야 합니다.
+- AD 배너는 기존 파란 그라데이션과 ‘하루 1분, 금융 감각을 키우는 습관’ 문구를 유지합니다. 현재 광고주는 Candle 자체이고 클릭하면 예측 화면으로 이동합니다. 클릭만으로 예측권이나 포인트를 지급하지 않습니다.
+- 외부 광고 도입 시 광고 소재·광고주 표시·랜딩 주소·노출/클릭 집계 계약을 연결해야 합니다. 홈페이지 배너와 `/ads/sessions`의 보상형 영상 광고는 별개입니다. 광고 사업자가 미정이어도 배너의 자리와 디자인은 보존합니다.
 
 ## 3. 백엔드 팀: 먼저 확인할 구현 범위
 
@@ -186,6 +196,6 @@ CANDLE_API_BASE_URL=https://api.example.com/api/v1 npm run build
 - [ ] 지원 대상 브라우저/실기기에서 화면·터치·키보드·외부 로그인·광고 복귀를 확인했다.
 - [ ] 오류 관측, 담당자, 롤백 버전과 배포 기록을 준비했다.
 
-브라우저 자동 검사는 로그인부터 예측·수령·교환까지 실제 버튼으로 진행합니다. 추가로 21개 화면을 10개 화면 크기에서 검사하고, 개발용 문구·메뉴의 부재와 상승 화살표 대비도 확인합니다. API 검사는 로컬 계약 서버를 사용합니다. 실제 OAuth·광고·지급, Safari, Android/iOS 실기기는 별도 인수 검증 대상입니다.
+브라우저 자동 검사는 로그인부터 예측·수령·교환까지 실제 버튼으로 진행합니다. 추가로 22개 화면을 10개 화면 크기에서 검사하고, 개발용 문구·메뉴의 부재와 상승 화살표 대비도 확인합니다. API 검사는 로컬 계약 서버를 사용합니다. 실제 OAuth·광고·지급, Safari, Android/iOS 실기기는 별도 인수 검증 대상입니다.
 
 검사 결과는 `test-results/results.json`, 화면 캡처는 `test-results/*.png`에 생성됩니다. 마지막 공유 결과는 [docs/verification.json](docs/verification.json), 배포·복구 절차는 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md), 출시 범위는 [docs/RELEASE_PLAN.md](docs/RELEASE_PLAN.md)를 참조하세요.
