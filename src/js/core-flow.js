@@ -1,4 +1,5 @@
 import { uiIcon } from './ui/icons.mjs';
+import renderRewardAdSheet from './ui/reward-ad-sheet.mjs';
 import { recipientValue, validRecipient, validateChallengeReward } from './challenge-reward.mjs';
 import { pages, screens } from './screens/index.mjs';
 import { ApiError, errorMessage } from './api-client.mjs';
@@ -38,6 +39,7 @@ const state = {
   attempt: null,
   receiptId: null,
   ad: null,
+  adReturn: 'prediction',
   legalId: 'terms',
   legalReturn: 'settings',
   consent: {},
@@ -98,6 +100,10 @@ const ticketSummary = () =>
   `<span class="ticket-breakdown"><span>기본 무료 <strong>${n(data.tickets.free)}회</strong></span><span>광고 예측권 <strong>${n(data.tickets.ad)}장</strong></span></span>`;
 const ticketCard = () =>
   `<button class="ticket-card" type="button" data-route="pass"><span class="row-between"><span>사용 가능한 예측권</span><strong class="ticket-total">${n(totalTickets())}회</strong></span>${ticketSummary()}</button>`;
+const rewardAdButton = (label = '광고 보고 예측권 받기', disabled = false) => {
+  const available = data.tickets.adCount < data.tickets.adLimit;
+  return `<button class="primary-button" type="button" data-reward-ad${disabled || !available ? ' disabled' : ''}>${available ? e(label) : '오늘 광고 참여를 모두 마쳤어요'}</button>`;
+};
 const directionCard = (direction, disabled = false) =>
   `<button class="direction-card${state.direction === direction ? ' selected' : ''}" type="button" data-direction="${direction}" aria-pressed="${state.direction === direction}"${disabled ? ' disabled' : ''}><span class="direction-icon${direction === 'down' ? ' down' : ''}"><img src="${icon(direction === 'up' ? 'arrow-up.svg' : 'arrow-down.svg')}" alt=""></span><span><span class="direction-title">${direction === 'up' ? '상승' : '하락'}</span><span class="direction-caption">${direction === 'up' ? '오를 것 같아요' : '내릴 것 같아요'}</span></span></button>`;
 function stockCard(changeable = true) {
@@ -184,6 +190,7 @@ function render() {
     pointsCard,
     ticketSummary,
     ticketCard,
+    rewardAdButton,
     directionCard,
     stockCard,
     productCard,
@@ -200,10 +207,71 @@ function render() {
       if (count) count.textContent = `${remaining}초`;
       const verify = document.getElementById('verify-ad');
       if (verify) verify.disabled = remaining > 0;
+      if (remaining === 0 && !busy && !state.ad.autoChecked) {
+        state.ad.autoChecked = true;
+        verifyRewardAd();
+      }
     };
     update();
     adTimer = setInterval(update, 250);
   }
+}
+function openRewardAd(trigger) {
+  if (busy || document.getElementById('reward-ad-dialog')) return;
+  const remaining = data.tickets.adLimit - data.tickets.adCount;
+  if (remaining <= 0) return notify('오늘 광고 참여를 모두 마쳤어요.');
+  state.adReturn = routeName();
+  const dialog = document.createElement('dialog');
+  dialog.id = 'reward-ad-dialog';
+  dialog.className = 'reward-ad-dialog';
+  dialog.setAttribute('aria-labelledby', 'reward-ad-title');
+  dialog.setAttribute('aria-describedby', 'reward-ad-description');
+  dialog.innerHTML = renderRewardAdSheet({ remaining, limit: data.tickets.adLimit, demo });
+  app.append(dialog);
+  const closeSheet = () => {
+    dialog.close();
+    dialog.remove();
+    if (trigger.isConnected) trigger.focus({ preventScroll: true });
+  };
+  dialog.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    closeSheet();
+  });
+  dialog.querySelector('#cancel-reward-ad').onclick = closeSheet;
+  dialog.addEventListener('click', (event) => {
+    const rect = dialog.getBoundingClientRect();
+    if (
+      event.target === dialog &&
+      (event.clientY < rect.top || event.clientX < rect.left || event.clientX > rect.right)
+    )
+      closeSheet();
+  });
+  dialog.querySelector('#start-reward-ad').onclick = async () => {
+    if (busy) return;
+    closeSheet();
+    // Reserve the window during the user gesture; blocked popups have a visible link fallback.
+    const popup = demo ? null : window.open('about:blank', '_blank');
+    if (popup) popup.opener = null;
+    let started = false;
+    await action('adStart', {}, 'ad', (result) => {
+      if (!demo && new URL(result.launchUrl).protocol !== 'https:') throw new ApiError('INVALID_RESPONSE');
+      state.ad = { ...result, startedAt: Date.now(), awaitingReturn: !!popup };
+      if (popup && !popup.closed) popup.location.replace(result.launchUrl);
+      started = true;
+    });
+    if (!started) popup?.close();
+  };
+  dialog.showModal();
+}
+async function verifyRewardAd() {
+  if (busy || !state.ad || routeName() !== 'ad') return;
+  state.ad.awaitingReturn = false;
+  await action('adComplete', { sessionId: state.ad.id }, 'prediction');
+  if (!state.ad && !fatal && session?.user && routeName() === 'prediction')
+    notify('예측권을 받았어요. 선택한 종목으로 예측을 이어가세요.');
+}
+function checkReturningAd() {
+  if (!demo && !document.hidden && state.ad?.awaitingReturn) verifyRewardAd();
 }
 function showError(message) {
   let box = document.getElementById('action-error');
@@ -600,18 +668,11 @@ function bind() {
     .querySelectorAll('[data-claim]')
     .forEach((b) => (b.onclick = () => action('claim', { predictionId: b.dataset.claim }, null)));
   document.getElementById('logout')?.addEventListener('click', () => action('logout', {}, 'signup'));
-  document.getElementById('watch-ad')?.addEventListener('click', () =>
-    action('adStart', {}, 'ad', (result) => {
-      if (!demo) {
-        const url = new URL(result.launchUrl);
-        if (url.protocol !== 'https:') throw new ApiError('INVALID_RESPONSE');
-      }
-      state.ad = { ...result, startedAt: Date.now() };
-    })
-  );
-  document
-    .getElementById('verify-ad')
-    ?.addEventListener('click', () => action('adComplete', { sessionId: state.ad.id }, 'pass'));
+  document.querySelectorAll('[data-reward-ad]').forEach((b) => (b.onclick = () => openRewardAd(b)));
+  document.getElementById('verify-ad')?.addEventListener('click', verifyRewardAd);
+  document.getElementById('open-reward-ad')?.addEventListener('click', () => {
+    state.ad.awaitingReturn = true;
+  });
   const phone = document.getElementById('phone'),
     name = document.getElementById('name'),
     agree = document.getElementById('payout-agree'),
@@ -673,6 +734,7 @@ window.addEventListener('hashchange', () => {
   }
 });
 document.addEventListener('visibilitychange', () => {
+  checkReturningAd();
   if (
     !document.hidden &&
     !busy &&
@@ -682,6 +744,7 @@ document.addEventListener('visibilitychange', () => {
   )
     initialize();
 });
+window.addEventListener('focus', checkReturningAd);
 window.addEventListener('online', () => {
   if (fatal) initialize();
 });

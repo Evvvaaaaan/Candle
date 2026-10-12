@@ -51,6 +51,18 @@ try {
     'first visit opens login without a screen selection step',
     (await page.locator('#screen-picker,.prototype-panel').count()) === 0
   );
+  const legacyHome = await context.request.get(`${base}/pages/home.html?mode=api`, {
+    maxRedirects: 0,
+  });
+  check(
+    'legacy home redirects without caching and preserves the API mode',
+    legacyHome.status() === 302 &&
+      legacyHome.headers().location === '/core-flow.html?mode=api#home' &&
+      legacyHome.headers()['cache-control'] === 'no-store'
+  );
+  await page.goto(`${base}/pages/home.html`);
+  await wait('signup');
+  check('legacy home opens Core Flow login', new URL(page.url()).pathname === '/core-flow.html');
   await page.goto(`${base}/#signup`);
   await wait('signup');
   check(
@@ -245,7 +257,8 @@ try {
     await page.locator('.content [data-route=payout]').isDisabled()
   );
   await go('pass');
-  await click('#watch-ad');
+  await click('[data-reward-ad]');
+  await click('#start-reward-ad');
   await wait('ad');
   check('demo ad cannot be completed early', await page.locator('#verify-ad').isDisabled());
   await click('.content [data-route=pass]');
@@ -254,14 +267,13 @@ try {
     'closing an ad does not issue a ticket',
     (await page.locator('.ticket-total').textContent()) === '0회'
   );
-  await click('#watch-ad');
+  await click('[data-reward-ad]');
+  await click('#start-reward-ad');
   await wait('ad');
-  await page.waitForFunction(() => !document.querySelector('#verify-ad')?.disabled, {}, { timeout: 20000 });
-  await click('#verify-ad');
-  await wait('pass');
+  await page.locator('[data-screen=prediction]').waitFor({ timeout: 20000 });
   check('completed demo ad awards one ticket', (await page.locator('.ticket-total').textContent()) === '1회');
   await page.reload();
-  await wait('pass');
+  await wait('prediction');
   check(
     'ad reward survives reload without duplication',
     (await page.locator('.ticket-total').textContent()) === '1회'

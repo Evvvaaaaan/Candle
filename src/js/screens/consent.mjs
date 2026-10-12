@@ -1,4 +1,17 @@
+import { uiIcon } from '../ui/icons.mjs';
+
 export default function render(context) {
-  const { e, icon, data, legal, state, button, statusBar, backHeader, title } = context;
-  return `<section class="screen-view consent-screen" data-screen="consent">${statusBar()}${backHeader('가입 전 확인', 'signup')}<div class="consent-main">${title('약관에 동의해 주세요', '필수 내용을 확인한 뒤 계속해 주세요.')}<div class="consent-icon"><img src="${icon('consent-check.svg')}" alt=""></div><div class="agree-all"><label class="check-row"><input id="agree-all" type="checkbox"><strong>약관 전체 동의</strong></label></div><div class="card agreement-card">${legal.items.map((a, i) => `${i ? '<hr>' : ''}<div class="agreement-line"><label class="check-row"><input id="${e(a.id)}" class="agreement-checkbox${a.required ? ' required-agreement' : ''}" type="checkbox" data-agreement="${e(a.id)}"${state.consent[a.id] ? ' checked' : ''}><span>${e(a.title)} (${a.required ? '필수' : '선택'})</span></label><button type="button" data-legal="${e(a.id)}">보기</button></div>`).join('')}</div></div><button id="consent-submit" class="primary-button consent-action" type="button" disabled>동의하고 계속하기</button><p class="consent-footer">필수 항목에 동의해야 가입을 진행할 수 있습니다.</p></section>`;
+  const { e, icon, legal, state, statusBar } = context;
+  return `<section class="screen-view consent-screen" data-screen="consent">
+    ${statusBar()}
+    <header class="consent-header"><button class="consent-close" type="button" data-route="signup" aria-label="약관 동의 닫기"><span aria-hidden="true">×</span></button></header>
+    <div class="consent-main">
+      <div class="consent-intro"><img src="${icon('candle-logo.png')}" width="76" height="76" alt="Candle"><h1 tabindex="-1">고객님,<br>환영합니다!</h1></div>
+      <div class="consent-agreements" aria-label="가입 약관 동의">
+        <div class="agree-all"><label class="check-row"><input id="agree-all" type="checkbox"><strong>약관 전체동의</strong></label></div>
+        <div class="agreement-card">${legal.items.map((a) => `<div class="agreement-line"><label class="check-row"><input id="${e(a.id)}" class="agreement-checkbox${a.required ? ' required-agreement' : ''}" type="checkbox" data-agreement="${e(a.id)}"${state.consent[a.id] ? ' checked' : ''}><span>${e(a.title)} (${a.required ? '필수' : '선택'})</span></label><button type="button" data-legal="${e(a.id)}" aria-label="${e(a.title)} 내용 보기">${uiIcon('chevron')}</button></div>`).join('')}</div>
+      </div>
+    </div>
+    <button id="consent-submit" class="primary-button consent-action" type="button" disabled>다음</button>
+  </section>`;
 }

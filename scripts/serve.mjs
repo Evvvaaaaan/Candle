@@ -124,6 +124,14 @@ export function createServer({ contract = false, directory = root } = {}) {
         return;
       }
       const pathname = decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname);
+      if (directory === root && pathname === '/pages/home.html') {
+        res.writeHead(302, {
+          Location: `/core-flow.html${url.search}#home`,
+          'Cache-Control': 'no-store',
+        });
+        res.end();
+        return;
+      }
       if (!/^\/(index\.html|core-flow\.html|config\.js|src\/(assets|css|js)\/[^?]+)$/.test(pathname)) {
         res.writeHead(404);
         res.end();
@@ -160,7 +168,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const server = createServer({ contract });
   server.listen(port, '127.0.0.1', () =>
     console.log(
-      `Candle ${contract ? 'CONTRACT SIMULATOR (not a real backend)' : 'preview'}: http://127.0.0.1:${port}/${contract ? '?mode=api' : ''}`
+      `Candle ${contract ? 'CONTRACT SIMULATOR (not a real backend)' : 'preview'}: http://127.0.0.1:${port}/core-flow.html${contract ? '?mode=api' : ''}`
     )
   );
 }
