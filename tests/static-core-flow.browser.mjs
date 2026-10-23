@@ -288,6 +288,7 @@ try {
     for (const viewport of [
       { width: 390, height: 844 },
       { width: 320, height: 568 },
+      { width: 430, height: 932 },
       { width: 1440, height: 1000 },
     ]) {
       await page.setViewportSize(viewport);
@@ -304,6 +305,17 @@ try {
             brokenImages: [...node.querySelectorAll('img')]
               .filter((img) => !img.complete || img.naturalWidth === 0)
               .map((img) => img.src),
+            statusHeight: node.querySelector('.status-bar')?.getBoundingClientRect().height,
+            header: (() => {
+              const header = node.querySelector('.app-header, .transaction-header');
+              if (!header) return null;
+              const rect = header.getBoundingClientRect();
+              return { height: rect.height, bottom: rect.bottom };
+            })(),
+            contentTop: content.getBoundingClientRect().top,
+            introMargin:
+              node.querySelector('.signup-intro') &&
+              parseFloat(getComputedStyle(node.querySelector('.signup-intro')).marginTop),
           };
         });
         assert.ok(
@@ -311,9 +323,46 @@ try {
           `${route} overflows at ${viewport.width}: ${JSON.stringify(layout)}`
         );
         assert.deepEqual(layout.brokenImages, []);
+        if (layout.statusHeight !== undefined)
+          assert.equal(layout.statusHeight, 0, 'browser viewport must not reserve a fake status bar');
+        if (layout.header)
+          assert.ok(
+            layout.header.height >= 44 && layout.header.height <= 56,
+            `${route}: compact header keeps usable tap targets`
+          );
+        if (route === 'home' || route === 'stock-select') {
+          const gap = layout.contentTop - layout.header.bottom;
+          assert.ok(
+            gap >= 7.9 && gap <= 16.1,
+            `${route}: content follows the header without excess space or overlap`
+          );
+        }
+        if (route === 'signup')
+          assert.ok(
+            layout.introMargin >= 24 && layout.introMargin <= 48,
+            'login title spacing adapts within compact bounds'
+          );
         layoutChecks++;
       }
     }
+    await go('home');
+    await page.locator('.phone').evaluate((node) => node.style.setProperty('--safe-area-top', '59px'));
+    for (const route of ['home', 'stock-select', 'payout', 'consent']) {
+      await go(route);
+      assert.equal(
+        await page.locator(`#${route} .status-bar`).evaluate((node) => node.getBoundingClientRect().height),
+        59
+      );
+      const header = page.locator(
+        `#${route} .app-header, #${route} .transaction-header, #${route} .consent-header`
+      );
+      assert.equal(
+        await header.evaluate((node) => node.getBoundingClientRect().top),
+        59,
+        'safe area is applied once above the header'
+      );
+    }
+    await page.locator('.phone').evaluate((node) => node.style.removeProperty('--safe-area-top'));
     await page.setViewportSize({ width: 390, height: 844 });
     for (const route of ['home', 'consent', 'prediction', 'payout']) {
       await go(route);
