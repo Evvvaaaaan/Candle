@@ -329,6 +329,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         background: #f5f7fa;
         font-family: var(--font);
         -webkit-font-smoothing: antialiased;
+        word-break: keep-all;
+        overflow-wrap: break-word;
       }
 
       button,
@@ -539,7 +541,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
       .points-card {
         min-height: 78px;
-        margin-top: 9px;
+        margin-top: 12px;
         padding: 16px;
         display: flex;
         align-items: center;
@@ -550,7 +552,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         position: relative;
         width: 100%;
         height: 96px;
-        margin-top: 10px;
+        margin-top: 12px;
         overflow: hidden;
         padding: 15px 16px;
         display: flex;
@@ -587,7 +589,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         align-items: center;
         gap: 6px;
         color: rgba(255, 255, 255, 0.68);
-        font-size: 9px;
+        font-size: 10px;
         line-height: 14px;
       }
 
@@ -603,7 +605,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       .home-ad-copy strong {
         display: block;
         margin-top: 5px;
-        font-size: 15px;
+        font-size: 16px;
         line-height: 21px;
         letter-spacing: -0.01em;
       }
@@ -640,7 +642,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
 
       .stock-card {
-        margin-top: 9px;
+        margin-top: 12px;
         padding: 16px;
       }
 
@@ -750,7 +752,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
 
       .stock-select-list {
-        margin-top: 10px;
+        margin-top: 12px;
         overflow: hidden;
         padding: 4px 0;
       }
@@ -777,7 +779,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         border-bottom: 0;
       }
 
-      .stock-select-row.selected {
+      .stock-select-row[aria-pressed='true'] {
         background: #f6f9ff;
       }
 
@@ -821,7 +823,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         font-size: 11px;
       }
 
-      .stock-select-row.selected .stock-row-state {
+      .stock-select-row[aria-pressed='true'] .stock-row-state {
         color: var(--primary);
         font-weight: 700;
       }
@@ -958,7 +960,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
 
       .section-title {
-        margin-top: 9px;
+        margin-top: 12px;
         font-size: 18px;
         font-weight: 700;
         line-height: 26px;
@@ -969,7 +971,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
-        margin-top: 9px;
+        margin-top: 12px;
       }
 
       .direction-card {
@@ -1156,7 +1158,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       .ticket-card {
         width: 100%;
         min-height: 114px;
-        margin-top: 10px;
+        margin-top: 12px;
         color: var(--text-dark);
         font: inherit;
         text-align: left;
@@ -1242,7 +1244,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
 
       .reward-ticket-entry {
-        margin: 14px 0;
+        margin: 12px 0;
       }
       .reward-ticket-heading {
         display: flex;
@@ -1301,7 +1303,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         border-radius: 18px;
       }
       .reward-ad-dialog h2 {
-        font-size: 21px;
+        font-size: 20px;
         font-weight: 700;
         line-height: 30px;
       }
@@ -1474,7 +1476,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
 
       .promo-card .primary-button {
-        margin-top: 10px;
+        margin-top: 12px;
       }
 
       .balance-card {
@@ -1507,18 +1509,18 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
       .claim-card {
         height: 76px;
-        margin-top: 11px;
+        margin-top: 12px;
         padding: 16px;
       }
 
       .recent-card {
         height: 78px;
-        margin-top: 11px;
+        margin-top: 12px;
         padding: 14px;
       }
 
       .attendance-card {
-        margin-top: 10px;
+        margin-top: 12px;
         padding: 16px;
       }
 
@@ -1545,13 +1547,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
 
       .attendance-card .primary-button {
-        margin-top: 10px;
+        margin-top: 12px;
       }
 
       .tabs {
         display: flex;
         gap: 8px;
-        margin-top: 11px;
+        margin-top: 12px;
       }
 
       .tab {
@@ -1576,7 +1578,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         grid-template-columns: 40px minmax(0, 1fr) auto;
         align-items: center;
         gap: 12px;
-        margin-top: 11px;
+        margin-top: 12px;
         padding: 14px;
       }
 
@@ -1587,7 +1589,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       .product-card {
         width: 100%;
         min-height: 100px;
-        margin-top: 11px;
+        margin-top: 12px;
         padding: 14px;
         display: flex;
         align-items: center;
@@ -1600,7 +1602,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
       .product-card.compact {
         width: 100%;
-        margin-top: 11px;
+        margin-top: 12px;
       }
 
       .npay-logo {
@@ -1646,7 +1648,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
 
       .request-card {
-        margin-top: 11px;
+        margin-top: 12px;
         padding: 14px;
       }
 
@@ -1666,12 +1668,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         display: flex;
         align-items: center;
         gap: 14px;
-        margin-top: 11px;
+        margin-top: 12px;
         padding: 16px;
       }
 
       .stats-card {
-        margin-top: 11px;
+        margin-top: 12px;
         padding: 16px;
       }
 
@@ -1695,7 +1697,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
 
       .menu-card {
-        margin-top: 11px;
+        margin-top: 12px;
         padding: 0 16px;
       }
 
@@ -1781,7 +1783,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         justify-content: center;
         gap: 9px;
         color: var(--primary);
-        font-size: 19px;
+        font-size: 20px;
         font-weight: 700;
       }
 
@@ -2354,7 +2356,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         color: #fff;
         background: rgba(7, 17, 31, 0.54);
         backdrop-filter: blur(10px);
-        font-size: 17px;
+        font-size: 18px;
         line-height: 1;
       }
 
@@ -2435,7 +2437,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         border-radius: 9px;
         color: #07111f;
         background: #78f2c3;
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 700;
       }
 
@@ -2453,7 +2455,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
       .ad-copy h1 {
         margin-top: 7px;
-        font-size: 29px;
+        font-size: 28px;
         line-height: 39px;
         letter-spacing: -0.035em;
       }
@@ -2542,7 +2544,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
 
       .ad-cta span {
-        font-size: 17px;
+        font-size: 18px;
       }
 
       .ad-sponsor {
@@ -2931,7 +2933,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         margin-top: 18px;
       }
       .wallet-transaction {
-        margin-top: 10px;
+        margin-top: 12px;
         display: flex;
         align-items: center;
         gap: 12px;
@@ -2961,7 +2963,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
       .transaction-amount strong {
         display: block;
-        font-size: 15px;
+        font-size: 16px;
         line-height: 22px;
         font-variant-numeric: tabular-nums;
       }
@@ -3045,7 +3047,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
       .mission-reward {
         color: var(--primary);
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 700;
         white-space: nowrap;
       }
@@ -3171,7 +3173,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
       .prize-hero h2 {
         margin-top: 6px;
-        font-size: 19px;
+        font-size: 20px;
         font-weight: 700;
         line-height: 1.5;
       }
@@ -3209,7 +3211,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         flex-shrink: 0;
       }
       .prize-provider h2 {
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 700;
       }
       .prize-provider p {
@@ -3314,7 +3316,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         margin: 0 auto 12px;
       }
       .prize-status h2 {
-        font-size: 17px;
+        font-size: 18px;
         font-weight: 700;
       }
       .prize-status p {
