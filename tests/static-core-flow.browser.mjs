@@ -212,6 +212,12 @@ try {
     await page.locator('[data-market=watchlist]').click();
     assert.equal(await page.locator('#stock-list-title').innerText(), '관심종목');
     assert.equal(await page.locator('[data-stock-code]:visible').count(), 1);
+    assert.equal(
+      await page
+        .locator('[data-stock-code="035420"]')
+        .evaluate((row) => getComputedStyle(row).borderBottomWidth),
+      '0px'
+    );
     await page.locator('[data-stock-code="035420"]').click();
     await visible('prediction');
     await watchlistToggle.click();

@@ -471,7 +471,7 @@ h1[tabindex="-1"]:focus {
   display: none;
 }
 
-.stock-select-row:last-child {
+.stock-select-row:nth-last-child(1 of :not([hidden])) {
   border-bottom: 0;
 }
 
