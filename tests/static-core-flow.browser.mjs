@@ -130,6 +130,49 @@ try {
         { local: {}, session: {} }
       );
     }
+    const storageWorks = await page.evaluate(() => {
+      try {
+        localStorage.setItem('candle.tutorial.probe', '1');
+        localStorage.removeItem('candle.tutorial.probe');
+        return true;
+      } catch {
+        return false;
+      }
+    });
+    const tutorial = page.locator('#tutorial-dialog');
+    const tutorialOpen = () => tutorial.evaluate((node) => node.open);
+    const waitForHomeRoute = async () => {
+      await visible('home');
+      await page.waitForFunction(() => document.title === 'Candle · 홈');
+    };
+    await go('signup');
+    await page.locator('[data-login=kakao]').click();
+    await waitForHomeRoute();
+    assert.equal(await tutorialOpen(), true, 'first login shows the tutorial');
+    assert.equal(await page.locator('#tutorial-dialog .tutorial-slide.active').count(), 1);
+    assert.equal(await page.locator('#tutorial-next').innerText(), '다음');
+    await page.locator('#tutorial-next').click();
+    await page.locator('#tutorial-next').click();
+    assert.equal(await page.locator('#tutorial-next').innerText(), '시작하기');
+    assert.equal(await page.locator('.tutorial-slide.active').getAttribute('data-tutorial-slide'), '2');
+    await page.locator('#tutorial-next').click();
+    assert.equal(await tutorialOpen(), false, 'last step closes the tutorial');
+    assert.equal(
+      await page.evaluate(() => localStorage.getItem('candle.tutorial.seen')),
+      storageWorks ? '1' : null
+    );
+    await go('settings');
+    await page.locator('[data-tutorial-replay]').click();
+    assert.equal(await tutorialOpen(), true, 'settings replays the tutorial');
+    await page.locator('#tutorial-skip').click();
+    assert.equal(await tutorialOpen(), false);
+    if (storageWorks) {
+      await go('signup');
+      await page.locator('[data-login=kakao]').click();
+      await waitForHomeRoute();
+      assert.equal(await tutorialOpen(), false, 'tutorial is not shown twice');
+      await page.evaluate(() => localStorage.clear());
+    }
     await go('consent');
     assert.ok(await page.locator('#consent-submit').isDisabled());
     await page.locator('#agree-all').check();
