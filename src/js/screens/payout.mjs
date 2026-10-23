@@ -27,7 +27,7 @@ export default function render(context) {
     <footer class="payout-footer">
       <div class="payout-agreement-row"><label class="payout-consent"><input id="payout-agree" type="checkbox"><span>지급 안내 및 개인정보 처리 동의 <strong>(필수)</strong></span></label><button class="payout-terms" type="button" data-legal="reward" aria-label="지급 안내 및 개인정보 동의 내용 보기">${uiIcon('chevron')}</button></div>
       <button id="payout-submit" class="primary-button payout-action" type="button" disabled>지급 신청하기</button>
-      <p class="fraud-note">신청 결과는 교환 내역에서 확인할 수 있습니다.</p>
+      <p class="fraud-note">신청 결과는 포인트 내역의 사용 탭에서 확인할 수 있습니다.</p>
     </footer>
   </section>`;
 }

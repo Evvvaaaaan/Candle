@@ -2929,6 +2929,9 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "claimId": {
+            "type": "string"
           }
         },
         "required": [

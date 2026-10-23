@@ -69,12 +69,16 @@ const schemas = {
     stockCode: { type: 'string', pattern: '^\\d{6}$' },
     direction: { enum: ['up', 'down'] },
   }),
-  Transaction: obj({
-    id: text,
-    title: text,
-    amount: { type: 'integer' },
-    createdAt: { type: 'string', format: 'date-time' },
-  }),
+  Transaction: obj(
+    {
+      id: text,
+      title: text,
+      amount: { type: 'integer' },
+      createdAt: { type: 'string', format: 'date-time' },
+      claimId: text,
+    },
+    ['id', 'title', 'amount', 'createdAt']
+  ),
   Wallet: obj({ balance: count, items: array(ref('Transaction')), nextCursor: cursor }),
   TransactionPage: paged(ref('Transaction')),
   Missions: obj({

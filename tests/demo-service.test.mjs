@@ -32,6 +32,7 @@ test('reward request debits wallet, creates history, deduplicates and never stor
   const data = await service.load();
   assert.equal(data.wallet.balance, 7800);
   assert.equal(data.claims.items.length, 1);
+  assert.equal(data.wallet.items[0].claimId, data.claims.items[0].id);
   const saved = [...values.values()].join('');
   assert.ok(!saved.includes(body.recipient.name));
   assert.ok(!saved.includes(body.recipient.phone));

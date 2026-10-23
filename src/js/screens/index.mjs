@@ -14,7 +14,6 @@ import renderResult from './result.mjs';
 import renderMissions from './missions.mjs';
 import renderShop from './shop.mjs';
 import renderExchange from './exchange.mjs';
-import renderHistory from './history.mjs';
 import renderProfile from './profile.mjs';
 import renderPayout from './payout.mjs';
 import renderPredictionHistory from './prediction-history.mjs';
@@ -39,7 +38,6 @@ export const pages = {
   missions: { title: '미션', render: renderMissions },
   shop: { title: '포인트 샵', render: renderShop },
   exchange: { title: '교환 확인', render: renderExchange },
-  history: { title: '교환 내역', render: renderHistory },
   profile: { title: '내 정보', render: renderProfile },
   payout: { title: '지급 신청', render: renderPayout },
   'prediction-history': { title: '예측 내역', render: renderPredictionHistory },
