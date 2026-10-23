@@ -130,6 +130,49 @@ try {
         { local: {}, session: {} }
       );
     }
+    const storageWorks = await page.evaluate(() => {
+      try {
+        localStorage.setItem('candle.tutorial.probe', '1');
+        localStorage.removeItem('candle.tutorial.probe');
+        return true;
+      } catch {
+        return false;
+      }
+    });
+    const tutorial = page.locator('#tutorial-dialog');
+    const tutorialOpen = () => tutorial.evaluate((node) => node.open);
+    const waitForHomeRoute = async () => {
+      await visible('home');
+      await page.waitForFunction(() => document.title === 'Candle · 홈');
+    };
+    await go('signup');
+    await page.locator('[data-login=kakao]').click();
+    await waitForHomeRoute();
+    assert.equal(await tutorialOpen(), true, 'first login shows the tutorial');
+    assert.equal(await page.locator('#tutorial-dialog .tutorial-slide.active').count(), 1);
+    assert.equal(await page.locator('#tutorial-next').innerText(), '다음');
+    await page.locator('#tutorial-next').click();
+    await page.locator('#tutorial-next').click();
+    assert.equal(await page.locator('#tutorial-next').innerText(), '시작하기');
+    assert.equal(await page.locator('.tutorial-slide.active').getAttribute('data-tutorial-slide'), '2');
+    await page.locator('#tutorial-next').click();
+    assert.equal(await tutorialOpen(), false, 'last step closes the tutorial');
+    assert.equal(
+      await page.evaluate(() => localStorage.getItem('candle.tutorial.seen')),
+      storageWorks ? '1' : null
+    );
+    await go('settings');
+    await page.locator('[data-tutorial-replay]').click();
+    assert.equal(await tutorialOpen(), true, 'settings replays the tutorial');
+    await page.locator('#tutorial-skip').click();
+    assert.equal(await tutorialOpen(), false);
+    if (storageWorks) {
+      await go('signup');
+      await page.locator('[data-login=kakao]').click();
+      await waitForHomeRoute();
+      assert.equal(await tutorialOpen(), false, 'tutorial is not shown twice');
+      await page.evaluate(() => localStorage.clear());
+    }
     await go('consent');
     assert.ok(await page.locator('#consent-submit').isDisabled());
     await page.locator('#agree-all').check();
@@ -149,6 +192,38 @@ try {
     await page.locator('#legal .back-button').click();
     await visible('consent');
     assert.ok(await page.locator('#agree-all').isChecked());
+
+    await go('missions');
+    await page.locator('#missions .bottom-nav [data-route=stock-select]').click();
+    await visible('stock-select');
+    assert.equal(await page.locator('#stock-select .nav-item.active').innerText(), '예측');
+    await page.locator('#stock-select .back-button').click();
+    await visible('missions');
+    await page.locator('#missions .bottom-nav [data-route=stock-select]').click();
+    await visible('stock-select');
+    await page.locator('[data-stock-code="035420"]').click();
+    await visible('prediction');
+    assert.equal(await page.locator('#prediction .heading').innerText(), 'NAVER');
+    const watchlistToggle = page.locator('#prediction [data-watchlist-toggle]');
+    assert.equal(await watchlistToggle.getAttribute('aria-pressed'), 'false');
+    await watchlistToggle.click();
+    assert.equal(await watchlistToggle.getAttribute('aria-pressed'), 'true');
+    await page.locator('#prediction .bottom-nav [data-route=stock-select]').click();
+    await visible('stock-select');
+    await page.locator('[data-market=watchlist]').click();
+    assert.equal(await page.locator('#stock-list-title').innerText(), '관심종목');
+    assert.equal(await page.locator('[data-stock-code]:visible').count(), 1);
+    await page.locator('[data-stock-code="035420"]').click();
+    await visible('prediction');
+    await watchlistToggle.click();
+    assert.equal(await watchlistToggle.getAttribute('aria-pressed'), 'false');
+    await page.locator('#prediction .bottom-nav [data-route=stock-select]').click();
+    await page.locator('[data-market=watchlist]').click();
+    assert.equal(await page.locator('[data-stock-code]:visible').count(), 0);
+    assert.match(await page.locator('#stock-empty').innerText(), /관심종목이 없습니다/);
+    await go('home');
+    await page.locator('#home .home-ad-slot').click();
+    await visible('stock-select');
 
     await go('home');
     const initial = await serverFacts();

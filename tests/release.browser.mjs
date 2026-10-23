@@ -93,27 +93,19 @@ try {
   await wait('home');
   check('home header has no more button', (await page.locator('.more-button').count()) === 0);
   check(
-    'home preserves the original challenge, points, advertising and stock order',
+    'home preserves the original points, advertising and stock order',
     await page.locator('.content').evaluate((content) => {
-      const cards = [...content.children].filter((x) =>
-        x.matches('.streak-reward,.points-card,.home-ad-slot,.stock-card')
-      );
+      const cards = [...content.children].filter((x) => x.matches('.points-card,.home-ad-slot,.stock-card'));
       return (
-        cards.length === 4 &&
-        cards[0].matches('.streak-reward') &&
-        cards[1].matches('.points-card') &&
-        cards[2].matches('.home-ad-slot') &&
-        cards[3].matches('.stock-card')
+        cards.length === 3 &&
+        cards[0].matches('.points-card') &&
+        cards[1].matches('.home-ad-slot') &&
+        cards[2].matches('.stock-card')
       );
     })
   );
-  check(
-    'challenge banner retains the reward amount and drawing condition',
-    (await page.locator('.streak-reward').textContent()).includes('100만원') &&
-      (await page.locator('.streak-reward').textContent()).includes('달성자 중 추첨')
-  );
-  await click('.streak-reward');
-  await wait('challenge');
+  check('home no longer shows the challenge banner', (await page.locator('.streak-reward').count()) === 0);
+  await go('challenge');
   check(
     'challenge opens readable details without claiming a guaranteed payout',
     (await page.locator('.challenge-rules').textContent()).includes('지급이 확정되지는 않습니다')
@@ -636,8 +628,8 @@ try {
     await prodPage.locator('#consent-submit').click();
     await prodPage.locator('[data-screen=home]').waitFor();
     check(
-      'production home retains the challenge and advertisement',
-      (await prodPage.locator('.streak-reward,.home-ad-slot').count()) === 2
+      'production home retains the advertisement',
+      (await prodPage.locator('.home-ad-slot').count()) === 1
     );
     check(
       'production artifact completes the HTTP login and consent flow',

@@ -19,11 +19,6 @@ export default function render(context) {
   return shell(
     'home',
     `${title('오늘의 종목을 예측해 보세요', isOpen() ? '다음 거래일 방향을 선택하세요.' : '현재 예측 참여 시간이 아닙니다.')}
-    <button class="streak-reward" type="button" data-route="challenge">
-      <span class="streak-reward-mark" aria-hidden="true">10</span>
-      <span class="streak-reward-copy"><small>연승 챌린지 · 달성자 중 추첨</small><strong>10연승하고 100만원 리워드에 도전</strong></span>
-      <span class="chevron" aria-hidden="true">›</span>
-    </button>
     ${pointsCard()}
     <button class="home-ad-slot" type="button" data-route="prediction" aria-label="광고: Candle의 하루 1분 예측 살펴보기">
       <span class="home-ad-copy">

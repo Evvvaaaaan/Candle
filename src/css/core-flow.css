@@ -244,61 +244,6 @@ h1[tabindex="-1"]:focus {
   justify-content: space-between;
 }
 
-.streak-reward {
-  width: 100%;
-  min-height: 48px;
-  margin-top: 12px;
-  padding: 7px 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border: 0;
-  border-radius: 12px;
-  color: var(--text-dark);
-  background: var(--surface-subtle);
-  text-align: left;
-}
-
-.streak-reward-mark {
-  width: 30px;
-  height: 30px;
-  flex: 0 0 30px;
-  display: grid;
-  place-items: center;
-  border: 1px solid #f4d9a5;
-  border-radius: 50%;
-  color: #9a6700;
-  background: #fff8e8;
-  font-family: "DM Mono", monospace;
-  font-size: 11px;
-}
-
-.streak-reward-copy {
-  min-width: 0;
-  flex: 1;
-}
-
-.streak-reward-copy small,
-.streak-reward-copy strong {
-  display: block;
-}
-
-.streak-reward-copy small {
-  color: var(--text-mid);
-  font-size: 10px;
-  line-height: 14px;
-}
-
-.streak-reward-copy strong {
-  margin-top: 1px;
-  font-size: 12px;
-  line-height: 18px;
-}
-
-.streak-reward .chevron {
-  font-size: 17px;
-}
-
 .home-ad-slot {
   position: relative;
   width: 100%;
