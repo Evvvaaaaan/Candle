@@ -193,6 +193,38 @@ try {
     await visible('consent');
     assert.ok(await page.locator('#agree-all').isChecked());
 
+    await go('missions');
+    await page.locator('#missions .bottom-nav [data-route=stock-select]').click();
+    await visible('stock-select');
+    assert.equal(await page.locator('#stock-select .nav-item.active').innerText(), '예측');
+    await page.locator('#stock-select .back-button').click();
+    await visible('missions');
+    await page.locator('#missions .bottom-nav [data-route=stock-select]').click();
+    await visible('stock-select');
+    await page.locator('[data-stock-code="035420"]').click();
+    await visible('prediction');
+    assert.equal(await page.locator('#prediction .heading').innerText(), 'NAVER');
+    const watchlistToggle = page.locator('#prediction [data-watchlist-toggle]');
+    assert.equal(await watchlistToggle.getAttribute('aria-pressed'), 'false');
+    await watchlistToggle.click();
+    assert.equal(await watchlistToggle.getAttribute('aria-pressed'), 'true');
+    await page.locator('#prediction .bottom-nav [data-route=stock-select]').click();
+    await visible('stock-select');
+    await page.locator('[data-market=watchlist]').click();
+    assert.equal(await page.locator('#stock-list-title').innerText(), '관심종목');
+    assert.equal(await page.locator('[data-stock-code]:visible').count(), 1);
+    await page.locator('[data-stock-code="035420"]').click();
+    await visible('prediction');
+    await watchlistToggle.click();
+    assert.equal(await watchlistToggle.getAttribute('aria-pressed'), 'false');
+    await page.locator('#prediction .bottom-nav [data-route=stock-select]').click();
+    await page.locator('[data-market=watchlist]').click();
+    assert.equal(await page.locator('[data-stock-code]:visible').count(), 0);
+    assert.match(await page.locator('#stock-empty').innerText(), /관심종목이 없습니다/);
+    await go('home');
+    await page.locator('#home .home-ad-slot').click();
+    await visible('stock-select');
+
     await go('home');
     const initial = await serverFacts();
     assert.equal(await page.locator('#home .points-card .number').innerText(), '— P');
