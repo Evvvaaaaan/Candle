@@ -38,11 +38,11 @@ try {
   await page.locator('[data-login=naver]').click();
   await page.locator('#agree-all').check();
   await page.locator('#consent-submit').click();
-  await page.locator('.streak-reward').click();
+  await page.locator('.bottom-nav [data-route=profile]').click();
   await page.locator('[data-route=challenge-reward]').click();
   await page.locator('#challenge-reward-form').waitFor();
   check(
-    'prize receipt is reachable through the real home challenge flow',
+    'prize receipt is reachable through the real profile menu flow',
     page.url().endsWith('#challenge-reward')
   );
   await page.locator('#submit-challenge-reward').click();
