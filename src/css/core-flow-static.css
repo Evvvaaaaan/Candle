@@ -1,0 +1,27 @@
+/* HTML owns the screens; JavaScript only manages display and local input state. */
+.phone > .screen-view {
+  display: none;
+}
+.phone > #signup {
+  display: flex;
+}
+.phone:has(> .screen-view:target) > #signup:not(:target) {
+  display: none;
+}
+.phone > .screen-view:target {
+  display: var(--screen-display, block);
+}
+.signup-screen,
+.consent-screen,
+.payout-screen,
+.legal-screen,
+.splash-screen {
+  --screen-display: flex;
+}
+[hidden] {
+  display: none !important;
+}
+
+.action-error {
+  pointer-events: none;
+}
