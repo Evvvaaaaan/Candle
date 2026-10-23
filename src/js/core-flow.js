@@ -48,6 +48,7 @@ const state = {
   errors: '',
   challengeReward: null,
   rewardError: '',
+  walletTab: 'all',
 };
 let rewardLoading = false,
   rewardRevision = 0,
@@ -94,8 +95,8 @@ const more = (kind) =>
     : '';
 const shell = (name, body, active = 'home') =>
   `<section class="screen-view" data-screen="${name}">${statusBar()}${header()}<div class="content">${body}</div>${nav(active)}</section>`;
-const pointsCard = (showHistory = true) =>
-  `<section class="card points-card"><div class="points-copy"><p class="card-label">보유 포인트</p><p class="number">${n(data.wallet.balance)} P</p></div>${showHistory ? button('내역 보기 ›', 'wallet', 'link-button') : `<span class="icon-tile points-icon">${uiIcon('coin')}</span>`}</section>`;
+const pointsCard = (showHistory = true, historyTab = 'all') =>
+  `<section class="card points-card"><div class="points-copy"><p class="card-label">보유 포인트</p><p class="number">${n(data.wallet.balance)} P</p></div>${showHistory ? `<button class="link-button" type="button" data-wallet-tab="${historyTab}">내역 보기 ›</button>` : `<span class="icon-tile points-icon">${uiIcon('coin')}</span>`}</section>`;
 const ticketSummary = () =>
   `<span class="ticket-breakdown"><span>기본 무료 <strong>${n(data.tickets.free)}회</strong></span><span>광고 예측권 <strong>${n(data.tickets.ad)}장</strong></span></span>`;
 const ticketCard = () =>
@@ -112,7 +113,7 @@ function stockCard(changeable = true) {
   return `<section class="card stock-card"><div class="stock-top"><div><p class="card-label">선택한 종목</p><p class="stock-name">${e(s.name)}</p><p class="card-label">${e(s.code)} · ${e(s.market)}</p></div>${changeable ? '<button class="stock-change" type="button" data-stock-picker>종목 변경</button>' : ''}</div><div class="quote-row"><span>조회 가격 ${e(s.price)}</span><span class="${s.change.startsWith('-') ? 'down-text' : 'up-text'}">${e(s.change)}</span></div><p class="card-label">조회 시점의 시세이며 실시간 가격과 차이가 있을 수 있습니다.</p></section>`;
 }
 function productCard(p, compact = false) {
-  return `<${compact ? 'div' : 'button'} class="product-card${compact ? ' compact' : ''}"${compact ? '' : ` type="button" data-product="${e(p.id)}"${p.available ? '' : ' disabled'}`}><img class="npay-logo" src="${icon('npay-symbol.svg')}" width="56" height="56" alt="네이버페이"><span class="product-copy"><small>${e(p.title)}</small><strong>${n(p.amount)}원권</strong><span>${n(p.points)}P${p.available ? '' : ' · 준비 중'}</span></span>${compact ? '' : uiIcon('chevron', 'product-chevron')}</${compact ? 'div' : 'button'}>`;
+  return `<${compact ? 'div' : 'button'} class="product-card${compact ? ' compact' : ''}"${compact ? '' : ` type="button" data-product="${e(p.id)}"${p.available ? '' : ' disabled'}`}><img class="npay-logo" src="${icon('npay-symbol.svg')}" width="56" height="56" alt="네이버페이"><span class="product-copy"><small>네이버페이</small><strong>${n(p.amount)}원권</strong><span>${n(p.points)}P${p.available ? '' : ' · 준비 중'}</span></span>${compact ? '' : uiIcon('chevron', 'product-chevron')}</${compact ? 'div' : 'button'}>`;
 }
 function notify(message) {
   document.querySelector('.toast')?.remove();
@@ -140,6 +141,12 @@ function route(name) {
 }
 function render() {
   clearInterval(adTimer);
+  // Exchange history now lives in the wallet's 사용 tab.
+  if (location.hash === '#history') {
+    state.walletTab = 'use';
+    location.replace('#wallet');
+    return;
+  }
   const active = routeName();
   if (loading) {
     app.innerHTML =
@@ -610,6 +617,14 @@ function bind() {
       input.focus();
       input.setSelectionRange(position, position);
     };
+  document.querySelectorAll('[data-wallet-tab]').forEach(
+    (b) =>
+      (b.onclick = () => {
+        state.walletTab = b.dataset.walletTab;
+        if (routeName() === 'wallet') render();
+        else route('wallet');
+      })
+  );
   document.querySelectorAll('[data-product]').forEach(
     (b) =>
       (b.onclick = () => {
@@ -710,7 +725,8 @@ function bind() {
             recipient: { phone: phone.value.replace(/[\s-]/g, ''), name: name.value.trim() },
             agreementVersion: product().agreementVersion,
           },
-          'history'
+          'wallet',
+          () => (state.walletTab = 'use')
         );
     };
   }
@@ -722,6 +738,7 @@ window.addEventListener('hashchange', () => {
       state.rewardError = '';
     }
     state.errors = '';
+    if (routeName() !== 'wallet') state.walletTab = 'all';
     if (!['payout', 'legal'].includes(routeName())) state.payoutDraft = null;
     if (
       data &&

@@ -2918,6 +2918,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         border-radius: 16px;
         background: var(--primary-light);
       }
+      .wallet-tabs {
+        margin-top: 18px;
+      }
       .wallet-transaction {
         margin-top: 10px;
         display: flex;
@@ -3535,7 +3538,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   <p class="card-label">보유 포인트</p>
                   <p class="number" data-server-value="balance">— P</p>
                 </div>
-                <button class="link-button" type="button" data-route="wallet">내역 보기 ›</button>
+                <button class="link-button" type="button" data-wallet-tab="all">내역 보기 ›</button>
               </section>
               <button
                 class="home-ad-slot"
@@ -4644,7 +4647,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   <p class="card-label">보유 포인트</p>
                   <p class="number" data-server-value="balance">— P</p>
                 </div>
-                <button class="link-button" type="button" data-route="wallet">내역 보기 ›</button>
+                <button class="link-button" type="button" data-wallet-tab="use">내역 보기 ›</button>
               </section>
               <button
                 class="product-card"
@@ -4662,7 +4665,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   height="56"
                   alt="네이버페이"
                 /><span class="product-copy"
-                  ><small>네이버페이 5,000원권</small><strong>5,000원권</strong><span>5,000P</span></span
+                  ><small>네이버페이</small><strong>5,000원권</strong><span>5,000P</span></span
                 ><svg
                   class="ui-icon product-chevron"
                   viewBox="0 0 24 24"
@@ -4692,7 +4695,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   height="56"
                   alt="네이버페이"
                 /><span class="product-copy"
-                  ><small>네이버페이 10,000원권</small><strong>10,000원권</strong><span>10,000P</span></span
+                  ><small>네이버페이</small><strong>10,000원권</strong><span>10,000P</span></span
                 ><svg
                   class="ui-icon product-chevron"
                   viewBox="0 0 24 24"
@@ -4722,7 +4725,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   height="56"
                   alt="네이버페이"
                 /><span class="product-copy"
-                  ><small>네이버페이 50,000원권</small><strong>50,000원권</strong><span>50,000P</span></span
+                  ><small>네이버페이</small><strong>50,000원권</strong><span>50,000P</span></span
                 ><svg
                   class="ui-icon product-chevron"
                   viewBox="0 0 24 24"
@@ -4752,8 +4755,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   height="56"
                   alt="네이버페이"
                 /><span class="product-copy"
-                  ><small>네이버페이 100,000원권</small><strong>100,000원권</strong
-                  ><span>100,000P</span></span
+                  ><small>네이버페이</small><strong>100,000원권</strong><span>100,000P</span></span
                 ><svg
                   class="ui-icon product-chevron"
                   viewBox="0 0 24 24"
@@ -4766,8 +4768,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   focusable="false"
                 >
                   <path d="m9 5 7 7-7 7"></path>
-                </svg></button
-              ><button class="secondary-button" type="button" data-route="history">교환 내역</button>
+                </svg>
+              </button>
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
@@ -4825,8 +4827,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   height="56"
                   alt="네이버페이"
                 /><span class="product-copy"
-                  ><small data-product-title-value="">네이버페이 5,000원권</small
-                  ><strong data-product-amount-value="">5,000원권</strong
+                  ><small>네이버페이</small><strong data-product-amount-value="">5,000원권</strong
                   ><span data-product-points-value="">5,000P</span></span
                 >
               </div>
@@ -4838,73 +4839,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               </section>
               <p class="field-help">교환 가능 여부와 지급 안내는 서버 연결 후 확인할 수 있습니다.</p>
               <button class="primary-button" type="button" data-route="payout">수령 정보 입력</button>
-            </div>
-            <nav class="bottom-nav" aria-label="하단 메뉴">
-              <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
-              ><button class="nav-item" type="button" data-route="stock-select">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction.svg"
-                  alt=""
-                /><span>예측</span></button
-              ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
-              ><button class="nav-item active" type="button" data-route="shop" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop-active.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
-              </button>
-            </nav>
-          </section>
-          <section class="screen-view" data-screen="history" id="history" aria-label="교환 내역">
-            <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
-                  alt=""
-                /><span>Candle</span>
-              </div>
-            </header>
-            <div class="content">
-              <h1 class="heading" tabindex="-1">교환 내역</h1>
-              <p class="subheading">신청한 상품과 지급 상태를 확인하세요.</p>
-              <div class="empty-state">
-                <span class="icon-tile empty-icon"
-                  ><svg
-                    class="ui-icon"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.8"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path d="m3 13 3-8h12l3 8v7H3v-7Zm0 0h5l2 3h4l2-3h5"></path></svg
-                ></span>
-                <p>교환 내역을 확인하려면 실제 서버 연결이 필요합니다.</p>
-                <button class="secondary-button" type="button" data-route="shop">상품 보기</button>
-              </div>
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
@@ -4979,7 +4913,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   <p class="card-label">보유 포인트</p>
                   <p class="number" data-server-value="balance">— P</p>
                 </div>
-                <button class="link-button" type="button" data-route="wallet">내역 보기 ›</button>
+                <button class="link-button" type="button" data-wallet-tab="all">내역 보기 ›</button>
               </section>
               <section class="card stats-card">
                 <h2 class="card-heading">조회된 예측 내역</h2>
@@ -5074,39 +5008,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                         <path d="M20 12h-5v5h5"></path>
                         <path d="M16 14.5h.01"></path></svg></span
                     >포인트 내역</span
-                  ><svg
-                    class="ui-icon menu-chevron"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.8"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path d="m9 5 7 7-7 7"></path>
-                  </svg>
-                </button>
-                <hr />
-                <button type="button" class="menu-row" data-route="history">
-                  <span class="menu-label"
-                    ><span class="icon-tile menu-icon"
-                      ><svg
-                        class="ui-icon"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                        focusable="false"
-                      >
-                        <rect x="3" y="8" width="18" height="4" rx="1"></rect>
-                        <path d="M5 12v9h14v-9M12 8v13"></path>
-                        <path d="M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z"></path></svg></span
-                    >교환 내역</span
                   ><svg
                     class="ui-icon menu-chevron"
                     viewBox="0 0 24 24"
@@ -5370,7 +5271,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               <button id="payout-submit" class="primary-button payout-action" type="button" disabled="">
                 지급 신청하기
               </button>
-              <p class="fraud-note">신청 결과는 교환 내역에서 확인할 수 있습니다.</p>
+              <p class="fraud-note">신청 결과는 포인트 내역의 사용 탭에서 확인할 수 있습니다.</p>
               <p id="payout-error" class="prize-form-error" role="alert"></p>
             </footer>
           </section>
@@ -5485,7 +5386,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                     <path d="M10 17V7h3a3 3 0 0 1 0 6h-3"></path></svg
                 ></span>
               </section>
-              <h2 class="section-title">이용 내역</h2>
+              <div class="tabs wallet-tabs" role="group" aria-label="내역 구분">
+                <button class="tab active" type="button" data-wallet-tab="all" aria-pressed="true">
+                  전체</button
+                ><button class="tab" type="button" data-wallet-tab="earn" aria-pressed="false">적립</button
+                ><button class="tab" type="button" data-wallet-tab="use" aria-pressed="false">사용</button>
+              </div>
               <div class="transaction-list">
                 <div class="empty-state">
                   <span class="icon-tile empty-icon"
@@ -5793,6 +5699,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           market: 'all',
           legalReturn: 'settings',
           legalId: 'terms',
+          walletTab: 'all',
         };
         const currentRoute = () =>
           screenIds.has(location.hash.slice(1)) ? location.hash.slice(1) : 'signup';
@@ -5988,6 +5895,14 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             closeAd();
         });
 
+        function syncWalletTabs() {
+          app.querySelectorAll('.wallet-tabs [data-wallet-tab]').forEach((button) => {
+            const selected = button.dataset.walletTab === state.walletTab;
+            button.classList.toggle('active', selected);
+            button.setAttribute('aria-pressed', String(selected));
+          });
+        }
+
         function openStockSelect(stockReturn, stockBack) {
           state.stockReturn = stockReturn;
           state.stockBack = stockBack;
@@ -6042,6 +5957,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             filterStocks();
             return;
           }
+          if (button.dataset.walletTab) {
+            state.walletTab = button.dataset.walletTab;
+            syncWalletTabs();
+            navigate('wallet');
+            return;
+          }
           if (button.dataset.product) {
             state.productId = button.dataset.product;
             syncSelection();
@@ -6081,6 +6002,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
         let previousRoute = currentRoute();
         function syncRoute() {
+          // Exchange history now lives in the wallet's 사용 tab.
+          if (location.hash === '#history') {
+            state.walletTab = 'use';
+            syncWalletTabs();
+            location.replace('#wallet');
+            return;
+          }
           const route = currentRoute();
           if (previousRoute !== route) {
             document.getElementById('action-error')?.remove();
@@ -6090,6 +6018,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               payoutAgree.checked = false;
               syncPayout();
               document.getElementById('payout-error').textContent = '';
+            }
+            if (route !== 'wallet') {
+              state.walletTab = 'all';
+              syncWalletTabs();
             }
             if (previousRoute === 'challenge-reward') {
               rewardForm.reset();

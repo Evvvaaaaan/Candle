@@ -95,7 +95,8 @@ export function validateSnapshot(data) {
         typeof x.id === 'string' &&
         typeof x.title === 'string' &&
         Number.isSafeInteger(x.amount) &&
-        typeof x.createdAt === 'string'
+        typeof x.createdAt === 'string' &&
+        (x.claimId === undefined || typeof x.claimId === 'string')
     )
   );
   requireValue(

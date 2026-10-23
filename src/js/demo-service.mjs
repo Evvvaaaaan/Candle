@@ -191,9 +191,15 @@ export function createDemoService(storage = localStorage) {
       throw new ApiError('STORAGE_UNAVAILABLE');
     }
   }
-  const transaction = (account, title, amount, id) => {
+  const transaction = (account, title, amount, id, claimId) => {
     account.balance += amount;
-    account.transactions.unshift({ id, title, amount, createdAt: new Date().toISOString() });
+    account.transactions.unshift({
+      id,
+      title,
+      amount,
+      createdAt: new Date().toISOString(),
+      ...(claimId && { claimId }),
+    });
   };
   async function mutate(action, body = {}, key) {
     const { account, ledger } = read();
@@ -267,7 +273,7 @@ export function createDemoService(storage = localStorage) {
         createdAt: new Date().toISOString(),
       };
       account.claims.unshift(claim);
-      transaction(account, '포인트 교환', -product.points, key);
+      transaction(account, '포인트 교환', -product.points, key, claim.id);
       result = { id: claim.id };
     } else if (action === 'adStart') {
       if (!ticketBalance(ledger).adRemaining) throw new ApiError('AD_UNAVAILABLE');

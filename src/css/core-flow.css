@@ -2337,6 +2337,7 @@ a.primary-button { display: flex; justify-content: center; align-items: center; 
 
 .screen-view[data-screen="wallet"] .points-card { min-height: 104px; background: #f7faff; }
 .points-icon { width: 48px; height: 48px; border-radius: 16px; background: var(--primary-light); }
+.wallet-tabs { margin-top: 18px; }
 .wallet-transaction { margin-top: 10px; display: flex; align-items: center; gap: 12px; }
 .transaction-copy { min-width: 0; flex: 1; }
 .transaction-copy h3, .mission-copy h3 { font-size: 14px; font-weight: 700; line-height: 21px; overflow-wrap: anywhere; }

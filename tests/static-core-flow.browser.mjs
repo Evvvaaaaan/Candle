@@ -24,7 +24,6 @@ const routes = [
   'missions',
   'shop',
   'exchange',
-  'history',
   'profile',
   'payout',
   'prediction-history',
@@ -110,7 +109,7 @@ try {
         values: [...document.querySelectorAll('[data-server-value], .ticket-breakdown, .badge')].map(
           (node) => node.textContent
         ),
-        history: document.querySelector('#history .content').textContent,
+        wallet: document.querySelector('#wallet .transaction-list').textContent,
         submitted: document.querySelector('#submitted .content').textContent,
         attendance: document.querySelector('#attendance').textContent,
       }));
@@ -181,6 +180,21 @@ try {
     await go('home');
     await page.locator('#home .home-ad-slot').click();
     await visible('stock-select');
+
+    const walletTab = () => page.locator('#wallet .wallet-tabs [aria-pressed=true]').innerText();
+    await go('shop');
+    await page.locator('#shop .points-card [data-wallet-tab]').click();
+    await visible('wallet');
+    assert.equal(await walletTab(), '사용');
+    await page.locator('#wallet [data-wallet-tab=earn]').click();
+    assert.equal(await walletTab(), '적립');
+    await go('profile');
+    await page.locator('#profile .menu-row[data-route=wallet]').click();
+    await visible('wallet');
+    assert.equal(await walletTab(), '전체');
+    await page.goto(`${target.entryUrl}#history`);
+    await visible('wallet');
+    assert.equal(await walletTab(), '사용');
 
     await go('home');
     const initial = await serverFacts();
