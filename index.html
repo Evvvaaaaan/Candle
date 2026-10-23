@@ -725,7 +725,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         position: absolute;
         top: calc(var(--safe-area-top) + var(--app-header-height) + clamp(8px, 1.5dvh, 16px));
         right: 18px;
-        bottom: calc(24px + var(--safe-area-bottom));
+        bottom: calc(var(--nav-height) + 18px);
         left: 18px;
         overflow-y: auto;
         scrollbar-width: none;
@@ -3571,7 +3571,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               <button
                 class="home-ad-slot"
                 type="button"
-                data-route="prediction"
+                data-route="stock-select"
                 aria-label="광고: Candle의 하루 1분 예측 살펴보기"
               >
                 <span class="home-ad-copy">
@@ -3650,7 +3650,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home-active.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item" type="button" data-route="prediction">
+              ><button class="nav-item" type="button" data-route="stock-select">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction.svg"
@@ -3734,7 +3734,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               </section>
               <button class="primary-button" type="button" data-route="challenge-reward">
                 당첨 확인 · 리워드 수령</button
-              ><button class="secondary-button" type="button" data-route="prediction">예측하러 가기</button
+              ><button class="secondary-button" type="button" data-route="stock-select">예측하러 가기</button
               ><button class="secondary-button" type="button" data-route="result">내 예측 결과 확인</button>
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
@@ -3744,7 +3744,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home-active.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item" type="button" data-route="prediction">
+              ><button class="nav-item" type="button" data-route="stock-select">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction.svg"
@@ -3914,7 +3914,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home-active.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item" type="button" data-route="prediction">
+              ><button class="nav-item" type="button" data-route="stock-select">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction.svg"
@@ -4055,6 +4055,39 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               </div>
               <p id="stock-empty" class="stock-empty" hidden="">검색 결과가 없습니다.</p>
             </div>
+            <nav class="bottom-nav" aria-label="하단 메뉴">
+              <button class="nav-item" type="button" data-route="home">
+                <img
+                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                  data-embedded-asset="nav-home.svg"
+                  alt=""
+                /><span>홈</span></button
+              ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
+                <img
+                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                  data-embedded-asset="nav-prediction-active.svg"
+                  alt=""
+                /><span>예측</span></button
+              ><button class="nav-item" type="button" data-route="missions">
+                <img
+                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                  data-embedded-asset="nav-mission.svg"
+                  alt=""
+                /><span>미션</span></button
+              ><button class="nav-item" type="button" data-route="shop">
+                <img
+                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                  data-embedded-asset="nav-shop.svg"
+                  alt=""
+                /><span>상점</span></button
+              ><button class="nav-item" type="button" data-route="profile">
+                <img
+                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                  data-embedded-asset="nav-profile.svg"
+                  alt=""
+                /><span>내 정보</span>
+              </button>
+            </nav>
           </section>
           <section class="screen-view" data-screen="prediction" id="prediction" aria-label="예측">
             <div class="status-bar" aria-hidden="true"></div>
@@ -4124,7 +4157,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item active" type="button" data-route="prediction" aria-current="page">
+              ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction-active.svg"
@@ -4191,7 +4224,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item active" type="button" data-route="prediction" aria-current="page">
+              ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction-active.svg"
@@ -4247,7 +4280,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                     <path d="m3 13 3-8h12l3 8v7H3v-7Zm0 0h5l2 3h4l2-3h5"></path></svg
                 ></span>
                 <p>접수 내역을 확인하려면 실제 서버 연결이 필요합니다.</p>
-                <button class="secondary-button" type="button" data-route="prediction">예측 화면으로</button>
+                <button class="secondary-button" type="button" data-route="stock-select">
+                  예측 화면으로
+                </button>
               </div>
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
@@ -4257,7 +4292,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item active" type="button" data-route="prediction" aria-current="page">
+              ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction-active.svg"
@@ -4314,7 +4349,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                 <p>광고 시청을 끝까지 완료하면 예측권이 지급됩니다.</p>
                 <button class="primary-button" type="button" data-reward-ad="">광고 보고 예측권 받기</button>
               </section>
-              <button class="secondary-button" type="button" data-route="prediction">예측하러 가기</button>
+              <button class="secondary-button" type="button" data-route="stock-select">예측하러 가기</button>
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
@@ -4323,7 +4358,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item active" type="button" data-route="prediction" aria-current="page">
+              ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction-active.svg"
@@ -4375,7 +4410,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item active" type="button" data-route="prediction" aria-current="page">
+              ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction-active.svg"
@@ -4446,7 +4481,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item active" type="button" data-route="prediction" aria-current="page">
+              ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction-active.svg"
@@ -4570,7 +4605,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item" type="button" data-route="prediction">
+              ><button class="nav-item" type="button" data-route="stock-select">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction.svg"
@@ -4748,7 +4783,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item" type="button" data-route="prediction">
+              ><button class="nav-item" type="button" data-route="stock-select">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction.svg"
@@ -4818,7 +4853,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item" type="button" data-route="prediction">
+              ><button class="nav-item" type="button" data-route="stock-select">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction.svg"
@@ -4885,7 +4920,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item" type="button" data-route="prediction">
+              ><button class="nav-item" type="button" data-route="stock-select">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction.svg"
@@ -5169,7 +5204,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item" type="button" data-route="prediction">
+              ><button class="nav-item" type="button" data-route="stock-select">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction.svg"
@@ -5395,7 +5430,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item active" type="button" data-route="prediction" aria-current="page">
+              ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction-active.svg"
@@ -5486,7 +5521,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item" type="button" data-route="prediction">
+              ><button class="nav-item" type="button" data-route="stock-select">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction.svg"
@@ -5629,7 +5664,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   data-embedded-asset="nav-home.svg"
                   alt=""
                 /><span>홈</span></button
-              ><button class="nav-item" type="button" data-route="prediction">
+              ><button class="nav-item" type="button" data-route="stock-select">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                   data-embedded-asset="nav-prediction.svg"
@@ -5760,6 +5795,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           direction: 'up',
           productId: products[0].dataset.product,
           stockReturn: 'home',
+          stockBack: 'home',
           market: 'all',
           legalReturn: 'settings',
           legalId: 'terms',
@@ -5818,7 +5854,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             row.setAttribute('aria-pressed', String(selected));
           });
           const stockBack = document.querySelector('#stock-select [data-route]');
-          stockBack.dataset.route = state.stockReturn;
+          stockBack.dataset.route = state.stockBack;
         }
 
         function filterStocks() {
@@ -5945,6 +5981,16 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             closeAd();
         });
 
+        function openStockSelect(stockReturn, stockBack) {
+          state.stockReturn = stockReturn;
+          state.stockBack = stockBack;
+          state.market = 'all';
+          document.getElementById('stock-search-input').value = '';
+          filterStocks();
+          syncSelection();
+          navigate('stock-select');
+        }
+
         const legalTitles = {
           age: '만 14세 이상입니다',
           terms: '서비스 이용약관 동의',
@@ -5954,6 +6000,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         app.addEventListener('click', (event) => {
           const button = event.target.closest('button');
           if (!button || button.disabled) return;
+          if (button.dataset.route === 'stock-select') {
+            if (currentRoute() !== 'stock-select') openStockSelect('prediction', currentRoute());
+            return;
+          }
           if (button.dataset.route) return navigate(button.dataset.route);
           if (button.dataset.direction) {
             state.direction = button.dataset.direction;
@@ -5962,14 +6012,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             return;
           }
           if (button.hasAttribute('data-stock-picker')) {
-            state.stockReturn = ['home', 'prediction'].includes(currentRoute())
+            const stockReturn = ['home', 'prediction'].includes(currentRoute())
               ? currentRoute()
               : 'prediction';
-            state.market = 'all';
-            document.getElementById('stock-search-input').value = '';
-            filterStocks();
-            syncSelection();
-            navigate('stock-select');
+            openStockSelect(stockReturn, stockReturn);
             return;
           }
           if (button.dataset.stockCode) {
