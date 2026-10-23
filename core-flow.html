@@ -773,7 +773,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         display: none;
       }
 
-      .stock-select-row:last-child {
+      .stock-select-row:nth-last-child(1 of :not([hidden])) {
         border-bottom: 0;
       }
 
@@ -1031,6 +1031,15 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
       .direction-card:disabled:not(.selected) {
         opacity: 0.6;
+      }
+
+      .home-prediction {
+        margin-top: 12px;
+      }
+
+      .home-prediction .direction-card {
+        height: 64px;
+        padding-block: 12px;
       }
 
       .direction-title {
@@ -3776,31 +3785,32 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                 </div>
                 <div class="quote-row"><span>조회 가격 —</span><span>—</span></div>
                 <p class="card-label">시세를 확인하려면 실제 서버 연결이 필요합니다.</p>
+                <div class="home-prediction">
+                  <div class="direction-grid">
+                    <button class="direction-card home-direction" type="button" data-direction="up">
+                      <span class="direction-icon"
+                        ><img
+                          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                          data-embedded-asset="arrow-up.svg"
+                          alt="" /></span
+                      ><span
+                        ><span class="direction-title">상승</span
+                        ><span class="direction-caption">오를 것 같아요</span></span
+                      ></button
+                    ><button class="direction-card home-direction" type="button" data-direction="down">
+                      <span class="direction-icon down"
+                        ><img
+                          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                          data-embedded-asset="arrow-down.svg"
+                          alt="" /></span
+                      ><span
+                        ><span class="direction-title">하락</span
+                        ><span class="direction-caption">내릴 것 같아요</span></span
+                      >
+                    </button>
+                  </div>
+                </div>
               </section>
-              <h2 class="section-title">다음 거래일 종가는?</h2>
-              <div class="direction-grid">
-                <button class="direction-card selected" type="button" data-direction="up" aria-pressed="true">
-                  <span class="direction-icon"
-                    ><img
-                      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                      data-embedded-asset="arrow-up.svg"
-                      alt="" /></span
-                  ><span
-                    ><span class="direction-title">상승</span
-                    ><span class="direction-caption">오를 것 같아요</span></span
-                  ></button
-                ><button class="direction-card" type="button" data-direction="down" aria-pressed="false">
-                  <span class="direction-icon down"
-                    ><img
-                      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                      data-embedded-asset="arrow-down.svg"
-                      alt="" /></span
-                  ><span
-                    ><span class="direction-title">하락</span
-                    ><span class="direction-caption">내릴 것 같아요</span></span
-                  >
-                </button>
-              </div>
               <button class="secondary-button" type="button" data-route="result">예측 결과 확인</button>
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
@@ -6059,7 +6069,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             document.createTextNode(format(product.productAmount)),
             Object.assign(document.createElement('span'), { textContent: '원' })
           );
-          app.querySelectorAll('[data-direction]').forEach((button) => {
+          app.querySelectorAll('.direction-card[data-direction]:not(.home-direction)').forEach((button) => {
             const selected = button.dataset.direction === state.direction;
             button.classList.toggle('selected', selected);
             button.setAttribute('aria-pressed', String(selected));

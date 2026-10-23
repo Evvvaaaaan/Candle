@@ -471,7 +471,7 @@ h1[tabindex="-1"]:focus {
   display: none;
 }
 
-.stock-select-row:last-child {
+.stock-select-row:nth-last-child(1 of :not([hidden])) {
   border-bottom: 0;
 }
 
@@ -691,6 +691,15 @@ h1[tabindex="-1"]:focus {
 
 .direction-card:disabled:not(.selected) {
   opacity: .6;
+}
+
+.home-prediction {
+  margin-top: 12px;
+}
+
+.home-prediction .direction-card {
+  height: 64px;
+  padding-block: 12px;
 }
 
 .direction-title {
