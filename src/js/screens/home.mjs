@@ -31,6 +31,6 @@ export default function render(context) {
       <div class="reward-ticket-heading"><span class="icon-tile">${uiIcon('gift')}</span><div><h2>사용 가능한 예측권 <strong>${n(totalTickets())}회</strong></h2><p>오늘 광고로 ${n(data.tickets.adLimit - data.tickets.adCount)}회 더 받을 수 있어요</p></div></div>
       ${rewardAdButton()}
     </section>
-    ${stockCard()}${stock() ? `<h2 class="section-title">다음 거래일 종가는?</h2><div class="direction-grid">${directionCard('up', !isOpen() || !!todayPrediction(stock().code))}${directionCard('down', !isOpen() || !!todayPrediction(stock().code))}</div>` : ''}${button('예측 결과 확인', 'result', 'secondary-button')}`
+    ${stockCard(true, stock() ? `<div class="home-prediction"><div class="direction-grid">${directionCard('up', !isOpen() || !!todayPrediction(stock().code), false)}${directionCard('down', !isOpen() || !!todayPrediction(stock().code), false)}</div></div>` : '')}${button('예측 결과 확인', 'result', 'secondary-button')}`
   );
 }

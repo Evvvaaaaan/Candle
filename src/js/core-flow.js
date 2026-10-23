@@ -105,12 +105,12 @@ const rewardAdButton = (label = '광고 보고 예측권 받기', disabled = fal
   const available = data.tickets.adCount < data.tickets.adLimit;
   return `<button class="primary-button" type="button" data-reward-ad${disabled || !available ? ' disabled' : ''}>${available ? e(label) : '오늘 광고 참여를 모두 마쳤어요'}</button>`;
 };
-const directionCard = (direction, disabled = false) =>
-  `<button class="direction-card${state.direction === direction ? ' selected' : ''}" type="button" data-direction="${direction}" aria-pressed="${state.direction === direction}"${disabled ? ' disabled' : ''}><span class="direction-icon${direction === 'down' ? ' down' : ''}"><img src="${icon(direction === 'up' ? 'arrow-up.svg' : 'arrow-down.svg')}" alt=""></span><span><span class="direction-title">${direction === 'up' ? '상승' : '하락'}</span><span class="direction-caption">${direction === 'up' ? '오를 것 같아요' : '내릴 것 같아요'}</span></span></button>`;
-function stockCard(changeable = true) {
+const directionCard = (direction, disabled = false, selectable = true) =>
+  `<button class="direction-card${selectable && state.direction === direction ? ' selected' : ''}" type="button" data-direction="${direction}"${selectable ? ` aria-pressed="${state.direction === direction}"` : ''}${disabled ? ' disabled' : ''}><span class="direction-icon${direction === 'down' ? ' down' : ''}"><img src="${icon(direction === 'up' ? 'arrow-up.svg' : 'arrow-down.svg')}" alt=""></span><span><span class="direction-title">${direction === 'up' ? '상승' : '하락'}</span><span class="direction-caption">${direction === 'up' ? '오를 것 같아요' : '내릴 것 같아요'}</span></span></button>`;
+function stockCard(changeable = true, footer = '') {
   const s = stock();
   if (!s) return empty('지금 조회 가능한 종목이 없어요.');
-  return `<section class="card stock-card"><div class="stock-top"><div><p class="card-label">선택한 종목</p><p class="stock-name">${e(s.name)}</p><p class="card-label">${e(s.code)} · ${e(s.market)}</p></div>${changeable ? '<button class="stock-change" type="button" data-stock-picker>종목 변경</button>' : ''}</div><div class="quote-row"><span>조회 가격 ${e(s.price)}</span><span class="${s.change.startsWith('-') ? 'down-text' : 'up-text'}">${e(s.change)}</span></div><p class="card-label">조회 시점의 시세이며 실시간 가격과 차이가 있을 수 있습니다.</p></section>`;
+  return `<section class="card stock-card"><div class="stock-top"><div><p class="card-label">선택한 종목</p><p class="stock-name">${e(s.name)}</p><p class="card-label">${e(s.code)} · ${e(s.market)}</p></div>${changeable ? '<button class="stock-change" type="button" data-stock-picker>종목 변경</button>' : ''}</div><div class="quote-row"><span>조회 가격 ${e(s.price)}</span><span class="${s.change.startsWith('-') ? 'down-text' : 'up-text'}">${e(s.change)}</span></div><p class="card-label">조회 시점의 시세이며 실시간 가격과 차이가 있을 수 있습니다.</p>${footer}</section>`;
 }
 function productCard(p, compact = false) {
   return `<${compact ? 'div' : 'button'} class="product-card${compact ? ' compact' : ''}"${compact ? '' : ` type="button" data-product="${e(p.id)}"${p.available ? '' : ' disabled'}`}><img class="npay-logo" src="${icon('npay-symbol.svg')}" width="56" height="56" alt="네이버페이"><span class="product-copy"><small>네이버페이</small><strong>${n(p.amount)}원권</strong><span>${n(p.points)}P${p.available ? '' : ' · 준비 중'}</span></span>${compact ? '' : uiIcon('chevron', 'product-chevron')}</${compact ? 'div' : 'button'}>`;
