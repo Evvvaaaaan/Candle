@@ -196,10 +196,7 @@ try {
     await page.locator('#missions .bottom-nav [data-route=stock-select]').click();
     await visible('stock-select');
     assert.equal(await page.locator('#stock-select .nav-item.active').innerText(), '예측');
-    await page.locator('#stock-select .back-button').click();
-    await visible('missions');
-    await page.locator('#missions .bottom-nav [data-route=stock-select]').click();
-    await visible('stock-select');
+    assert.equal(await page.locator('#stock-select .back-button').count(), 0);
     await page.locator('[data-stock-code="035420"]').click();
     await visible('prediction');
     assert.equal(await page.locator('#prediction .heading').innerText(), 'NAVER');
@@ -207,7 +204,7 @@ try {
     assert.equal(await watchlistToggle.getAttribute('aria-pressed'), 'false');
     await watchlistToggle.click();
     assert.equal(await watchlistToggle.getAttribute('aria-pressed'), 'true');
-    await page.locator('#prediction .bottom-nav [data-route=stock-select]').click();
+    await page.locator('#prediction .back-button').click();
     await visible('stock-select');
     await page.locator('[data-market=watchlist]').click();
     assert.equal(await page.locator('#stock-list-title').innerText(), '관심종목');

@@ -467,6 +467,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         background: transparent;
       }
 
+      .transaction-header h1:first-child {
+        margin-left: 18px;
+      }
+
       .back-button img {
         width: 24px;
         height: 24px;
@@ -4121,13 +4125,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           >
             <div class="status-bar" aria-hidden="true"></div>
             <header class="transaction-header">
-              <button class="back-button" type="button" data-route="home" aria-label="이전 화면">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="chevron-left.svg"
-                  alt=""
-                />
-              </button>
               <h1>종목 선택</h1>
             </header>
             <div class="stock-select-content">
@@ -4264,14 +4261,15 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </section>
           <section class="screen-view" data-screen="prediction" id="prediction" aria-label="예측">
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="home" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
+                />
+              </button>
+              <h1>예측</h1>
             </header>
             <div class="content">
               <div class="stock-heading-row">
@@ -6023,7 +6021,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           direction: 'up',
           productId: products[0].dataset.product,
           stockReturn: 'home',
-          stockBack: 'home',
+          predictionBack: 'home',
           watchlist: new Set(),
           market: 'all',
           legalReturn: 'settings',
@@ -6088,8 +6086,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             button.setAttribute('aria-pressed', String(watched));
             button.setAttribute('aria-label', watched ? '관심종목에서 삭제' : '관심종목에 추가');
           });
-          const stockBack = document.querySelector('#stock-select [data-route]');
-          stockBack.dataset.route = state.stockBack;
+          document.querySelector('#prediction .back-button').dataset.route = state.predictionBack;
         }
 
         function filterStocks() {
@@ -6316,9 +6313,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           });
         }
 
-        function openStockSelect(stockReturn, stockBack) {
+        function openStockSelect(stockReturn) {
           state.stockReturn = stockReturn;
-          state.stockBack = stockBack;
           state.market = 'all';
           document.getElementById('stock-search-input').value = '';
           filterStocks();
@@ -6336,7 +6332,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           const button = event.target.closest('button');
           if (!button || button.disabled) return;
           if (button.dataset.route === 'stock-select') {
-            if (currentRoute() !== 'stock-select') openStockSelect('prediction', currentRoute());
+            if (currentRoute() !== 'stock-select') openStockSelect('prediction');
             return;
           }
           if (button.dataset.route) return navigate(button.dataset.route);
@@ -6355,7 +6351,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             const stockReturn = ['home', 'prediction'].includes(currentRoute())
               ? currentRoute()
               : 'prediction';
-            openStockSelect(stockReturn, stockReturn);
+            openStockSelect(stockReturn);
             return;
           }
           if (button.hasAttribute('data-watchlist-toggle')) {
@@ -6432,6 +6428,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           }
           const route = currentRoute();
           if (previousRoute !== route) {
+            if (route === 'prediction' && ['home', 'stock-select'].includes(previousRoute))
+              state.predictionBack = previousRoute;
             document.getElementById('action-error')?.remove();
             if (dialog.open) dialog.close();
             if (tutorialDialog.open) tutorialDialog.close();
