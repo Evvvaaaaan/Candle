@@ -3338,6 +3338,194 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       .splash-screen {
         --screen-display: flex;
       }
+      /* First-visit tutorial */
+      .tutorial-dialog {
+        position: fixed;
+        inset: 0;
+        width: min(420px, calc(100vw - 32px));
+        max-width: 100vw;
+        max-height: calc(100dvh - 24px);
+        margin: auto;
+        padding: 0;
+        overflow: hidden auto;
+        border: 0;
+        border-radius: 24px;
+        color: var(--text-dark);
+        background: var(--surface);
+        font-family: var(--font);
+        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+      }
+      .tutorial-dialog::backdrop {
+        background: rgba(15, 23, 42, 0.55);
+      }
+      .tutorial-dialog[open] {
+        display: flex;
+        flex-direction: column;
+      }
+      .tutorial-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+        border: 0;
+      }
+      .tutorial-header {
+        display: flex;
+        justify-content: flex-end;
+        padding: 12px 12px 0;
+      }
+      .tutorial-skip {
+        padding: 8px 10px;
+        border: 0;
+        border-radius: 10px;
+        color: var(--text-mid);
+        background: transparent;
+        font: inherit;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .tutorial-skip:focus-visible,
+      .tutorial-dot:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
+      .tutorial-slides {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 248px;
+        padding: 0 24px;
+        text-align: center;
+      }
+      .tutorial-slide {
+        display: none;
+        width: 100%;
+      }
+      .tutorial-slide.active {
+        display: block;
+        animation: tutorial-slide-in 0.28s ease-out;
+      }
+      @keyframes tutorial-slide-in {
+        from {
+          opacity: 0;
+          transform: translateX(12px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .tutorial-number {
+        font-size: 64px;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        color: var(--primary);
+      }
+      .tutorial-mark {
+        display: grid;
+        place-items: center;
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 16px;
+        border-radius: 20px;
+      }
+      .tutorial-direction {
+        grid-template-columns: 1fr;
+        margin: 0 0 20px;
+      }
+      .tutorial-direction .direction-card {
+        border: 2px solid #f1aaa5;
+        background: var(--market-up-bg);
+      }
+      .tutorial-direction .direction-card.down {
+        border-color: #a6c9ef;
+        background: var(--market-down-bg);
+      }
+      .tutorial-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 12px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        color: var(--success);
+        background: var(--success-bg);
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .tutorial-title {
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.36;
+        letter-spacing: -0.02em;
+      }
+      .tutorial-accent {
+        color: var(--primary);
+      }
+      .tutorial-desc {
+        margin-top: 8px;
+        color: var(--text-mid);
+        font-size: 14px;
+        line-height: 23px;
+      }
+      .tutorial-rules {
+        margin-top: 16px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: var(--surface-subtle);
+        color: var(--text-mid);
+        font-size: 12px;
+        line-height: 18px;
+        text-align: left;
+      }
+      .tutorial-rules p + p {
+        margin-top: 4px;
+      }
+      .tutorial-rules strong {
+        color: var(--text-dark);
+        font-weight: 700;
+      }
+      .tutorial-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px 24px calc(20px + env(safe-area-inset-bottom, 0px));
+      }
+      .tutorial-dots {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+      }
+      .tutorial-dot {
+        width: 8px;
+        height: 8px;
+        padding: 0;
+        border: 0;
+        border-radius: 999px;
+        background: var(--border-mid);
+        cursor: pointer;
+        transition:
+          width 0.2s ease,
+          background 0.2s ease;
+      }
+      .tutorial-dot[aria-current='true'] {
+        width: 20px;
+        background: var(--primary);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .tutorial-slide.active {
+          animation: none;
+        }
+        .tutorial-dot {
+          transition: none;
+        }
+      }
+
       [hidden] {
         display: none !important;
       }
@@ -5553,6 +5741,39 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                     <path d="m9 5 7 7-7 7"></path>
                   </svg>
                 </button>
+                <hr />
+                <button class="menu-row" type="button" data-tutorial-replay>
+                  <span class="menu-label"
+                    ><span class="icon-tile menu-icon"
+                      ><svg
+                        class="ui-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7" />
+                        <path d="M12 17h.01" /></svg></span
+                    >튜토리얼 다시 보기</span
+                  ><svg
+                    class="ui-icon menu-chevron"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="m9 5 7 7-7 7"></path>
+                  </svg>
+                </button>
               </section>
               <button id="logout" class="secondary-button" type="button">로그아웃</button>
             </div>
@@ -5641,6 +5862,100 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </p>
             <button id="start-reward-ad" class="primary-button" type="button" autofocus>광고 시청하기</button>
             <button id="cancel-reward-ad" class="reward-ad-cancel" type="button">나중에 할게요</button>
+          </dialog>
+          <dialog id="tutorial-dialog" class="tutorial-dialog" aria-labelledby="tutorial-title">
+            <h2 id="tutorial-title" class="tutorial-hidden">Candle 이용 안내</h2>
+            <div class="tutorial-header">
+              <button id="tutorial-skip" class="tutorial-skip" type="button">건너뛰기</button>
+            </div>
+            <div class="tutorial-slides" aria-live="polite">
+              <div class="tutorial-slide active" data-tutorial-slide="0">
+                <div class="tutorial-number" aria-hidden="true">10</div>
+                <p class="tutorial-title">10일 연속 예측 성공</p>
+                <p class="tutorial-desc">매일 상승·하락을 맞히면 보상이 쌓여요.</p>
+                <div class="tutorial-rules">
+                  <p>하루 <strong>10회</strong>까지 참여할 수 있어요.</p>
+                  <p>적중률 <strong>50% 초과</strong>면 연승이 유지돼요.</p>
+                </div>
+              </div>
+              <div class="tutorial-slide" data-tutorial-slide="1">
+                <span class="icon-tile reward-ad-icon tutorial-mark"
+                  ><svg
+                    class="ui-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <rect x="3" y="8" width="18" height="4" rx="1" />
+                    <path d="M5 12v9h14v-9M12 8v13" />
+                    <path d="M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z" /></svg
+                ></span>
+                <p class="tutorial-badge">리스크 0%</p>
+                <p class="tutorial-title">광고 시청 → 예측 → <span class="tutorial-accent">100만원</span></p>
+                <p class="tutorial-desc">광고 15초만 보면 참여할 수 있어요.</p>
+              </div>
+              <div class="tutorial-slide" data-tutorial-slide="2">
+                <div class="direction-grid tutorial-direction" aria-hidden="true">
+                  <div class="direction-card wide">
+                    <span class="direction-icon"
+                      ><img
+                        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                        data-embedded-asset="arrow-up.svg"
+                        alt=""
+                    /></span>
+                    <span
+                      ><span class="direction-title">상승</span
+                      ><span class="direction-caption">오를 것 같아요</span></span
+                    >
+                  </div>
+                  <div class="direction-card wide down">
+                    <span class="direction-icon down"
+                      ><img
+                        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                        data-embedded-asset="arrow-down.svg"
+                        alt=""
+                    /></span>
+                    <span
+                      ><span class="direction-title">하락</span
+                      ><span class="direction-caption">내릴 것 같아요</span></span
+                    >
+                  </div>
+                </div>
+                <p class="tutorial-title">오늘 종가, 오를까요 내릴까요?</p>
+                <p class="tutorial-desc">매일 09:00부터 15:30까지 참여할 수 있어요.</p>
+              </div>
+            </div>
+            <div class="tutorial-footer">
+              <div class="tutorial-dots">
+                <button
+                  class="tutorial-dot"
+                  type="button"
+                  data-tutorial-dot="0"
+                  aria-label="1단계"
+                  aria-current="true"
+                ></button
+                ><button
+                  class="tutorial-dot"
+                  type="button"
+                  data-tutorial-dot="1"
+                  aria-label="2단계"
+                  aria-current="false"
+                ></button
+                ><button
+                  class="tutorial-dot"
+                  type="button"
+                  data-tutorial-dot="2"
+                  aria-label="3단계"
+                  aria-current="false"
+                ></button>
+              </div>
+              <button id="tutorial-next" class="primary-button" type="button">다음</button>
+            </div>
           </dialog>
         </div>
       </section>
@@ -5895,6 +6210,90 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             closeAd();
         });
 
+        const TUTORIAL_KEY = 'candle.tutorial.seen';
+        const tutorialDialog = document.getElementById('tutorial-dialog');
+        const tutorialSlides = [...tutorialDialog.querySelectorAll('[data-tutorial-slide]')];
+        const tutorialDots = [...tutorialDialog.querySelectorAll('[data-tutorial-dot]')];
+        const tutorialNext = document.getElementById('tutorial-next');
+        let tutorialIndex = 0;
+        let tutorialTrigger = null;
+        let tutorialPending = false;
+        const tutorialSeen = () => {
+          try {
+            return localStorage.getItem(TUTORIAL_KEY) === '1';
+          } catch {
+            return false;
+          }
+        };
+        const rememberTutorial = () => {
+          try {
+            localStorage.setItem(TUTORIAL_KEY, '1');
+          } catch {}
+        };
+        const forgetTutorial = () => {
+          try {
+            localStorage.removeItem(TUTORIAL_KEY);
+          } catch {}
+        };
+        function renderTutorial() {
+          tutorialSlides.forEach((slide, index) => slide.classList.toggle('active', index === tutorialIndex));
+          tutorialDots.forEach((dot, index) =>
+            dot.setAttribute('aria-current', String(index === tutorialIndex))
+          );
+          tutorialNext.textContent = tutorialIndex === tutorialSlides.length - 1 ? '시작하기' : '다음';
+        }
+        function showTutorial(index = 0) {
+          tutorialIndex = index;
+          renderTutorial();
+          tutorialTrigger = document.activeElement;
+          if (!tutorialDialog.open) tutorialDialog.showModal();
+          tutorialNext.focus({ preventScroll: true });
+        }
+        function closeTutorial() {
+          rememberTutorial();
+          tutorialDialog.close();
+          if (tutorialTrigger instanceof HTMLElement) tutorialTrigger.focus({ preventScroll: true });
+        }
+        tutorialNext.addEventListener('click', () => {
+          if (tutorialIndex < tutorialSlides.length - 1) {
+            tutorialIndex += 1;
+            renderTutorial();
+            return;
+          }
+          closeTutorial();
+        });
+        tutorialDots.forEach((dot, index) =>
+          dot.addEventListener('click', () => {
+            tutorialIndex = index;
+            renderTutorial();
+          })
+        );
+        document.getElementById('tutorial-skip').addEventListener('click', closeTutorial);
+        tutorialDialog.addEventListener('cancel', (event) => {
+          event.preventDefault();
+          closeTutorial();
+        });
+        tutorialDialog.addEventListener('keydown', (event) => {
+          if (event.key === 'ArrowRight' && tutorialIndex < tutorialSlides.length - 1) {
+            tutorialIndex += 1;
+            renderTutorial();
+          } else if (event.key === 'ArrowLeft' && tutorialIndex > 0) {
+            tutorialIndex -= 1;
+            renderTutorial();
+          }
+        });
+        tutorialDialog.addEventListener('click', (event) => {
+          const rect = tutorialDialog.getBoundingClientRect();
+          if (
+            event.target === tutorialDialog &&
+            (event.clientX < rect.left ||
+              event.clientX > rect.right ||
+              event.clientY < rect.top ||
+              event.clientY > rect.bottom)
+          )
+            closeTutorial();
+        });
+
         function syncWalletTabs() {
           app.querySelectorAll('.wallet-tabs [data-wallet-tab]').forEach((button) => {
             const selected = button.dataset.walletTab === state.walletTab;
@@ -5927,6 +6326,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             return;
           }
           if (button.dataset.route) return navigate(button.dataset.route);
+          if (button.hasAttribute('data-tutorial-replay')) {
+            forgetTutorial();
+            showTutorial(0);
+            return;
+          }
           if (button.dataset.direction) {
             state.direction = button.dataset.direction;
             syncSelection();
@@ -5985,7 +6389,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             dialog.showModal();
             return;
           }
-          if (button.dataset.login) return navigate('home');
+          if (button.dataset.login) {
+            tutorialPending = true;
+            return navigate('home');
+          }
           if (button.hasAttribute('data-claim')) return requireServer('보상 확인 및 수령');
           if (button.hasAttribute('data-more')) return requireServer('이전 내역 조회');
           const actions = {
@@ -6013,6 +6420,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           if (previousRoute !== route) {
             document.getElementById('action-error')?.remove();
             if (dialog.open) dialog.close();
+            if (tutorialDialog.open) tutorialDialog.close();
             if (!['payout', 'legal'].includes(route)) {
               document.getElementById('payout-form').reset();
               payoutAgree.checked = false;
@@ -6033,6 +6441,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           if (previousRoute !== route)
             document.getElementById(route).querySelector('h1')?.focus({ preventScroll: true });
           previousRoute = route;
+          if (route === 'home' && tutorialPending) {
+            tutorialPending = false;
+            if (!tutorialSeen() && !tutorialDialog.open) showTutorial(0);
+          }
         }
         window.addEventListener('hashchange', syncRoute);
         syncSelection();
@@ -6040,6 +6452,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         syncConsent();
         syncPayout();
         syncRoute();
+        if (currentRoute() === 'home' && !tutorialSeen()) showTutorial(0);
       })();
     </script>
   </body>
