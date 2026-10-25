@@ -187,7 +187,7 @@ try {
     await serverError();
     await page.locator('#consent [data-legal=privacy]').click();
     await visible('legal');
-    assert.equal(await page.locator('#legal .heading').innerText(), '개인정보 처리방침 동의');
+    assert.equal(await page.locator('#legal .transaction-header h1').innerText(), '개인정보 처리방침 동의');
     await page.locator('#legal .back-button').click();
     await visible('consent');
     assert.ok(await page.locator('#agree-all').isChecked());

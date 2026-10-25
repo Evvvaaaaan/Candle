@@ -459,10 +459,14 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
 
       .transaction-header {
+        position: relative;
+        justify-content: center;
         border-bottom: 1px solid var(--border);
       }
 
       .back-button {
+        position: absolute;
+        left: 0;
         width: 40px;
         height: 40px;
         margin-left: 10px;
@@ -472,19 +476,15 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         background: transparent;
       }
 
-      .transaction-header h1:first-child {
-        margin-left: 18px;
-      }
-
       .back-button img {
         width: 24px;
         height: 24px;
       }
 
       .transaction-header h1 {
-        margin-left: 4px;
-        font-size: 18px;
-        line-height: 26px;
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 24px;
         letter-spacing: -0.015em;
       }
 
@@ -517,9 +517,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
 
       .heading {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 700;
-        line-height: 32px;
+        line-height: 28px;
         letter-spacing: -0.02em;
       }
 
@@ -689,7 +689,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
       .stock-search {
         height: 48px;
-        margin-top: 22px;
         padding: 0 14px;
         display: flex;
         align-items: center;
@@ -1160,11 +1159,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         width: 40px;
         height: 40px;
         margin-right: -8px;
+        margin-left: auto;
         display: grid;
         place-items: center;
         border: 0;
         color: var(--text-mid);
         background: transparent;
+      }
+
+      .transaction-header .header-account {
+        position: absolute;
+        right: 18px;
       }
 
       .header-account svg {
@@ -4182,28 +4187,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </section>
           <section class="screen-view" data-screen="challenge" id="challenge" aria-label="10연승 챌린지">
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="home" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
-              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
-                </svg>
+                />
               </button>
             </header>
             <div class="content">
@@ -4322,28 +4312,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             aria-label="리워드 수령"
           >
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="challenge" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
-              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
-                </svg>
+                />
               </button>
             </header>
             <div class="content">
@@ -4533,10 +4508,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           >
             <div class="status-bar" aria-hidden="true"></div>
             <header class="transaction-header">
-              <h1>종목 선택</h1>
+              <h1 tabindex="-1">종목 선택</h1>
             </header>
             <div class="stock-select-content">
-              <h1 class="heading" tabindex="-1">예측할 종목을 선택하세요</h1>
               <label class="stock-search"
                 ><span aria-hidden="true">⌕</span
                 ><input
@@ -4702,7 +4676,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 />
               </button>
-              <h1>예측</h1>
+              <h1 tabindex="-1">예측</h1>
             </header>
             <div class="content">
               <div class="stock-heading-row">
@@ -4838,32 +4812,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </section>
           <section class="screen-view" data-screen="confirm" id="confirm" aria-label="예측 확인">
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="prediction" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
-              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
-                </svg>
+                />
               </button>
+              <h1 tabindex="-1">예측 확인</h1>
             </header>
             <div class="content">
-              <h1 class="heading" tabindex="-1">예측 확인</h1>
               <section class="card stock-card">
                 <div class="stock-top">
                   <div>
@@ -4945,32 +4904,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </section>
           <section class="screen-view" data-screen="submitted" id="submitted" aria-label="접수 내역">
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="home" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
-              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
-                </svg>
+                />
               </button>
+              <h1 tabindex="-1">예측 접수 내역</h1>
             </header>
             <div class="content">
-              <h1 class="heading" tabindex="-1">예측 접수 내역</h1>
               <div class="empty-state">
                 <span class="icon-tile empty-icon"
                   ><svg
@@ -5053,28 +4997,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </section>
           <section class="screen-view" data-screen="pass" id="pass" aria-label="예측권">
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="home" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
-              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
-                </svg>
+                />
               </button>
             </header>
             <div class="content">
@@ -5159,28 +5088,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </section>
           <section class="screen-view" data-screen="ad" id="ad" aria-label="광고">
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="pass" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
-              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
-                </svg>
+                />
               </button>
             </header>
             <div class="content">
@@ -5251,33 +5165,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </section>
           <section class="screen-view" data-screen="result" id="result" aria-label="결과">
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="home" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
-              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
-                </svg>
+                />
               </button>
+              <h1 tabindex="-1">예측 결과</h1>
             </header>
             <div class="content">
-              <h1 class="heading" tabindex="-1">예측 결과</h1>
-              <p class="subheading">확정된 결과와 보상을 확인하세요.</p>
               <section class="card result-card">
                 <div class="record-heading">
                   <span class="icon-tile"
@@ -5363,13 +5261,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           <section class="screen-view" data-screen="missions" id="missions" aria-label="미션">
             <div class="status-bar" aria-hidden="true"></div>
             <header class="app-header">
-              <div class="brand">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
-                  alt=""
-                /><span>Candle</span>
-              </div>
               <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
                 <svg
                   viewBox="0 0 24 24"
@@ -5527,13 +5418,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           <section class="screen-view" data-screen="shop" id="shop" aria-label="포인트 샵">
             <div class="status-bar" aria-hidden="true"></div>
             <header class="app-header">
-              <div class="brand">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
-                  alt=""
-                /><span>Candle</span>
-              </div>
               <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
                 <svg
                   viewBox="0 0 24 24"
@@ -5743,32 +5627,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </section>
           <section class="screen-view" data-screen="exchange" id="exchange" aria-label="교환 확인">
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="shop" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
-              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
-                </svg>
+                />
               </button>
+              <h1 tabindex="-1">교환 확인</h1>
             </header>
             <div class="content">
-              <h1 class="heading" tabindex="-1">교환 확인</h1>
               <div class="product-card compact">
                 <img
                   class="npay-logo"
@@ -5852,14 +5721,15 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </section>
           <section class="screen-view" data-screen="profile" id="profile" aria-label="내 정보">
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="home" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
+                />
+              </button>
+              <h1 tabindex="-1">내 정보</h1>
               <button class="header-account" type="button" data-route="settings" aria-label="설정">
                 <svg
                   viewBox="0 0 24 24"
@@ -5879,7 +5749,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               </button>
             </header>
             <div class="content">
-              <h1 class="heading" tabindex="-1">내 정보</h1>
               <section class="card account-card">
                 <span class="icon-tile account-avatar"
                   ><svg
@@ -6153,7 +6022,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 />
               </button>
-              <h1>지급 신청</h1>
+              <h1 tabindex="-1">지급 신청</h1>
             </header>
             <div class="payout-content">
               <h1 class="heading" tabindex="-1">수령 정보 입력</h1>
@@ -6300,33 +6169,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             aria-label="예측 내역"
           >
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="profile" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
-              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
-                </svg>
+                />
               </button>
+              <h1 tabindex="-1">예측 내역</h1>
             </header>
             <div class="content">
-              <h1 class="heading" tabindex="-1">예측 내역</h1>
-              <p class="subheading">확정된 결과와 보상을 확인하세요.</p>
               <section class="card result-card">
                 <div class="record-heading">
                   <span class="icon-tile"
@@ -6411,33 +6264,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </section>
           <section class="screen-view" data-screen="wallet" id="wallet" aria-label="포인트 내역">
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="profile" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
-              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
-                </svg>
+                />
               </button>
+              <h1 tabindex="-1">포인트 내역</h1>
             </header>
             <div class="content">
-              <h1 class="heading" tabindex="-1">포인트 내역</h1>
-              <p class="subheading">모은 포인트와 사용 내역을 확인하세요.</p>
               <section class="card points-card">
                 <div class="points-copy">
                   <p class="card-label">보유 포인트</p>
@@ -6547,32 +6384,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </section>
           <section class="screen-view" data-screen="settings" id="settings" aria-label="계정 설정">
             <div class="status-bar" aria-hidden="true"></div>
-            <header class="app-header">
-              <div class="brand">
+            <header class="transaction-header">
+              <button class="back-button" type="button" data-route="profile" aria-label="이전 화면">
                 <img
                   src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="candle-logo.png"
+                  data-embedded-asset="chevron-left.svg"
                   alt=""
-                /><span>Candle</span>
-              </div>
-              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
-                </svg>
+                />
               </button>
+              <h1 tabindex="-1">계정 · 약관</h1>
             </header>
             <div class="content">
-              <h1 class="heading" tabindex="-1">계정 · 약관</h1>
               <section class="card menu-card">
                 <button class="menu-row" type="button" data-legal="age">
                   <span class="menu-label"
@@ -6771,10 +6593,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 />
               </button>
-              <h1>서비스 이용약관 동의</h1>
+              <h1 tabindex="-1">서비스 이용약관 동의</h1>
             </header>
             <div class="consent-main">
-              <h1 class="heading" tabindex="-1">서비스 이용약관 동의</h1>
               <p class="field-help">서버 연결 필요</p>
               <div class="legal-copy">승인된 약관 본문을 확인하려면 실제 서버 연결이 필요합니다.</div>
             </div>
@@ -7319,7 +7140,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             const legal = document.getElementById('legal');
             legal.querySelector('h1').textContent = legalTitles[state.legalId];
             legal.querySelector('.transaction-header h1').textContent = legalTitles[state.legalId];
-            legal.querySelector('.heading').textContent = legalTitles[state.legalId];
             legal.querySelector('[data-route]').dataset.route = state.legalReturn;
             navigate('legal');
             return;
@@ -7347,6 +7167,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         });
         document.getElementById('stock-search-input').addEventListener('input', filterStocks);
 
+        // Screens reachable from more than one place return to where they were opened.
+        const dynamicBack = {
+          'challenge-reward': ['challenge', 'profile'],
+          pass: ['home', 'prediction'],
+          result: ['home', 'challenge'],
+        };
         let previousRoute = currentRoute();
         function syncRoute() {
           // Exchange history now lives in the wallet's 사용 tab.
@@ -7360,6 +7186,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           if (previousRoute !== route) {
             if (route === 'prediction' && ['home', 'stock-select'].includes(previousRoute))
               state.predictionBack = previousRoute;
+            if (dynamicBack[route]?.includes(previousRoute))
+              document.querySelector(`#${route} .back-button`).dataset.route = previousRoute;
             document.getElementById('action-error')?.remove();
             if (dialog.open) dialog.close();
             if (tutorialDialog.open) tutorialDialog.close();
