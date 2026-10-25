@@ -418,10 +418,15 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         display: flex;
         align-items: center;
         gap: 8px;
-        color: var(--primary);
+        color: #001848;
         font-size: 18px;
         font-weight: 700;
         letter-spacing: -0.015em;
+      }
+
+      .brand span {
+        position: relative;
+        top: -1.5px;
       }
 
       .brand img {
@@ -665,7 +670,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         color: var(--primary);
         background: #fff;
         font-size: 11px;
-        font-weight: 700;
+        font-weight: 500;
       }
 
       .stock-select-screen {
@@ -1051,7 +1056,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       .direction-title {
         display: block;
         font-size: 14px;
-        font-weight: 700;
+        font-weight: 500;
         line-height: 20px;
       }
 
@@ -1111,7 +1116,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         z-index: 10;
         height: var(--nav-height);
         display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-auto-columns: minmax(0, 1fr);
+        grid-auto-flow: column;
         align-items: center;
         gap: 4px;
         padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(12px + var(--safe-area-bottom))
@@ -1142,10 +1148,26 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       .nav-item.active {
         color: var(--primary);
         background: var(--primary-light);
-        font-weight: 700;
+        font-weight: 500;
       }
 
-      .nav-item img {
+      .nav-item svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .header-account {
+        width: 40px;
+        height: 40px;
+        margin-right: -8px;
+        display: grid;
+        place-items: center;
+        border: 0;
+        color: var(--text-mid);
+        background: transparent;
+      }
+
+      .header-account svg {
         width: 24px;
         height: 24px;
       }
@@ -1247,37 +1269,157 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         line-height: 16px;
       }
 
-      .reward-ticket-entry {
-        margin: 12px 0;
-      }
-      .reward-ticket-heading {
+      .menu-value {
+        flex-shrink: 0;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 4px;
+        font-size: 14px;
       }
-      .reward-ticket-heading > div {
+      .benefit-icon.amber {
+        background: #fff6e0;
+      }
+      .benefit-icon svg {
+        width: 22px;
+        height: 22px;
+      }
+      .benefit-copy {
         min-width: 0;
+        display: grid;
+        gap: 2px;
       }
-      .reward-ticket-heading h2 {
-        font-size: 13px;
+      .benefit-copy strong {
         font-weight: 500;
-        line-height: 22px;
       }
-      .reward-ticket-heading h2 strong {
-        margin-left: 4px;
-        color: var(--primary);
+      .benefit-copy span {
+        color: var(--text-mid);
+        font-size: 12px;
+      }
+      .stock-quote {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        margin-bottom: 2px;
+      }
+      .stock-quote strong {
+        font-size: 16px;
         font-weight: 700;
       }
-      .reward-ticket-heading p {
-        margin-top: 2px;
+      .stock-quote span {
         color: var(--text-mid);
-        font-size: 11px;
-        line-height: 18px;
-      }
-      .reward-ticket-entry .primary-button {
-        min-height: 44px;
-        margin-top: 12px;
         font-size: 13px;
+        font-weight: 500;
+      }
+      .streak-card {
+        margin-top: 12px;
+        padding: 16px;
+      }
+      .streak-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .streak-count {
+        color: var(--text-mid);
+        font-size: 14px;
+      }
+      .streak-count strong {
+        margin: 0 2px;
+        color: var(--text-dark);
+        font-size: 28px;
+        line-height: 34px;
+        font-weight: 700;
+        vertical-align: -3px;
+      }
+      .streak-goal {
+        color: var(--text-mid);
+        font-size: 12px;
+      }
+      .streak-goal strong {
+        color: var(--primary);
+        font-weight: 500;
+      }
+      .streak-bar {
+        display: grid;
+        grid-template-columns: repeat(10, minmax(0, 1fr));
+        gap: 4px;
+        margin-top: 12px;
+      }
+      .streak-bar span {
+        height: 6px;
+        border-radius: 3px;
+        background: var(--border);
+      }
+      .streak-bar span.filled {
+        background: var(--primary);
+      }
+      .home-result-link {
+        width: 100%;
+        font-size: 13px;
+      }
+      .screen-view[data-screen='home'] .section-title {
+        font-size: 15px;
+      }
+      .screen-view[data-screen='home'] .content {
+        right: 0;
+        left: 0;
+        padding: 0 18px 18px;
+      }
+      .home-divider {
+        height: 8px;
+        margin: 20px -18px 0;
+        border: 0;
+        background: var(--surface-subtle);
+      }
+      .home-stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .home-stat {
+        min-width: 0;
+        padding: 14px;
+        display: grid;
+        gap: 10px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        color: var(--text-dark);
+        background: #fff;
+        text-align: left;
+      }
+      .home-stat-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-mid);
+        font-size: 13px;
+      }
+      .home-stat .icon-tile {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+      }
+      .home-stat .icon-tile .ui-icon {
+        width: 18px;
+        height: 18px;
+      }
+      .home-stat .menu-chevron {
+        width: 18px;
+        height: 18px;
+        margin-left: auto;
+        color: var(--text-light);
+      }
+      .home-stat strong {
+        font-size: 22px;
+        line-height: 30px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .home-section.menu-card {
+        margin-top: 4px;
+        padding: 0;
       }
 
       .reward-ad-dialog {
@@ -3732,65 +3874,49 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">오늘의 종목을 예측해 보세요</h1>
               <p class="subheading">다음 거래일 방향을 선택하세요.</p>
-              <section class="card points-card">
-                <div class="points-copy">
-                  <p class="card-label">보유 포인트</p>
-                  <p class="number" data-server-value="balance">— P</p>
+              <section class="card streak-card" aria-label="연승 현황">
+                <div class="streak-top">
+                  <p class="streak-count">연승 <strong data-server-value="streak">—</strong> 일째</p>
+                  <p class="streak-goal">
+                    보상까지 <strong data-server-value="streak-remaining">—</strong>일
+                  </p>
                 </div>
-                <button class="link-button" type="button" data-wallet-tab="all">내역 보기 ›</button>
-              </section>
-              <button
-                class="home-ad-slot"
-                type="button"
-                data-route="stock-select"
-                aria-label="광고: Candle의 하루 1분 예측 살펴보기"
-              >
-                <span class="home-ad-copy">
-                  <span class="home-ad-meta"><span>AD</span> 오늘의 브랜드 · Candle</span>
-                  <strong>하루 1분,<br />금융 감각을 키우는 습관</strong>
-                </span>
-                <span class="home-ad-action">살펴보기 <span aria-hidden="true">›</span></span>
-              </button>
-              <section class="card reward-ticket-entry" aria-label="예측권 충전">
-                <div class="reward-ticket-heading">
-                  <span class="icon-tile"
-                    ><svg
-                      class="ui-icon"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <rect x="3" y="8" width="18" height="4" rx="1"></rect>
-                      <path d="M5 12v9h14v-9M12 8v13"></path>
-                      <path d="M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z"></path></svg
-                  ></span>
-                  <div>
-                    <h2>사용 가능한 예측권 <strong data-server-value="tickets">—회</strong></h2>
-                    <p>참여 가능 횟수는 서버 연결 후 확인할 수 있어요</p>
-                  </div>
+                <div class="streak-bar" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span><span></span><span></span><span></span
+                  ><span></span><span></span><span></span>
                 </div>
-                <button class="primary-button" type="button" data-reward-ad="">광고 보고 예측권 받기</button>
               </section>
               <section class="card stock-card">
                 <div class="stock-top">
                   <div>
                     <p class="card-label">선택한 종목</p>
                     <p class="stock-name" data-stock-name-value="">삼성전자</p>
+                    <p class="stock-quote">
+                      <strong data-server-value="price">—원</strong><span data-server-value="change">—%</span>
+                    </p>
                     <p class="card-label" data-stock-meta-value="">005930 · 코스피</p>
                   </div>
                   <button class="stock-change" type="button" data-stock-picker="">종목 변경</button>
                 </div>
-                <div class="quote-row"><span>조회 가격 —</span><span>—</span></div>
-                <p class="card-label">시세를 확인하려면 실제 서버 연결이 필요합니다.</p>
                 <div class="home-prediction">
                   <div class="direction-grid">
                     <button class="direction-card home-direction" type="button" data-direction="up">
@@ -3817,39 +3943,240 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   </div>
                 </div>
               </section>
-              <button class="secondary-button" type="button" data-route="result">예측 결과 확인</button>
+              <button class="link-button home-result-link" type="button" data-route="result">
+                참여한 예측 결과 보기 <span aria-hidden="true">›</span>
+              </button>
+              <hr class="home-divider" />
+              <div class="section-heading"><h2 class="section-title">내 리워드</h2></div>
+              <div class="home-stats">
+                <button type="button" class="home-stat" data-wallet-tab="all">
+                  <span class="home-stat-label"
+                    ><span class="icon-tile"
+                      ><svg
+                        class="ui-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M10 17V7h3a3 3 0 0 1 0 6h-3" /></svg></span
+                    >모은 포인트<svg
+                      class="ui-icon menu-chevron"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="m9 5 7 7-7 7" /></svg></span
+                  ><strong data-server-value="balance">— P</strong>
+                </button>
+                <button type="button" class="home-stat" data-route="pass">
+                  <span class="home-stat-label"
+                    ><span class="icon-tile"
+                      ><svg
+                        class="ui-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <path d="M3 7h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4V7Z" />
+                        <path d="M15 8v3m0 2v2m0 2v1" /></svg></span
+                    >예측권<svg
+                      class="ui-icon menu-chevron"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="m9 5 7 7-7 7" /></svg></span
+                  ><strong data-server-value="tickets">—회</strong>
+                </button>
+              </div>
+              <hr class="home-divider" />
+              <div class="section-heading"><h2 class="section-title">참여할수록 더 쌓여요</h2></div>
+              <section class="menu-card home-section" aria-label="참여 혜택">
+                <button type="button" class="menu-row" data-route="missions">
+                  <span class="menu-label"
+                    ><span class="icon-tile menu-icon complete"
+                      ><svg
+                        class="ui-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <rect x="4" y="5" width="16" height="16" rx="4" />
+                        <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg></span
+                    ><span class="benefit-copy"
+                      ><strong>출석하고 포인트 받기</strong
+                      ><span>하루 한 번, 미션에서 받을 수 있어요</span></span
+                    ></span
+                  ><svg
+                    class="ui-icon menu-chevron"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="m9 5 7 7-7 7" />
+                  </svg>
+                </button>
+                <hr />
+                <button type="button" class="menu-row" data-route="challenge">
+                  <span class="menu-label"
+                    ><span class="icon-tile menu-icon benefit-icon amber"
+                      ><svg viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+                        <path d="M10 5h12v9a6 6 0 0 1-12 0V5Z" fill="#ffbf47" />
+                        <path
+                          d="M10 8H5v3a6 6 0 0 0 6 6m11-9h5v3a6 6 0 0 1-6 6M16 20v6m-5 1h10"
+                          stroke="#d99215"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                        /></svg></span
+                    ><span class="benefit-copy"
+                      ><strong>10연승에 도전해 볼까요?</strong
+                      ><span>최고 승률자에게 100만원 리워드</span></span
+                    ></span
+                  ><svg
+                    class="ui-icon menu-chevron"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="m9 5 7 7-7 7" />
+                  </svg>
+                </button>
+                <hr />
+                <button type="button" class="menu-row" data-reward-ad="">
+                  <span class="menu-label"
+                    ><span class="icon-tile menu-icon benefit-icon"
+                      ><svg viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+                        <rect x="4" y="8" width="24" height="18" rx="5" fill="#d8e8ff" />
+                        <path d="m14 13 7 4-7 4v-8Z" fill="#3182f6" />
+                        <path
+                          d="M10 5h12"
+                          stroke="#83b6fa"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                        /></svg></span
+                    ><span class="benefit-copy"
+                      ><strong>예측권을 더 받아보세요</strong><span>광고 15초 보고 1장 더</span></span
+                    ></span
+                  ><svg
+                    class="ui-icon menu-chevron"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="m9 5 7 7-7 7" />
+                  </svg>
+                </button>
+              </section>
+              <button
+                class="home-ad-slot"
+                type="button"
+                data-route="stock-select"
+                aria-label="광고: Candle의 하루 1분 예측 살펴보기"
+              >
+                <span class="home-ad-copy">
+                  <span class="home-ad-meta"><span>AD</span> 오늘의 브랜드 · Candle</span>
+                  <strong>하루 1분,<br />금융 감각을 키우는 습관</strong>
+                </span>
+                <span class="home-ad-action">살펴보기 <span aria-hidden="true">›</span></span>
+              </button>
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item active" type="button" data-route="home" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home-active.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item" type="button" data-route="stock-select">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -3863,6 +4190,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">10연승 챌린지</h1>
@@ -3884,9 +4226,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                     <path d="M5 12v9h14v-9M12 8v13"></path>
                     <path d="M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z"></path></svg
                 ></span>
-                <p class="card-label">10연승 달성자 중 추첨</p>
+                <p class="card-label">10연승 달성자 중 최고 승률 1명</p>
                 <h2>100만원 리워드</h2>
-                <p>10연승에 성공한 참여자 중<br />추첨으로 리워드를 지급합니다.</p>
+                <p>10연승에 성공한 참여자 중<br />승률이 가장 높은 1명에게 리워드를 지급합니다.</p>
               </section>
               <section class="card challenge-rules">
                 <h2 class="card-heading">참여 안내</h2>
@@ -3901,11 +4243,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   </li>
                   <li>
                     <span>3</span>
-                    <p>10연승 달성자는 리워드 추첨 대상이 됩니다.</p>
+                    <p>10연승 달성자 중 승률이 가장 높은 1명이 리워드를 받습니다.</p>
                   </li>
                 </ol>
                 <p class="field-help">
-                  리워드는 추첨으로 지급되며, 10연승 달성만으로 지급이 확정되지는 않습니다.
+                  승률은 도전한 예측 수 중 성공한 예측 수의 비율이며, 10연승 달성만으로 지급이 확정되지는
+                  않습니다.
                 </p>
               </section>
               <button class="primary-button" type="button" data-route="challenge-reward">
@@ -3915,35 +4258,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item active" type="button" data-route="home" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home-active.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item" type="button" data-route="stock-select">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -3962,6 +4330,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">10연승 리워드</h1>
@@ -3984,7 +4367,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                     <path d="M5 12v9h14v-9M12 8v13"></path>
                     <path d="M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z"></path></svg
                 ></span>
-                <p class="prize-eyebrow">10연승 달성자 중 추첨</p>
+                <p class="prize-eyebrow">10연승 달성자 중 최고 승률 1명</p>
                 <h2>리워드 수령 안내</h2>
                 <p class="prize-amount">1,000,000<span>원 리워드</span></p>
                 <p>당첨 여부와 수령 자격은 서버 연결 후 확인할 수 있습니다.</p>
@@ -4085,35 +4468,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item active" type="button" data-route="home" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home-active.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item" type="button" data-route="stock-select">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -4227,35 +4635,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction-active.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -4346,35 +4779,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction-active.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -4388,6 +4846,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">예측 확인</h1>
@@ -4413,35 +4886,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction-active.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -4455,6 +4953,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">예측 접수 내역</h1>
@@ -4481,35 +4994,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction-active.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -4523,6 +5061,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">추가 예측권</h1>
@@ -4547,35 +5100,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction-active.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -4589,6 +5167,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">예측권 받기</h1>
@@ -4599,35 +5192,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction-active.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -4641,6 +5259,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">예측 결과</h1>
@@ -4670,35 +5303,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction-active.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -4712,6 +5370,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">오늘의 미션</h1>
@@ -4794,35 +5467,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item" type="button" data-route="stock-select">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item active" type="button" data-route="missions" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission-active.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -4836,6 +5534,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">포인트 샵</h1>
@@ -4971,35 +5684,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item" type="button" data-route="stock-select">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item active" type="button" data-route="shop" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop-active.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -5013,6 +5751,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">교환 확인</h1>
@@ -5040,35 +5793,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item" type="button" data-route="stock-select">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item active" type="button" data-route="shop" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop-active.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -5082,6 +5860,23 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="settings" aria-label="설정">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="12" r="3" />
+                  <path
+                    d="m9 3-.5 2-2 1-2-.5-2 3 1.5 1.5v3L2.5 14l2 3 2-.5 2 1 .5 2h4l.5-2 2-1 2 .5 2-3-1.5-1.5v-3L20 8l-2-3-2 .5-2-1-.5-2Z"
+                  />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">내 정보</h1>
@@ -5291,35 +6086,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item" type="button" data-route="stock-select">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item active" type="button" data-route="profile" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile-active.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -5488,6 +6308,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">예측 내역</h1>
@@ -5517,35 +6352,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction-active.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item" type="button" data-route="profile">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -5559,6 +6419,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">포인트 내역</h1>
@@ -5613,35 +6488,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item" type="button" data-route="stock-select">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item active" type="button" data-route="profile" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile-active.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -5655,6 +6555,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   alt=""
                 /><span>Candle</span>
               </div>
+              <button class="header-account" type="button" data-route="profile" aria-label="내 정보">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </button>
             </header>
             <div class="content">
               <h1 class="heading" tabindex="-1">계정 · 약관</h1>
@@ -5789,35 +6704,60 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item" type="button" data-route="home">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-home.svg"
-                  alt=""
-                /><span>홈</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></button
               ><button class="nav-item" type="button" data-route="stock-select">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-prediction.svg"
-                  alt=""
-                /><span>예측</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20V10m7 10V4m7 16v-8" />
+                  <path d="m3 7 5-3 5 3 8-5" /></svg
+                ><span>예측</span></button
               ><button class="nav-item" type="button" data-route="missions">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-mission.svg"
-                  alt=""
-                /><span>미션</span></button
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></button
               ><button class="nav-item" type="button" data-route="shop">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-shop.svg"
-                  alt=""
-                /><span>상점</span></button
-              ><button class="nav-item active" type="button" data-route="profile" aria-current="page">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="nav-profile-active.svg"
-                  alt=""
-                /><span>내 정보</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
               </button>
             </nav>
           </section>
@@ -5986,18 +6926,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         "apple.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAwNJREFUeJztmz1vEzEYx38JA6KTxQYsJyEkRg9IDAjlOiKG3Nit2cqYj3DfoPkI140tyVKx9SqQAIGUWxFDvZc2h3gR28NwSZSmTVtU+3zh8pMeRZEc+//8Y59fEje4mLvAS+DJJDSwsaRsVfkNZMAn4DOwD5xe54MRcAzIfxbHk9yWcg/oV0Co6+hPcj3HmwqIKyv2F5N/VQFRZUdnmvxD4GcFBJUdJ8D9W8AO8IL6cQf41qSY4uqKrrsBjxvAH+C2byWe+N6geCDUlqZvAb5ZG+BbgG8qZ0AURQRBUGqbvldkAkgURTIej0VEJAzDMtv2n3yn05F5giCojwFhGJ5JPsuysjX4NWAwGJwxoOTu79+AeTqdjg8Nfg0wxkiSJKK19tJ+KUthrTXtdpswDDHGkKYpw+GQPM9nZaIootVqoXWxNzPGsLe3R5qmruW5c1cpJf1+Xy5iPB5Lv9+X3d1dOTo6urCMiMjBwYEopVZvCCilZDQaLU3sXxiNRs5McLYSjON41p1vyuJwsY11V4MgsPLNi4j0ej2X3d/NEIjj2EryeZ67Hv9uhkAYhlbqSZLEadeHCu4G5zHGOG/DiQGtVstKPStrwOHhoZV6bM0il1HpIdBut5234cSALMus1KO1tvZAvQzrU0sURVamQZFiyex4o2S/UqWUNQOmJmxvb6/OOiDPc4bDobX6lFJsbm5aq28RJ84uHnXdFIcnRc7GlqRpaiX5NE2daXRqgNbaigGOzwndGQA33xjFcexUn3MD4PzJ73UZDAbOtZVigFJKkiSZJWaMkW63O5vftdbS7XbFGDMr0+v1nG+FSzNg3oirfvUpKelZrP8g4VuAb9YG+Bbgm7UBvgX4Zm2AbwG+WRvgW4Bv1gb4FuCbJvDFtwiPfGxS3K2rK1ntDWhQ3BL9OnmtE6fAo+mbLUo8hKhIbC06MqiAqLLi9WLyAA8o7tL5Fuc6TrhiuO8APyog1HaMmbstOqWxxIQN4BnwfBJPKS4arhK/gPfAO+At8IHiSv0Z/gKhTLlal/+lXwAAAABJRU5ErkJggg==",
         "arrow-up.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE4IiB2aWV3Qm94PSIwIDAgMTggMTgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJhcnJvdy11cC1yaWdodCI+CjxwYXRoIGlkPSJWZWN0b3IiIGQ9Ik00IDEzLjVMMTMuNSA0TTEzLjUgMTAuNVY0SDciIHN0cm9rZT0iI0I5MUMxQyIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L2c+Cjwvc3ZnPgo=",
         "arrow-down.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE4IiB2aWV3Qm94PSIwIDAgMTggMTgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJhcnJvdy1kb3duLXJpZ2h0Ij4KPHBhdGggaWQ9IlZlY3RvciIgZD0iTTQgNC41TDEzLjUgMTRNMTMuNSA3LjVWMTRINyIgc3Ryb2tlPSIjMDM2OUExIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjwvZz4KPC9zdmc+Cg==",
-        "nav-home-active.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJ2ZWN0b3IiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNMyAxMC44TDEyIDNMMjEgMTAuOFYyMUgxNVYxNUg5VjIxSDNWMTAuOFoiIHN0cm9rZT0iIzI1NjNFQiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9nPgo8L3N2Zz4K",
-        "nav-prediction.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJ2ZWN0b3IiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNNCAxOFY5TTkgMThWNU0xNCAxOFYxMk0xOSAxOFYzIiBzdHJva2U9IiM2NDc0OEIiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggaWQ9IlZlY3Rvcl8yIiBkPSJNMyAyMUgyMSIgc3Ryb2tlPSIjNjQ3NDhCIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjwvZz4KPC9zdmc+Cg==",
-        "nav-mission.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJ2ZWN0b3IiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNMTIgMjAuNUMxNi42OTQ0IDIwLjUgMjAuNSAxNi42OTQ0IDIwLjUgMTJDMjAuNSA3LjMwNTU4IDE2LjY5NDQgMy41IDEyIDMuNUM3LjMwNTU4IDMuNSAzLjUgNy4zMDU1OCAzLjUgMTJDMy41IDE2LjY5NDQgNy4zMDU1OCAyMC41IDEyIDIwLjVaIiBzdHJva2U9IiM2NDc0OEIiIHN0cm9rZS13aWR0aD0iMS44Ii8+CjxwYXRoIGlkPSJWZWN0b3JfMiIgZD0iTTEyIDE2LjVDMTQuNDg1MyAxNi41IDE2LjUgMTQuNDg1MyAxNi41IDEyQzE2LjUgOS41MTQ3MiAxNC40ODUzIDcuNSAxMiA3LjVDOS41MTQ3MiA3LjUgNy41IDkuNTE0NzIgNy41IDEyQzcuNSAxNC40ODUzIDkuNTE0NzIgMTYuNSAxMiAxNi41WiIgc3Ryb2tlPSIjNjQ3NDhCIiBzdHJva2Utd2lkdGg9IjEuOCIvPgo8cGF0aCBpZD0iVmVjdG9yXzMiIGQ9Ik05LjggMTJMMTEuMjUgMTMuNDVMMTQuNSAxMC4yIiBzdHJva2U9IiM2NDc0OEIiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9nPgo8L3N2Zz4K",
-        "nav-shop.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJ2ZWN0b3IiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNNSA4SDE5TDE4IDIwSDZMNSA4WiIgc3Ryb2tlPSIjNjQ3NDhCIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBpZD0iVmVjdG9yXzIiIGQ9Ik05IDlWNkM5IDUuMjA0MzUgOS4zMTYwNyA0LjQ0MTI5IDkuODc4NjggMy44Nzg2OEMxMC40NDEzIDMuMzE2MDcgMTEuMjA0NCAzIDEyIDNDMTIuNzk1NiAzIDEzLjU1ODcgMy4zMTYwNyAxNC4xMjEzIDMuODc4NjhDMTQuNjgzOSA0LjQ0MTI5IDE1IDUuMjA0MzUgMTUgNlY5IiBzdHJva2U9IiM2NDc0OEIiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9nPgo8L3N2Zz4K",
-        "nav-profile.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJ2ZWN0b3IiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNMTIgMTJDMTQuMjA5MSAxMiAxNiAxMC4yMDkxIDE2IDhDMTYgNS43OTA4NiAxNC4yMDkxIDQgMTIgNEM5Ljc5MDg2IDQgOCA1Ljc5MDg2IDggOEM4IDEwLjIwOTEgOS43OTA4NiAxMiAxMiAxMloiIHN0cm9rZT0iIzY0NzQ4QiIgc3Ryb2tlLXdpZHRoPSIxLjgiLz4KPHBhdGggaWQ9IlZlY3Rvcl8yIiBkPSJNNC41IDIxQzQuNSAxOS4wMTA5IDUuMjkwMTggMTcuMTAzMiA2LjY5NjcgMTUuNjk2N0M4LjEwMzIyIDE0LjI5MDIgMTAuMDEwOSAxMy41IDEyIDEzLjVDMTMuOTg5MSAxMy41IDE1Ljg5NjggMTQuMjkwMiAxNy4zMDMzIDE1LjY5NjdDMTguNzA5OCAxNy4xMDMyIDE5LjUgMTkuMDEwOSAxOS41IDIxIiBzdHJva2U9IiM2NDc0OEIiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9nPgo8L3N2Zz4K",
         "npay-symbol.svg": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMjIgMEgxOEM4LjA1ODg4IDAgMCA4LjA1ODg4IDAgMThWMTIyQzAgMTMxLjk0MSA4LjA1ODg4IDE0MCAxOCAxNDBIMTIyQzEzMS45NDEgMTQwIDE0MCAxMzEuOTQxIDE0MCAxMjJWMThDMTQwIDguMDU4ODggMTMxLjk0MSAwIDEyMiAwWiIgZmlsbD0iIzAwREU1QSIvPgo8cGF0aCBkPSJNMTE4Ljg5MiA2MS4zMTE4TDExMy43ODkgNzIuOTM5N0wxMDguMDE4IDYxLjMxMThIMTAzLjU3N0wxMTEuNzU5IDc3LjQ0MjlMMTA4LjM4NCA4NC45NzE5SDExMi42OTNMMTIzLjIwMSA2MS4zMDRIMTE4Ljg5MlY2MS4zMTE4Wk0xMDEuMTEyIDc5LjI4NjNIOTYuODk2MVY3Ny42MDY0Qzk1LjM3MTcgNzguOTIwOCA5My41NTE3IDc5LjY1MTkgOTEuMzQyOCA3OS42NTE5Qzg2LjI5NSA3OS42NTE5IDgyLjM0MzkgNzUuNTQ1MiA4Mi4zNDM5IDcwLjI5NTJDODIuMzQzOSA2NS4wNDUyIDg2LjI5NSA2MC45Mzg1IDkxLjM0MjggNjAuOTM4NUM5My41NDM5IDYwLjkzODUgOTUuMzcxNyA2MS42Njk3IDk2Ljg5NjEgNjIuOTg0MVY2MS4zMDRIMTAxLjExMlY3OS4yODYzWk05Ny4zODYxIDcwLjI5NTJDOTcuMzg2MSA2Ni45MDQxIDk1LjAyMTcgNjQuMzI5NyA5MS44Nzk0IDY0LjMyOTdDODguNzQ1IDY0LjMyOTcgODYuMzcyOCA2Ni45MDQxIDg2LjM3MjggNzAuMjk1MkM4Ni4zNzI4IDczLjY4NjMgODguNzM3MiA3Ni4yNjA3IDkxLjg3OTQgNzYuMjYwN0M5NS4wMjE3IDc2LjI2MDcgOTcuMzg2MSA3My42ODYzIDk3LjM4NjEgNzAuMjk1MlpNNjEuMzc1IDg0Ljk3MTlINjUuNzc3MlY3Ny43NjE5QzY3LjI2MjggNzguOTgzIDY5LjAyODMgNzkuNjUxOSA3MS4xNDM5IDc5LjY1MTlDNzYuMTkxNyA3OS42NTE5IDgwLjE0MjggNzUuNTQ1MiA4MC4xNDI4IDcwLjI5NTJDODAuMTQyOCA2NS4wNDUyIDc2LjE5MTcgNjAuOTM4NSA3MS4xNDM5IDYwLjkzODVDNjguOTQyOCA2MC45Mzg1IDY3LjExNSA2MS42Njk3IDY1LjU5MDYgNjIuOTg0MVY2MS4zMDRINjEuMzc1Vjg0Ljk3MTlaTTcwLjYwNzIgNjQuMzM3NUM3My43NDE3IDY0LjMzNzUgNzYuMTEzOSA2Ni45MTE4IDc2LjExMzkgNzAuMzAzQzc2LjExMzkgNzMuNjk0MSA3My43NDk0IDc2LjI2ODQgNzAuNjA3MiA3Ni4yNjg0QzY3LjQ3MjggNzYuMjY4NCA2NS4xMDA2IDczLjY5NDEgNjUuMTAwNiA3MC4zMDNDNjUuMTAwNiA2Ni45MTE4IDY3LjQ2NSA2NC4zMzc1IDcwLjYwNzIgNjQuMzM3NVoiIGZpbGw9ImJsYWNrIi8+CjxwYXRoIGQ9Ik01My40ODg1IDcwLjg0NzdDNTMuNDg4NSA4MC45ODIxIDQ1LjI3NTIgODkuMTk1NSAzNS4xNDA3IDg5LjE5NTVDMjUuMDA2MyA4OS4xOTU1IDE2Ljc5MyA4MC45ODIxIDE2Ljc5MyA3MC44NDc3QzE2Ljc5MyA2MC43MTMyIDI1LjAwNjMgNTIuNSAzNS4xNDA3IDUyLjVDNDUuMjc1MiA1Mi41IDUzLjQ4ODUgNjAuNzEzMiA1My40ODg1IDcwLjg0NzdaTTM4LjIxMyA2Mi4yM1Y3MS40NTQzTDMxLjgwNDEgNjIuMjNIMjYuNTE1MlY3OS40NzMzSDMyLjA2ODVWNzAuMjQ4OEwzOC40Nzc0IDc5LjQ3MzNINDMuNzY2M1Y2Mi4yM0gzOC4yMTNaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K",
-        "chevron-left.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJjaGV2cm9uLWxlZnQiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNMTUgMThMOSAxMkwxNSA2IiBzdHJva2U9IiMwRjE3MkEiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjwvZz4KPC9zdmc+Cg==",
-        "nav-home.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJ2ZWN0b3IiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNMyAxMC44TDEyIDNMMjEgMTAuOFYyMUgxNVYxNUg5VjIxSDNWMTAuOFoiIHN0cm9rZT0iIzY0NzQ4QiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9nPgo8L3N2Zz4K",
-        "nav-prediction-active.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJ2ZWN0b3IiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNNCAxOFY5TTkgMThWNU0xNCAxOFYxMk0xOSAxOFYzIiBzdHJva2U9IiMyNTYzRUIiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggaWQ9IlZlY3Rvcl8yIiBkPSJNMyAyMUgyMSIgc3Ryb2tlPSIjMjU2M0VCIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjwvZz4KPC9zdmc+Cg==",
-        "nav-mission-active.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJ2ZWN0b3IiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNMTIgMjAuNUMxNi42OTQ0IDIwLjUgMjAuNSAxNi42OTQ0IDIwLjUgMTJDMjAuNSA3LjMwNTU4IDE2LjY5NDQgMy41IDEyIDMuNUM3LjMwNTU4IDMuNSAzLjUgNy4zMDU1OCAzLjUgMTJDMy41IDE2LjY5NDQgNy4zMDU1OCAyMC41IDEyIDIwLjVaIiBzdHJva2U9IiMyNTYzRUIiIHN0cm9rZS13aWR0aD0iMS44Ii8+CjxwYXRoIGlkPSJWZWN0b3JfMiIgZD0iTTEyIDE2LjVDMTQuNDg1MyAxNi41IDE2LjUgMTQuNDg1MyAxNi41IDEyQzE2LjUgOS41MTQ3MiAxNC40ODUzIDcuNSAxMiA3LjVDOS41MTQ3MiA3LjUgNy41IDkuNTE0NzIgNy41IDEyQzcuNSAxNC40ODUzIDkuNTE0NzIgMTYuNSAxMiAxNi41WiIgc3Ryb2tlPSIjMjU2M0VCIiBzdHJva2Utd2lkdGg9IjEuOCIvPgo8cGF0aCBpZD0iVmVjdG9yXzMiIGQ9Ik05LjggMTJMMTEuMjUgMTMuNDVMMTQuNSAxMC4yIiBzdHJva2U9IiMyNTYzRUIiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9nPgo8L3N2Zz4K",
-        "nav-shop-active.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJ2ZWN0b3IiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNNSA4SDE5TDE4IDIwSDZMNSA4WiIgc3Ryb2tlPSIjMjU2M0VCIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBpZD0iVmVjdG9yXzIiIGQ9Ik05IDlWNkM5IDUuMjA0MzUgOS4zMTYwNyA0LjQ0MTI5IDkuODc4NjggMy44Nzg2OEMxMC40NDEzIDMuMzE2MDcgMTEuMjA0NCAzIDEyIDNDMTIuNzk1NiAzIDEzLjU1ODcgMy4zMTYwNyAxNC4xMjEzIDMuODc4NjhDMTQuNjgzOSA0LjQ0MTI5IDE1IDUuMjA0MzUgMTUgNlY5IiBzdHJva2U9IiMyNTYzRUIiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9nPgo8L3N2Zz4K",
-        "nav-profile-active.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJ2ZWN0b3IiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNMTIgMTJDMTQuMjA5MSAxMiAxNiAxMC4yMDkxIDE2IDhDMTYgNS43OTA4NiAxNC4yMDkxIDQgMTIgNEM5Ljc5MDg2IDQgOCA1Ljc5MDg2IDggOEM4IDEwLjIwOTEgOS43OTA4NiAxMiAxMiAxMloiIHN0cm9rZT0iIzI1NjNFQiIgc3Ryb2tlLXdpZHRoPSIxLjgiLz4KPHBhdGggaWQ9IlZlY3Rvcl8yIiBkPSJNNC41IDIxQzQuNSAxOS4wMTA5IDUuMjkwMTggMTcuMTAzMiA2LjY5NjcgMTUuNjk2N0M4LjEwMzIyIDE0LjI5MDIgMTAuMDEwOSAxMy41IDEyIDEzLjVDMTMuOTg5MSAxMy41IDE1Ljg5NjggMTQuMjkwMiAxNy4zMDMzIDE1LjY5NjdDMTguNzA5OCAxNy4xMDMyIDE5LjUgMTkuMDEwOSAxOS41IDIxIiBzdHJva2U9IiMyNTYzRUIiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9nPgo8L3N2Zz4K"
+        "chevron-left.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJjaGV2cm9uLWxlZnQiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNMTUgMThMOSAxMkwxNSA2IiBzdHJva2U9IiMwRjE3MkEiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjwvZz4KPC9zdmc+Cg=="
       }
     </script>
     <script>

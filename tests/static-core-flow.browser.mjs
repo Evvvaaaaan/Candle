@@ -244,7 +244,7 @@ try {
 
     await go('home');
     const initial = await serverFacts();
-    assert.equal(await page.locator('#home .points-card .number').innerText(), '— P');
+    assert.equal(await page.locator('#home [data-server-value=balance]').innerText(), '— P');
     assert.equal(await page.locator('#home .stock-card [data-direction]').count(), 2);
     assert.equal(await page.locator('#home .selected, #home [aria-pressed]').count(), 0);
     await page.locator('#home [data-direction=down]').click();

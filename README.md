@@ -5,7 +5,7 @@ to any folder and open it directly in a browser. No server, installation, adjace
 files, or internet connection is required to display and use the interface.
 
 The file contains all 23 screen layouts, the original styles, input/display
-JavaScript, 19 images/icons, and four full embedded font faces. Font licenses and
+JavaScript, 9 images, inline SVG icons, and four full embedded font faces. Font licenses and
 copyright notices are included inside the HTML. `index.html` is an identical
 hosting entry point; it is not required to use `core-flow.html`.
 
