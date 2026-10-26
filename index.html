@@ -3215,7 +3215,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
       .screen-view[data-screen='wallet'] .points-card {
         min-height: 104px;
-        background: #f7faff;
+        background: var(--surface);
       }
       .points-icon {
         width: 48px;
@@ -3309,16 +3309,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         color: var(--text-mid);
         font-size: 11px;
       }
-      .mission-status {
-        display: inline-block;
-        margin-top: 5px;
-        color: var(--text-mid);
-        font-size: 11px;
-        line-height: 18px;
-      }
-      .mission-status.complete {
-        color: var(--success);
-      }
       .mission-reward {
         color: var(--primary);
         font-size: 16px;
@@ -3379,9 +3369,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
       .mission-item + .mission-item {
         border-top: 1px solid var(--border);
-      }
-      .mission-item .mission-status {
-        margin-top: 2px;
       }
       .mission-action {
         min-width: 52px;
@@ -5720,7 +5707,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   ></span>
                   <div class="mission-copy">
                     <h3>출석하기</h3>
-                    <span class="mission-status">연속 5일째</span>
                   </div>
                   <span class="mission-reward">10<small>P</small></span>
                   <button id="attendance" class="mission-action primary" type="button">출석</button>
@@ -5745,7 +5731,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   ></span>
                   <div class="mission-copy">
                     <h3>광고 예측권 받기</h3>
-                    <span class="mission-status">서버 연결 필요</span>
                   </div>
                   <span class="mission-reward">10<small>P</small></span>
                   <button class="mission-action" type="button" data-route="pass">하기</button>
