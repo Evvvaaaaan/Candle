@@ -1703,28 +1703,46 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         color: var(--market-down);
       }
 
-      .ad-progress {
-        height: 81px;
-        margin-top: 12px;
+      #pass .ticket-card {
+        min-height: 0;
         padding: 16px;
       }
 
+      #pass .ticket-card .row-between > span {
+        color: var(--text-mid);
+        font-size: 12px;
+        line-height: 18px;
+      }
+
       .promo-card {
-        min-height: 153px;
         margin-top: 12px;
         padding: 16px;
       }
 
       .promo-card h2 {
-        font-size: 18px;
-        line-height: 26px;
+        font-size: 14px;
+        line-height: 22px;
+      }
+
+      .promo-card .ad-count {
+        color: var(--text-mid);
+        font-size: 12px;
+        line-height: 18px;
       }
 
       .promo-card p {
-        margin-top: 8px;
+        margin-top: 2px;
         color: var(--text-mid);
-        font-size: 14px;
-        line-height: 21px;
+        font-size: 12px;
+        line-height: 18px;
+      }
+
+      .promo-card .progress-track {
+        margin-top: 12px;
+      }
+
+      .promo-card .progress-fill {
+        width: 20%;
       }
 
       .promo-card .primary-button {
@@ -5491,14 +5509,14 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   ><span>광고 예측권 <strong>2장</strong></span></span
                 >
               </section>
-              <section class="card ad-progress">
-                <p>오늘의 광고 참여</p>
-                <p class="number">2 / 3회</p>
-              </section>
               <section class="card promo-card">
-                <h2>광고 보고 예측권 받기</h2>
+                <div class="row-between">
+                  <h2>광고 보고 예측권 받기</h2>
+                  <span class="ad-count">오늘 2 / 10회</span>
+                </div>
                 <p>광고 시청을 끝까지 완료하면 예측권이 지급됩니다.</p>
-                <button class="primary-button" type="button" data-reward-ad="">광고 보고 예측권 받기</button>
+                <div class="progress-track"><div class="progress-fill"></div></div>
+                <button class="primary-button" type="button" data-reward-ad="">광고 보기</button>
               </section>
               <button class="secondary-button" type="button" data-route="stock-select">예측하러 가기</button>
             </div>
@@ -7107,7 +7125,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             <h2 id="reward-ad-title">광고 보고 예측권 받기</h2>
             <p id="reward-ad-description">영상 광고를 끝까지 시청하면<br />예측권 1장을 받을 수 있어요.</p>
             <div class="reward-ad-allowance">
-              <span>오늘 남은 참여</span><strong>1<span> / 3회</span></strong>
+              <span>오늘 남은 참여</span><strong>8<span> / 10회</span></strong>
             </div>
             <p class="reward-ad-note">
               광고를 본 뒤 이 화면으로 돌아오면 완료 여부를 확인해요.<br />예측은 자동으로 제출되지 않아요.
