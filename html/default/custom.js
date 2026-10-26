@@ -24,6 +24,8 @@ function listener_logout() {
 }
 function authExpired() {
   clearCandleSession();
+  // 디자인 확인 모드에서는 로그인 화면으로 되돌리지 않습니다.
+  if (localStorage.getItem('candle.preview') === '1') return;
   window.CandleAuth?.expired();
 }
 function listenerGetAccessToken(callback) {

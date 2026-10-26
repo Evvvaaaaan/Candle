@@ -5,6 +5,8 @@
   const $$ = (selector) => [...document.querySelectorAll(selector)];
   const page = $('.screen-view').dataset.screen;
   const params = new URLSearchParams(location.search);
+  // 디자인 확인용: ?preview=1 이면 서버 인증을 건너뜁니다. 해제: localStorage.removeItem('candle.preview')
+  if (params.has('preview')) localStorage.setItem('candle.preview', '1');
   const routes = new Set([
     'index',
     'signup',

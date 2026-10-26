@@ -42,8 +42,9 @@
     <script>
       // 스플래시는 2초 뒤 자동으로 넘어갑니다. 세션이 있으면 홈, 없으면 시작 화면입니다.
       setTimeout(() => {
+        const preview = localStorage.getItem('candle.preview') === '1';
         const hasSession = !isMissingToken(localStorage.getItem('refreshToken'));
-        location.replace(hasSession ? 'home.html' : 'signup.html');
+        location.replace(preview || hasSession ? 'home.html' : 'signup.html');
       }, 2000);
     </script>
   </body>

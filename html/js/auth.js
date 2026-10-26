@@ -27,6 +27,10 @@
   };
   const login = (provider) => {
     if (busy) return;
+    if (localStorage.getItem('candle.preview') === '1') {
+      location.replace('consent.html');
+      return;
+    }
     const channel = {
       kakao: 'KakaoLogin',
       naver: 'NaverLogin',
@@ -43,6 +47,10 @@
   };
   async function exchange(provider, payload) {
     if (busy) return;
+    if (localStorage.getItem('candle.preview') === '1') {
+      location.replace('consent.html');
+      return;
+    }
     busy = true;
     invalidate();
     const identity = candleSessionIdentity();
@@ -131,6 +139,10 @@
   });
   const ready = (async () => {
     if (ui.page === 'legal') return false;
+    if (localStorage.getItem('candle.preview') === '1') {
+      active = true;
+      return true;
+    }
     if (isMissingToken(localStorage.getItem('refreshToken'))) {
       await new Promise((resolve) => {
         restoreCallback = resolve;
