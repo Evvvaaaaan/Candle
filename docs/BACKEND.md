@@ -80,7 +80,8 @@
 | 미션 | 출석 `연속 5일째`, 미션 목록·포인트·진행도 `0 / 5` | `GET /missions` |
 | 예측 내역 | 종목 4건(결과 대기, 적중, 수령 완료, 미적중) | `GET /predictions/history` |
 | 지난 예측 결과 창 | 삼성전자 · 상승 · 적중 · `+15P` | `GET /predictions/today`의 최근 결과(`today: false`) |
-| 접수 내역, 포인트 내역 | "서버 연결 필요" 빈 상태 | `GET /predictions/today`, `GET /wallet/transactions` |
+| 접수 내역 | "서버 연결 필요" 빈 상태 | `GET /predictions/today` |
+| 포인트 내역 | 예시 7건(적립 4, 사용 2, 환급 1) | `GET /wallet/transactions` |
 | 약관 보기 `#legal` | "서버 연결 필요" | `GET /legal/agreements/current` → `body` |
 
 ### 2.3 HTML에 고정된 목록

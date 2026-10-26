@@ -3276,6 +3276,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       .transaction-amount.earned strong {
         color: var(--primary);
       }
+      .transaction-amount.spent strong {
+        color: var(--danger);
+      }
       #attendance {
         display: flex;
         align-items: center;
@@ -6800,8 +6803,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                 ><button class="tab" type="button" data-wallet-tab="use" aria-pressed="false">사용</button>
               </div>
               <div class="transaction-list">
-                <div class="empty-state">
-                  <span class="icon-tile empty-icon"
+                <section class="card wallet-transaction" data-amount="15">
+                  <span class="icon-tile"
                     ><svg
                       class="ui-icon"
                       viewBox="0 0 24 24"
@@ -6813,11 +6816,154 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                       aria-hidden="true"
                       focusable="false"
                     >
-                      <path d="m3 13 3-8h12l3 8v7H3v-7Zm0 0h5l2 3h4l2-3h5"></path></svg
+                      <path d="M18 6 6 18m0-8v8h8"></path></svg
                   ></span>
-                  <p>포인트 내역을 확인하려면 실제 서버 연결이 필요합니다.</p>
-                  <button class="secondary-button" type="button" data-route="missions">미션 확인하기</button>
-                </div>
+                  <div class="transaction-copy">
+                    <h3>예측 적중 보상</h3>
+                    <time datetime="2026-10-26">2026.10.26</time>
+                  </div>
+                  <div class="transaction-amount earned">
+                    <strong>+15<small>P</small></strong><span>적립</span>
+                  </div>
+                </section>
+                <section class="card wallet-transaction" data-amount="5">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M18 6 6 18m0-8v8h8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>출석 체크</h3>
+                    <time datetime="2026-10-26">2026.10.26</time>
+                  </div>
+                  <div class="transaction-amount earned">
+                    <strong>+5<small>P</small></strong><span>적립</span>
+                  </div>
+                </section>
+                <section class="card wallet-transaction" data-amount="-5000">
+                  <span class="icon-tile miss"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M6 18 18 6m-8 0h8v8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>네이버페이 5,000원권 교환</h3>
+                    <time datetime="2026-10-25">2026.10.25</time>
+                  </div>
+                  <div class="transaction-amount spent">
+                    <strong>-5,000<small>P</small></strong><span>처리 중</span>
+                  </div>
+                </section>
+                <section class="card wallet-transaction" data-amount="5">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M18 6 6 18m0-8v8h8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>예측 참여 보상</h3>
+                    <time datetime="2026-10-24">2026.10.24</time>
+                  </div>
+                  <div class="transaction-amount earned">
+                    <strong>+5<small>P</small></strong><span>적립</span>
+                  </div>
+                </section>
+                <section class="card wallet-transaction" data-amount="30">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M18 6 6 18m0-8v8h8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>미션 완료 · 3일 연속 예측</h3>
+                    <time datetime="2026-10-23">2026.10.23</time>
+                  </div>
+                  <div class="transaction-amount earned">
+                    <strong>+30<small>P</small></strong><span>적립</span>
+                  </div>
+                </section>
+                <section class="card wallet-transaction" data-amount="-10000">
+                  <span class="icon-tile miss"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M6 18 18 6m-8 0h8v8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>네이버페이 10,000원권 교환</h3>
+                    <time datetime="2026-10-20">2026.10.20</time>
+                  </div>
+                  <div class="transaction-amount spent">
+                    <strong>-10,000<small>P</small></strong><span>지급 완료</span>
+                  </div>
+                </section>
+                <section class="card wallet-transaction" data-amount="5000">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M18 6 6 18m0-8v8h8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>네이버페이 5,000원권 환급</h3>
+                    <time datetime="2026-10-19">2026.10.19</time>
+                  </div>
+                  <div class="transaction-amount earned">
+                    <strong>+5,000<small>P</small></strong><span>환급</span>
+                  </div>
+                </section>
               </div>
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
@@ -7701,6 +7847,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             const selected = button.dataset.walletTab === state.walletTab;
             button.classList.toggle('active', selected);
             button.setAttribute('aria-pressed', String(selected));
+          });
+          // Tabs split rows by the sign of amount, as the server ledger does.
+          app.querySelectorAll('.wallet-transaction').forEach((row) => {
+            const amount = Number(row.dataset.amount);
+            row.hidden = state.walletTab === 'earn' ? amount <= 0 : state.walletTab === 'use' ? amount >= 0 : false;
           });
         }
 
