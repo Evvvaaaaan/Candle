@@ -12,10 +12,12 @@
   --success-bg: #e6f6ef;
   --warning: #f59e0b;
   --warning-bg: #fff7e0;
-  --market-up: #c81e1e;
-  --market-up-bg: #fff0ef;
-  --market-down: #0369a1;
-  --market-down-bg: #eaf3ff;
+  --market-up: #168358;
+  --market-up-bg: #e6f6ef;
+  --market-down: #dc2626;
+  --market-down-bg: #fef2f2;
+  --danger: #dc2626;
+  --danger-bg: #fef2f2;
   --font: "Noto Sans KR", sans-serif;
 }
 
@@ -645,12 +647,12 @@ h1[tabindex="-1"]:focus {
 }
 
 .direction-card.selected {
-  border: 2px solid #f1aaa5;
+  border: 2px solid #9fd8bf;
   background: var(--market-up-bg);
 }
 
 .direction-card.selected[data-direction="down"] {
-  border-color: #a6c9ef;
+  border-color: #f5b5b5;
   background: var(--market-down-bg);
 }
 
@@ -678,11 +680,11 @@ h1[tabindex="-1"]:focus {
 }
 
 .direction-card.selected .direction-icon {
-  background: #ffe2df;
+  background: #d0eee0;
 }
 
 .direction-card.selected .direction-icon.down {
-  background: #dcecff;
+  background: #fee2e2;
 }
 
 .direction-card:disabled {
