@@ -10,13 +10,5 @@
 .vscode/
 *.iml
 
-# Dependencies
-node_modules/
-
-# Environment
-.env
-.env.local
-.env.*
-!.env.example
-dist/
-test-results/
+# Screenshots
+.screenshots/

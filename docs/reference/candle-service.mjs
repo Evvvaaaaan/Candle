@@ -106,7 +106,9 @@ export function validateSnapshot(data) {
   requireValue(
     ['OPEN', 'CLOSED', 'SCHEDULED'].includes(data.predictions?.status) &&
       Number.isFinite(Date.parse(data.predictions.serverTime)) &&
-      Number.isFinite(Date.parse(data.predictions.closesAt))
+      Number.isFinite(Date.parse(data.predictions.closesAt)) &&
+      integer(data.predictions.streak) &&
+      integer(data.predictions.bestStreak)
   );
   requireValue(
     Array.isArray(data.predictions.items) &&
@@ -207,7 +209,7 @@ export function createCandleService(config) {
     },
     loginUrl(provider) {
       const url = new URL(config.baseUrl.replace(/\/$/, '') + `/auth/${provider}/start`, location.href);
-      const callback = new URL('core-flow.html', location.href);
+      const callback = new URL('index.html', location.href);
       url.searchParams.set('returnTo', callback.href);
       return url.href;
     },
