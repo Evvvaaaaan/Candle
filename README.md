@@ -4,27 +4,44 @@
 
 ## 바로 보기
 
-`index.html`을 브라우저로 열면 됩니다. 서버, 설치, 인터넷 연결이 필요 없습니다.
-화면, 스타일, 스크립트, 이미지, 폰트가 모두 이 파일 하나에 들어 있습니다.
+The tidy screen layouts, styles, images and fonts remain in `index.html`.
+The professor's API and native login interfaces are connected through `default/`
+and `js/`. Copy those directories together with the HTML and serve them over HTTP:
 
-- 처음에는 로그인 화면이 열립니다. 로그인 버튼 4개는 인증 없이 홈으로 이동합니다.
-- 주소 끝에 `#home`, `#prediction`, `#shop` 등을 붙이면 해당 화면이 바로 열립니다.
-- 서버가 필요한 버튼(예측 제출, 출석, 지급 신청 등)은 요청을 보내지 않고 "실제 서버 연결이 필요합니다"라고 안내합니다.
-- 잔액, 연승, 예측권 수 같은 숫자는 디자인용 예시 값입니다.
+```sh
+python3 -m http.server 3000
+```
+
+Open `http://localhost:3000/index.html`. Set the backend **origin** (without an
+`/api` suffix) in `js/backend-config.js`; its default is `http://localhost:8080`.
+
+- Social login uses the app's Flutter channels. Browser testing can use the
+  expandable development login form on the signup screen.
+- Existing refresh tokens are exchanged before restoring the account. Home
+  points, total tickets, ad participation, stock search and quotes use the
+  professor's confirmed API fields.
+- Prediction submission is wired but guarded until the up/down `answer` values
+  are confirmed and configured. The reference's fixed `110` is not a proven mapping.
+- History, statistics, missions and payout remain previews or connection notices
+  where the supplied example has no confirmed API. No local claim grants points.
 
 ## 폴더 구성
 
 ```
-index.html            앱 전체 (화면 19개)
+index.html            App layouts and shared UI (19 screens)
+default/              Professor jQuery, Flutter bridge and adapted AJAX helper
+js/                   Backend origin/answer configuration and integration
+tests/                Browser checks with local fixture responses
 landing/              서비스 소개 페이지. landing/index.html을 열면 됩니다
 docs/
-  BACKEND.md          백엔드 연동 문서. HTML 연동 지점, API 규칙, 합의할 정책
-  openapi.json        API 요청/응답 계약
+  PROFESSOR_BACKEND.md Active professor API contracts and verification
+  BACKEND.md          Historical /api/v1 proposal and policy notes
+  openapi.json        Historical /api/v1 proposal
   reference/          예전 버전의 API 호출 코드 (참고용)
 CHANGELOG.md          변경 이력
 ```
 
-백엔드 연동은 [docs/BACKEND.md](docs/BACKEND.md)부터 보시면 됩니다.
+Start integration with [docs/PROFESSOR_BACKEND.md](docs/PROFESSOR_BACKEND.md).
 
 ## 화면 목록
 
@@ -50,8 +67,10 @@ CHANGELOG.md          변경 이력
 | `#settings` | 계정 설정 | 약관 보기, 튜토리얼 다시 보기, 로그아웃 |
 | `#legal` | 약관 보기 | 약관 본문 |
 
-홈에 들어가면 처음 한 번은 튜토리얼이, 그 뒤로는 지난 예측 결과 창이 뜹니다.
-튜토리얼을 봤는지는 `localStorage`의 `candle.tutorial.seen`에 저장합니다.
+The tutorial appears after local agreement confirmation when it has not been seen.
+The former sample-results popup is not opened automatically for an account.
+Tutorial state uses `candle.tutorial.seen`; authentication also uses the professor's
+`accessToken` and `refreshToken` keys and native storage interface.
 
 ## 수정 방법
 
@@ -60,6 +79,8 @@ CHANGELOG.md          변경 이력
 - **화면**: `<section class="screen-view" id="...">` 하나가 화면 하나입니다.
 - **스타일**: `<head>`의 `<style>`. 색상은 `:root` 변수로 정의되어 있습니다.
 - **동작**: 문서 끝의 `<script>`. 버튼은 `data-route`(화면 이동) 같은 `data-*` 속성으로 동작을 정합니다.
+- **API integration**: `js/backend.js`. `window.CandleUI` connects server data to
+  the existing layouts. The `backendexample/` input is not a runtime dependency.
 - **이미지**: `<script id="embedded-assets">`에 파일 이름별 data URI로 들어 있고, `<img data-embedded-asset="파일명">`이 이를 사용합니다.
 
 ### 디자인 토큰

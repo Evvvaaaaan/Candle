@@ -1,5 +1,10 @@
 # Candle 백엔드 연동 문서
 
+> Historical `/api/v1` proposal. The current runtime uses the professor's
+> token-header contracts documented in [PROFESSOR_BACKEND.md](PROFESSOR_BACKEND.md).
+> The cookie/session API paths and runtime descriptions below are retained policy
+> references; they are not the API implementation used by the connected tidy page.
+
 기준일: 2026-10-26. 기준 화면은 저장소 루트의 `index.html` 한 파일입니다.
 
 이 문서는 아래 문서들을 하나로 합치고, 현재 `index.html` 기준으로 고친 것입니다.

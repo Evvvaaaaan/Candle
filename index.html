@@ -3997,7 +3997,15 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                 </div>
               </div>
             </div>
-            <p class="signup-note">처음 이용하는 경우 다음 단계에서 필수 약관을 확인합니다.</p>
+              <details class="card temp-login">
+              <summary>개발용 임시 로그인</summary>
+              <form id="temp-login-form">
+                <div class="form-field"><label for="input_username">ID</label><input id="input_username" name="username" autocomplete="username" required /></div>
+                <div class="form-field"><label for="input_password">Password</label><input id="input_password" name="password" type="password" autocomplete="current-password" /></div>
+                <button id="temp-login-submit" class="primary-button" type="submit">임시로그인</button>
+              </form>
+            </details>
+          <p class="signup-note">처음 이용하는 경우 다음 단계에서 필수 약관을 확인합니다.</p>
           </section>
           <section
             class="screen-view consent-screen"
@@ -7453,6 +7461,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         "chevron-left.svg": "data:image/svg+xml;base64,PHN2ZyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBvdmVyZmxvdz0idmlzaWJsZSIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGlkPSJjaGV2cm9uLWxlZnQiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNMTUgMThMOSAxMkwxNSA2IiBzdHJva2U9IiMwRjE3MkEiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjwvZz4KPC9zdmc+Cg=="
       }
     </script>
+    <script src="default/jquery.js"></script>
+    <script src="default/flutter.js"></script>
+    <script src="js/backend-config.js"></script>
+    <script src="default/custom.js"></script>
+    <script src="js/backend.js"></script>
     <script>
       (() => {
         const assets = JSON.parse(document.getElementById('embedded-assets').textContent);
@@ -7467,10 +7480,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         const app = document.getElementById('app');
         const screens = [...app.querySelectorAll('.screen-view')];
         const screenIds = new Set(screens.map((screen) => screen.id));
-        const stockRows = [...app.querySelectorAll('[data-stock-code]')];
+        let stockRows = [...app.querySelectorAll('[data-stock-code]')];
+        let selectedTopic = null;
         const products = [...app.querySelectorAll('[data-product]')];
         const state = {
           stockCode: stockRows[0].dataset.stockCode,
+          topicId: null,
           direction: 'up',
           productId: products[0].dataset.product,
           stockReturn: 'home',
@@ -7508,10 +7523,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         const format = (value) => Number(value).toLocaleString('ko-KR');
 
         function syncSelection() {
-          const stock = stockRows.find((row) => row.dataset.stockCode === state.stockCode).dataset;
+          const stock = stockRows.find((row) => row.dataset.stockCode === state.stockCode)?.dataset || selectedTopic;
+          const hasTopic = Boolean(state.topicId);
+          app.querySelectorAll('[data-prediction-review], .home-direction, [data-watchlist-toggle]').forEach((button) => { button.disabled = !hasTopic; });
           const product = products.find((node) => node.dataset.product === state.productId).dataset;
-          setText('[data-stock-name-value]', stock.stockName);
-          setText('[data-stock-meta-value]', `${stock.stockCode} · ${stock.stockMarket}`);
+          setText('[data-stock-name-value]', stock?.stockName || '종목을 선택해 주세요');
+          setText('[data-stock-meta-value]', stock ? `${stock.stockCode} · ${stock.stockMarket}` : '—');
           app.querySelectorAll('[data-direction-value]').forEach((node) => {
             node.textContent = state.direction === 'up' ? '상승' : '하락';
             node.className = state.direction === 'up' ? 'up-text' : 'down-text';
@@ -7544,6 +7561,44 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             button.setAttribute('aria-label', watched ? '관심종목에서 삭제' : '관심종목에 추가');
           });
           document.querySelector('#prediction .back-button').dataset.route = state.predictionBack;
+        }
+
+
+        function setQuote(topic) {
+          const price = topic && Number.isFinite(Number(topic.price)) ? `${format(topic.price)}원` : '—';
+          const rate = topic && Number.isFinite(Number(topic.rate)) ? `${Number(topic.rate) > 0 ? '+' : ''}${Number(topic.rate)}%` : '—';
+          setText('[data-server-value="price"]', price);
+          setText('[data-server-value="change"]', rate);
+          setText('#prediction .quote-row > span:last-child', `${price} ${rate}`);
+          setText('#prediction-review-dialog .summary-row:nth-child(3) strong', `${price} ${rate}`);
+        }
+        function replaceTopics(topics) {
+          const list = document.getElementById('stock-select-list');
+          const fragment = document.createDocumentFragment();
+          for (const topic of topics) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'stock-select-row';
+            Object.assign(button.dataset, { stockCode: String(topic.code), stockName: topic.title, stockMarket: topic.market, topicId: String(topic.id), stockTop: '' });
+            const symbol = Object.assign(document.createElement('span'), { className: 'stock-symbol', textContent: topic.title.slice(0, 1) });
+            const copy = Object.assign(document.createElement('span'), { className: 'stock-row-copy' });
+            copy.append(Object.assign(document.createElement('strong'), { textContent: topic.title }), Object.assign(document.createElement('small'), { textContent: `${topic.code} · ${topic.market}` }));
+            button.append(symbol, copy, Object.assign(document.createElement('span'), { className: 'stock-row-state', textContent: '선택' }));
+            fragment.append(button);
+          }
+          list.replaceChildren(fragment);
+          stockRows = [...list.querySelectorAll('[data-stock-code]')];
+          syncSelection();
+          filterStocks();
+        }
+        function setTopicDetail(topic) {
+          if (String(topic.id) !== String(state.topicId)) return;
+          selectedTopic = { stockCode: String(topic.code), stockName: topic.title, stockMarket: topic.market };
+          const row = stockRows.find((item) => item.dataset.stockCode === String(topic.code));
+          if (row) Object.assign(row.dataset, selectedTopic);
+          state.stockCode = String(topic.code);
+          syncSelection();
+          setQuote(topic);
         }
 
         function filterStocks() {
@@ -7780,7 +7835,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         function showEntryDialog() {
           if (!tutorialSeen()) {
             if (!tutorialDialog.open) showTutorial(0);
-          } else if (!lastResultDialog.open) lastResultDialog.showModal();
+          }
+          // The example has no results endpoint; do not show sample winnings for an account.
         }
         function closeTutorial() {
           rememberTutorial();
@@ -7862,7 +7918,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             if (currentRoute() !== 'stock-select') openStockSelect('prediction');
             return;
           }
-          if (button.dataset.route) return navigate(button.dataset.route);
+          if (button.dataset.route) {
+            if (button.dataset.route === 'prediction' && !state.topicId) return openStockSelect('prediction');
+            return navigate(button.dataset.route);
+          }
           if (button.hasAttribute('data-tutorial-replay')) {
             forgetTutorial();
             showTutorial(0);
@@ -7889,13 +7948,18 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           }
           if (button.dataset.stockCode) {
             state.stockCode = button.dataset.stockCode;
+            state.topicId = button.dataset.topicId || null;
+            selectedTopic = { ...button.dataset };
+            setQuote(null);
             syncSelection();
+            window.CandleBackend?.selected();
             navigate(state.stockReturn);
             return;
           }
           if (button.dataset.market) {
             state.market = button.dataset.market;
             filterStocks();
+            window.CandleBackend?.search();
             return;
           }
           if (button.dataset.walletTab) {
@@ -7907,6 +7971,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           if (button.dataset.product) {
             state.productId = button.dataset.product;
             syncSelection();
+            window.CandleBackend?.productChanged();
             return;
           }
           if (button.dataset.legal) {
@@ -7930,12 +7995,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             return;
           }
           if (button.dataset.login) {
-            entryPending = true;
-            return navigate('home');
+            return window.CandleBackend.login(button.dataset.login);
           }
           if (button.hasAttribute('data-claim') && button.closest('#prediction-history')) {
-            button.disabled = true;
-            button.textContent = '수령 완료';
+            requireServer('보상 수령');
             return;
           }
           if (button.hasAttribute('data-more')) return requireServer('이전 내역 조회');
@@ -7947,9 +8010,15 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             'verify-ad': '광고 완료 확인',
             'retry-reward': '당첨 및 수령 자격 확인',
           };
+          if (button.id === 'consent-submit') { entryPending = true; return navigate('home'); }
+          if (button.id === 'submit-prediction') return window.create_topicroundpredict();
+          if (button.id === 'logout') return window.CandleBackend.logout();
           if (actions[button.id]) requireServer(actions[button.id]);
         });
-        document.getElementById('stock-search-input').addEventListener('input', filterStocks);
+        document.getElementById('stock-search-input').addEventListener('input', () => {
+          filterStocks();
+          window.CandleBackend?.search(true);
+        });
 
         // Screens reachable from more than one place return to where they were opened.
         const dynamicBack = {
@@ -7997,6 +8066,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           if (previousRoute !== route)
             document.getElementById(route).querySelector('h1')?.focus({ preventScroll: true });
           previousRoute = route;
+          window.CandleBackend?.route(route);
           if (route === 'home' && entryPending) {
             entryPending = false;
             showEntryDialog();
@@ -8008,7 +8078,15 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         syncConsent();
         syncPayout();
         syncRoute();
-        if (currentRoute() === 'home') showEntryDialog();
+        window.CandleUI = {
+          currentRoute, navigate, announce, syncSelection, filterStocks, replaceTopics, setTopicDetail, setQuote,
+          selection: () => ({ topicId: state.topicId, stockCode: state.stockCode, direction: state.direction, productId: state.productId }),
+          market: () => state.market,
+          watchlist: () => [...state.watchlist],
+          openTopic: (id) => { state.topicId = String(id); state.stockCode = null; selectedTopic = null; setQuote(null); syncSelection(); },
+          clearSelection: () => { state.stockCode = null; state.topicId = null; selectedTopic = null; state.watchlist.clear(); replaceTopics([]); setQuote(null); },
+        };
+        window.CandleBackend.init(window.CandleUI);
       })();
     </script>
   </body>

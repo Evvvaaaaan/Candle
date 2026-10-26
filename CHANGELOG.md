@@ -2,6 +2,18 @@
 
 최신 항목이 위에 있습니다. 자세한 내용은 git 기록을 참고하세요.
 
+## 2026-10-26 — Professor backend integration with tidy layouts
+
+- Kept the 19 tidy screens, four dialogs, original styles and embedded visual assets.
+- Connected native and temporary login, header token exchange/refresh, home reads,
+  topic search/detail, prediction requests and the existing FCM callback.
+- Added an explicit server topic ID and refreshed stock collections after API rendering.
+- Marked both direction answer codes unconfirmed; submission stays blocked until
+  distinct values are configured. The example's fixed `110` does not prove a mapping.
+- Kept unsupported claims and payout as connection notices, replaced account balance
+  examples with server values, and stopped automatic display of sample winnings.
+- Added local fixture browser verification and an active contract handoff document.
+
 ## 2026-10-26 — 전달 후 화면 다듬기
 
 - 진입 경로가 없던 접수 내역(`#submitted`)과 결과(`#result`) 화면을 삭제했습니다. 화면은 19개입니다.
