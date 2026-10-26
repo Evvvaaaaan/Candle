@@ -15,7 +15,7 @@
 ## 폴더 구성
 
 ```
-index.html            앱 전체 (화면 21개)
+index.html            앱 전체 (화면 19개)
 landing/              서비스 소개 페이지. landing/index.html을 열면 됩니다
 docs/
   BACKEND.md          백엔드 연동 문서. HTML 연동 지점, API 규칙, 합의할 정책
@@ -36,14 +36,13 @@ CHANGELOG.md          변경 이력
 | `#home` | 홈 | 연승 현황, 선택 종목과 상승/하락 버튼, 포인트·예측권, 미션·챌린지·광고 바로가기 |
 | `#stock-select` | 종목 선택 | 검색, 코스피/코스닥/관심종목 필터 |
 | `#prediction` | 예측 | 종목 정보, 예측권, 방향 선택, 관심종목 추가 |
-| `#pass` | 예측권 | 보유 예측권, 광고 보고 예측권 받기 |
+| `#pass` | 예측권 | 보유 예측권, 광고 보고 예측권 받기(오늘 참여 횟수) |
 | `#ad` | 광고 | 광고 완료 확인 |
-| `#result` | 결과 | 예측 결과와 보상 확인 |
 | `#prediction-history` | 예측 내역 | 지난 예측과 보상 수령 |
 | `#missions` | 미션 | 출석, 일일·주간 미션 |
 | `#challenge` | 10연승 챌린지 | 참여 안내 |
 | `#challenge-reward` | 리워드 수령 | 네이버 ID 입력, 동의, 수령 신청 |
-| `#shop` | 포인트 상점 | 네이버페이 상품권 4종 |
+| `#shop` | 포인트 상점 | 네이버페이 포인트 5종(5천~10만 원) 중 하나 선택, 교환하기 |
 | `#exchange` | 교환 확인 | 선택 상품과 보유 포인트 |
 | `#payout` | 지급 신청 | 휴대폰 번호·이름 입력, 동의 |
 | `#wallet` | 포인트 내역 | 전체/적립/사용 탭 |
@@ -83,6 +82,6 @@ CHANGELOG.md          변경 이력
 
 - **글꼴**: Noto Sans KR, DM Mono는 SIL Open Font License 1.1입니다. 라이선스 전문은 `index.html`의 `<style>` 첫 주석에 있습니다.
 - **네이버페이 로고**: [네이버페이 개발자센터 공식 로고 가이드](https://developers.pay.naver.com/design/brand/logo)의 원본
-  (`npayLogos.zip` 안의 `symbol/symbol_rd_sq_npaygr_large.svg`)을 수정 없이 사용했습니다. 포인트 상점과 교환 확인에 표시됩니다.
+  (`npayLogos.zip` 안의 `symbol/symbol_rd_sq_npaygr_large.svg`)을 수정 없이 사용했습니다. 교환 확인, 지급 신청, 10연승 리워드 수령 화면에 표시됩니다.
   [활용 가이드](https://developers.pay.naver.com/design/brand/usage)에 따라 실제 출시 전에 제휴 계약과 로고 검수를 확인해야 합니다.
 - **인터페이스 아이콘**: 이 앱을 위해 직접 그린 SVG입니다. 장식용 아이콘에는 `aria-hidden="true"`를 붙였습니다.

@@ -19,7 +19,7 @@
 
 ## 1. HTML 구조 요약
 
-- 화면 21개가 `<section class="screen-view" id="...">`로 한 문서에 들어 있습니다. 주소의 해시(`#home`,
+- 화면 19개가 `<section class="screen-view" id="...">`로 한 문서에 들어 있습니다. 주소의 해시(`#home`,
   `#prediction` 등)로 화면을 바꿉니다. 해시가 없으면 로그인(`#signup`) 화면이 열립니다.
 - 스크립트는 문서 끝의 `<script>` 하나입니다. 상태는 메모리의 `state` 객체에만 있고 서버 요청은 없습니다.
 - 버튼 동작은 `#app`의 클릭 핸들러 하나에서 `data-*` 속성으로 나눕니다.
@@ -42,7 +42,6 @@
 | 예측 확인 창 | `#submit-prediction` | `requireServer('예측 접수')` | `POST /predictions` `{stockCode, direction}` |
 | 광고 안내 창 | `#start-reward-ad` | `requireServer('광고 재생 및 예측권 지급')` | `POST /ads/sessions` → `launchUrl` 열기 |
 | 광고 `#ad` | `#verify-ad` | `requireServer('광고 완료 확인')` | `POST /ads/sessions/verify` `{sessionId}` |
-| 결과 `#result` | `[data-claim]` | `requireServer('보상 확인 및 수령')` | `POST /predictions/claim` `{predictionId}` |
 | 예측 내역 `#prediction-history` | `[data-claim]` | **화면에서만 "수령 완료"로 바뀜** | `POST /predictions/claim`. 성공 후 목록 재조회 |
 | 미션 `#missions` | `#attendance` | `requireServer('출석 확인 및 보상 지급')` | `POST /missions/attendance` |
 | 지급 신청 `#payout` | `#payout-form` 제출 | `requireServer('지급 신청', 'payout-error')` | `POST /reward-claims` |
@@ -72,15 +71,14 @@
 
 | 화면 | 예시 내용 | 데이터 출처 |
 |---|---|---|
-| 예측, 예측권 | 기본 무료 `1회`, 광고 예측권 `2장`, 오늘의 광고 참여 `2 / 3회` | `GET /prediction-tickets` → `free`, `ad`, `adCount`, `adLimit` |
-| 광고 안내 창 | 오늘 남은 참여 `1 / 3회` | `adLimit - adCount` / `adLimit` |
+| 예측, 예측권 | 기본 무료 `1회`, 광고 예측권 `2장`, 광고 카드의 `오늘 2 / 10회`와 진행 막대(20%) | `GET /prediction-tickets` → `free`, `ad`, `adCount`, `adLimit` |
+| 광고 안내 창 | 오늘 남은 참여 `8 / 10회` | `adLimit - adCount` / `adLimit` |
 | 예측 화면, 예측 확인 창 | 조회 가격 `71,200원 +1.28%` | `GET /stocks/top-list` |
 | 내 정보 | 현재 연승 `7`, 최고 연승 `42`, 적중률 `63%`, `24회 중 15회 적중` | `GET /predictions/today` → `streak`, `bestStreak`, `predictionCount`, `wonCount` |
 | 내 정보 | 닉네임 자리의 "서버 연결 필요" | `GET /auth/session` → `user.nickname` |
-| 미션 | 출석 `연속 5일째`, 미션 목록·포인트·진행도 `0 / 5` | `GET /missions` |
+| 미션 | 오늘 `0 / 2 완료`·`0 P`, 미션 4개의 포인트와 진행도(`0 / 5`, `0 / 3`) | `GET /missions` |
 | 예측 내역 | 종목 4건(결과 대기, 적중, 수령 완료, 미적중) | `GET /predictions/history` |
 | 지난 예측 결과 창 | 삼성전자 · 상승 · 적중 · `+15P` | `GET /predictions/today`의 최근 결과(`today: false`) |
-| 접수 내역 | "서버 연결 필요" 빈 상태 | `GET /predictions/today` |
 | 포인트 내역 | 예시 7건(적립 4, 사용 2, 환급 1) | `GET /wallet/transactions` |
 | 약관 보기 `#legal` | "서버 연결 필요" | `GET /legal/agreements/current` → `body` |
 
@@ -91,7 +89,7 @@
 | 목록 | 현재 HTML | 연동 방법 |
 |---|---|---|
 | 종목 40개 | `#stock-select-list`의 버튼. 코스피 20(`data-stock-top`), 코스닥 20 | `GET /stocks/top-list`로 버튼을 생성하고 같은 `data-stock-*` 속성을 붙이면 기존 검색·필터가 그대로 동작 |
-| 교환 상품 4개 | `#shop`의 `[data-product]` 버튼. 네이버페이 5천·1만·5만·10만 원권 | `GET /rewards/catalog`로 생성. `data-product-amount`, `data-product-points`, `data-product-title` 유지 |
+| 교환 상품 5개 | `#shop`의 `[data-product]` 라디오 버튼. 네이버페이 5천·1만·3만·5만·10만 원권. 예시 잔액 12,450P 기준으로 3만 원권부터 `disabled`와 `17,550P 부족`이 고정되어 있음 | `GET /rewards/catalog`로 생성. `data-product-amount`, `data-product-points`, `data-product-title` 유지. `balance`보다 `points`가 큰 상품은 `disabled`로 만들고 부족분을 `.product-state`에 표시 |
 | 가입 약관 3개 | `#consent`의 `[data-agreement=age\|terms\|privacy]` | `GET /legal/agreements/current`의 `id`와 맞춤 |
 | 약관 제목 | 스크립트의 `legalTitles` (`age`, `terms`, `privacy`, `reward`) | 같은 API의 `title` |
 
@@ -320,7 +318,7 @@ API 요청에 HTML을 돌려주는 SPA fallback을 걸지 않습니다.
 | 항목 | 현재 HTML | 정할 것 |
 |---|---|---|
 | 연승 조건 | 튜토리얼에 "적중률 50% 초과면 연승이 유지돼요", "하루 10회까지 참여" | 하루 여러 번 예측할 때 연승 판정 방법 |
-| 예측권 | 튜토리얼 "접속하면 하루 1장", 예측권 화면 "기본 무료 1회 · 광고 예측권", 광고 하루 3회 | 기본 지급량, 광고 보상량, 하루 한도, 만료 시각 |
+| 예측권 | 튜토리얼 "접속하면 하루 1장", 예측권 화면 "기본 무료 1회 · 광고 예측권", 광고 하루 10회 | 기본 지급량, 광고 보상량, 하루 한도, 만료 시각 |
 | 리워드 | 홈 "적중률 1위에게 100만원", 챌린지 "10연승 달성자 중 최고 적중률 1명" | 회차, 동률 처리, 중복 수상, 지급 시기 |
 | 지급 수단 | 포인트 교환은 휴대폰 번호·이름, 10연승은 네이버 ID | 실제 계약 상품(ID 적립, 쿠폰 등)과 받을 정보 |
 
