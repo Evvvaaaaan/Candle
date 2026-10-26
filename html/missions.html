@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8fafc" />
+    <title>Candle · 미션</title>
+    <link rel="icon" href="images/candle-logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/static.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="device-stage" aria-label="Candle 서비스">
+        <div class="phone" id="app">
+          <section class="screen-view" data-screen="missions" id="missions" aria-label="미션">
+            <div class="status-bar" aria-hidden="true"></div>
+            <header class="app-header">
+              <div class="brand">
+                <img src="images/candle-logo.png" alt="" /><span>Candle</span>
+              </div>
+              <a
+                class="header-account"
+                data-route="profile"
+                aria-label="내 정보"
+                href="profile.html"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4.5 21v-1a7.5 7.5 0 0 1 15 0v1" />
+                </svg>
+              </a>
+            </header>
+            <div class="content">
+              <h1 class="heading" tabindex="-1">오늘의 미션</h1>
+              <p class="subheading">작은 참여로 포인트를 차곡차곡 모아보세요.</p>
+              <section class="card mission-summary">
+                <div class="mission-summary-top">
+                  <p class="card-label">오늘 받을 수 있는 포인트</p>
+                  <span>0 / 2 완료</span>
+                </div>
+                <p class="mission-summary-points">0<span>P</span></p>
+                <div class="progress-track"><div class="progress-fill"></div></div>
+              </section>
+              <div class="section-heading">
+                <h2 class="section-title">일일 미션</h2>
+              </div>
+              <section class="card mission-list">
+                <div class="mission-item">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <rect x="3" y="5" width="18" height="16" rx="3"></rect>
+                      <path d="M7 3v4m10-4v4M3 10h18m-13 5 3 3 5-5"></path></svg
+                  ></span>
+                  <div class="mission-copy">
+                    <h3>출석하기</h3>
+                  </div>
+                  <span class="mission-reward">10<small>P</small></span>
+                  <button id="attendance" class="mission-action primary" type="button">출석</button>
+                </div>
+                <div class="mission-item">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path
+                        d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4Z"
+                      ></path>
+                      <path d="M10.5 9.5v5l4-2.5Z"></path></svg
+                  ></span>
+                  <div class="mission-copy">
+                    <h3>광고 예측권 받기</h3>
+                  </div>
+                  <span class="mission-reward">10<small>P</small></span>
+                  <a class="mission-action" data-route="pass" href="pass.html">하기</a>
+                </div>
+              </section>
+              <div class="section-heading">
+                <h2 class="section-title">주간 미션</h2>
+              </div>
+              <section class="card mission-list">
+                <div class="mission-item weekly">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <rect x="3" y="5" width="18" height="16" rx="3"></rect>
+                      <path d="M7 3v4m10-4v4M3 10h18M8 15h.01M12 15h.01M16 15h.01"></path></svg
+                  ></span>
+                  <div class="mission-copy">
+                    <h3>이번 주 5일 출석</h3>
+                    <div class="mission-progress">
+                      <div class="progress-track"><div class="progress-fill"></div></div>
+                      <span>0 / 5</span>
+                    </div>
+                  </div>
+                  <span class="mission-reward">100<small>P</small></span>
+                </div>
+                <div class="mission-item weekly">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <circle cx="12" cy="12" r="9"></circle>
+                      <path d="m8 12.5 3 3 5-6"></path></svg
+                  ></span>
+                  <div class="mission-copy">
+                    <h3>이번 주 예측 3회 적중</h3>
+                    <div class="mission-progress">
+                      <div class="progress-track"><div class="progress-fill"></div></div>
+                      <span>0 / 3</span>
+                    </div>
+                  </div>
+                  <span class="mission-reward">150<small>P</small></span>
+                </div>
+              </section>
+            </div>
+            <nav class="bottom-nav" aria-label="하단 메뉴">
+              <a class="nav-item" data-route="home" href="home.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></a
+              ><a class="nav-item" data-route="stock-select" href="stock-select.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20v-4m7 4v-6m7 6v-8" />
+                  <path d="m3 11 5-4 4 3 8-7" />
+                  <path d="M15 3h5v5" /></svg
+                ><span>예측</span></a
+              ><a
+                class="nav-item active"
+                data-route="missions"
+                aria-current="page"
+                href="missions.html"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></a
+              ><a class="nav-item" data-route="shop" href="shop.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
+              </a>
+            </nav>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script src="js/backend-config.js"></script>
+    <script src="default/jquery.js"></script>
+    <script src="default/flutter.js"></script>
+    <script src="default/custom.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
+</html>

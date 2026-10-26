@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8fafc" />
+    <title>Candle · 지급 신청</title>
+    <link rel="icon" href="images/candle-logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/static.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="device-stage" aria-label="Candle 서비스">
+        <div class="phone" id="app">
+          <section
+            class="screen-view payout-screen"
+            data-screen="payout"
+            id="payout"
+            aria-label="지급 신청"
+          >
+            <div class="status-bar" aria-hidden="true"></div>
+            <header class="transaction-header">
+              <a
+                class="back-button"
+                data-route="exchange"
+                aria-label="이전 화면"
+                href="exchange.html"
+              >
+                <img src="images/chevron-left.svg" alt="" />
+              </a>
+              <h1 tabindex="-1">지급 신청</h1>
+            </header>
+            <div class="payout-content">
+              <h1 class="heading" tabindex="-1">수령 정보 입력</h1>
+              <p class="subheading">차곡차곡 모은 포인트를 리워드로 받아보세요.</p>
+              <section class="card payout-summary" aria-label="신청할 리워드">
+                <div class="payout-reward-heading">
+                  <span>포인트 교환</span
+                  ><svg
+                    class="ui-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+                    <path d="M5 12v9h14v-9M12 8v13"></path>
+                    <path d="M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z"></path>
+                  </svg>
+                </div>
+                <div class="payout-reward-product">
+                  <img src="images/npay-symbol.svg" width="48" height="48" alt="네이버페이" />
+                  <div>
+                    <p data-product-title-value="">네이버페이 5,000원권</p>
+                    <strong class="payout-amount" data-payout-amount-value=""
+                      >5,000<span>원</span></strong
+                    >
+                  </div>
+                </div>
+                <div class="payout-points">
+                  <span>사용 포인트</span><strong data-product-points-value="">5,000P</strong>
+                </div>
+              </section>
+              <form id="payout-form" class="card payout-form">
+                <div class="payout-form-heading">
+                  <div class="payout-form-title">
+                    <svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <circle cx="12" cy="8" r="4"></circle>
+                      <path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path>
+                    </svg>
+                    <h2>받는 분 정보</h2>
+                  </div>
+                  <span>필수 입력</span>
+                </div>
+                <div class="form-field">
+                  <label for="phone">휴대폰 번호</label
+                  ><input
+                    disabled
+                    data-requires-js
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    inputmode="tel"
+                    autocomplete="tel"
+                    maxlength="13"
+                    placeholder="01012345678"
+                    required=""
+                    pattern="010[0-9 -]{8,10}"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="name">이름</label
+                  ><input
+                    disabled
+                    data-requires-js
+                    id="name"
+                    name="name"
+                    autocomplete="name"
+                    maxlength="40"
+                    placeholder="받는 분의 이름"
+                    required=""
+                    minlength="2"
+                  />
+                </div>
+              </form>
+              <div class="payout-delivery">
+                <svg
+                  class="ui-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 13 3-8h12l3 8v7H3v-7Zm0 0h5l2 3h4l2-3h5"></path>
+                </svg>
+                <p>실제 지급 신청에는 서버 연결이 필요합니다.</p>
+              </div>
+            </div>
+            <footer class="payout-footer">
+              <div class="payout-agreement-row">
+                <label class="payout-consent"
+                  ><input disabled data-requires-js id="payout-agree" type="checkbox" /><span
+                    >지급 안내 및 개인정보 처리 동의 <strong>(필수)</strong></span
+                  ></label
+                ><a
+                  class="payout-terms"
+                  data-legal="reward"
+                  aria-label="지급 안내 및 개인정보 동의 내용 보기"
+                  href="legal-reward.html"
+                >
+                  <svg
+                    class="ui-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="m9 5 7 7-7 7"></path>
+                  </svg>
+                </a>
+              </div>
+              <button
+                id="payout-submit"
+                class="primary-button payout-action"
+                type="button"
+                disabled=""
+              >
+                지급 신청하기
+              </button>
+              <p class="fraud-note">신청 결과는 포인트 내역의 사용 탭에서 확인할 수 있습니다.</p>
+              <p id="payout-error" class="prize-form-error" role="alert"></p>
+            </footer>
+          </section>
+
+          <dialog id="legal-dialog" class="reward-ad-dialog" aria-labelledby="legal-dialog-title">
+            <h2 id="legal-dialog-title">서비스 이용약관 동의</h2>
+            <div class="legal-copy">승인된 약관 본문을 확인하려면 실제 서버 연결이 필요합니다.</div>
+            <button class="secondary-button" type="button" data-close-dialog="legal-dialog">
+              닫기
+            </button>
+          </dialog>
+        </div>
+      </section>
+    </main>
+    <script src="js/backend-config.js"></script>
+    <script src="default/jquery.js"></script>
+    <script src="default/flutter.js"></script>
+    <script src="default/custom.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/pages/forms.js"></script>
+  </body>
+</html>

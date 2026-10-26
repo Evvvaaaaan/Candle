@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8fafc" />
+    <title>Candle · 포인트 내역</title>
+    <link rel="icon" href="images/candle-logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/static.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="device-stage" aria-label="Candle 서비스">
+        <div class="phone" id="app">
+          <section class="screen-view" data-screen="wallet" id="wallet" aria-label="포인트 내역">
+            <div class="status-bar" aria-hidden="true"></div>
+            <header class="transaction-header">
+              <a
+                class="back-button"
+                data-route="profile"
+                aria-label="이전 화면"
+                href="profile.html"
+              >
+                <img src="images/chevron-left.svg" alt="" />
+              </a>
+              <h1 tabindex="-1">포인트 내역</h1>
+            </header>
+            <div class="content">
+              <p class="field-help">
+                현재 내역은 디자인 미리보기입니다. 내역 조회 API는 아직 연결되지 않았습니다.
+              </p>
+              <section class="card points-card">
+                <div class="points-copy">
+                  <p class="card-label">보유 포인트</p>
+                  <p class="number" data-server-value="balance">—</p>
+                </div>
+                <span class="icon-tile points-icon"
+                  ><svg
+                    class="ui-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M10 17V7h3a3 3 0 0 1 0 6h-3"></path></svg
+                ></span>
+              </section>
+              <div class="tabs wallet-tabs" role="group" aria-label="내역 구분">
+                <button class="tab active" type="button" data-wallet-tab="all" aria-pressed="true">
+                  전체</button
+                ><button class="tab" type="button" data-wallet-tab="earn" aria-pressed="false">
+                  적립</button
+                ><button class="tab" type="button" data-wallet-tab="use" aria-pressed="false">
+                  사용
+                </button>
+              </div>
+              <div class="transaction-list">
+                <section class="card wallet-transaction" data-amount="15">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M18 6 6 18m0-8v8h8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>예측 적중 보상</h3>
+                    <time datetime="2026-10-26">2026.10.26</time>
+                  </div>
+                  <div class="transaction-amount earned">
+                    <strong>+15<small>P</small></strong
+                    ><span>적립</span>
+                  </div>
+                </section>
+                <section class="card wallet-transaction" data-amount="5">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M18 6 6 18m0-8v8h8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>출석 체크</h3>
+                    <time datetime="2026-10-26">2026.10.26</time>
+                  </div>
+                  <div class="transaction-amount earned">
+                    <strong>+5<small>P</small></strong
+                    ><span>적립</span>
+                  </div>
+                </section>
+                <section class="card wallet-transaction" data-amount="-5000">
+                  <span class="icon-tile miss"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M6 18 18 6m-8 0h8v8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>네이버페이 5,000원권 교환</h3>
+                    <time datetime="2026-10-25">2026.10.25</time>
+                  </div>
+                  <div class="transaction-amount spent">
+                    <strong>-5,000<small>P</small></strong
+                    ><span>처리 중</span>
+                  </div>
+                </section>
+                <section class="card wallet-transaction" data-amount="5">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M18 6 6 18m0-8v8h8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>예측 참여 보상</h3>
+                    <time datetime="2026-10-24">2026.10.24</time>
+                  </div>
+                  <div class="transaction-amount earned">
+                    <strong>+5<small>P</small></strong
+                    ><span>적립</span>
+                  </div>
+                </section>
+                <section class="card wallet-transaction" data-amount="30">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M18 6 6 18m0-8v8h8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>미션 완료 · 3일 연속 예측</h3>
+                    <time datetime="2026-10-23">2026.10.23</time>
+                  </div>
+                  <div class="transaction-amount earned">
+                    <strong>+30<small>P</small></strong
+                    ><span>적립</span>
+                  </div>
+                </section>
+                <section class="card wallet-transaction" data-amount="-10000">
+                  <span class="icon-tile miss"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M6 18 18 6m-8 0h8v8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>네이버페이 10,000원권 교환</h3>
+                    <time datetime="2026-10-20">2026.10.20</time>
+                  </div>
+                  <div class="transaction-amount spent">
+                    <strong>-10,000<small>P</small></strong
+                    ><span>지급 완료</span>
+                  </div>
+                </section>
+                <section class="card wallet-transaction" data-amount="5000">
+                  <span class="icon-tile"
+                    ><svg
+                      class="ui-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M18 6 6 18m0-8v8h8"></path></svg
+                  ></span>
+                  <div class="transaction-copy">
+                    <h3>네이버페이 5,000원권 환급</h3>
+                    <time datetime="2026-10-19">2026.10.19</time>
+                  </div>
+                  <div class="transaction-amount earned">
+                    <strong>+5,000<small>P</small></strong
+                    ><span>환급</span>
+                  </div>
+                </section>
+              </div>
+            </div>
+            <nav class="bottom-nav" aria-label="하단 메뉴">
+              <a class="nav-item" data-route="home" href="home.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></a
+              ><a class="nav-item" data-route="stock-select" href="stock-select.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20v-4m7 4v-6m7 6v-8" />
+                  <path d="m3 11 5-4 4 3 8-7" />
+                  <path d="M15 3h5v5" /></svg
+                ><span>예측</span></a
+              ><a class="nav-item" data-route="missions" href="missions.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></a
+              ><a class="nav-item" data-route="shop" href="shop.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
+              </a>
+            </nav>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script src="js/backend-config.js"></script>
+    <script src="default/jquery.js"></script>
+    <script src="default/flutter.js"></script>
+    <script src="default/custom.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/pages/account.js"></script>
+    <script src="js/pages/wallet.js"></script>
+  </body>
+</html>

@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8fafc" />
+    <title>Candle · 리워드 수령</title>
+    <link rel="icon" href="images/candle-logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/static.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="device-stage" aria-label="Candle 서비스">
+        <div class="phone" id="app">
+          <section
+            class="screen-view"
+            data-screen="challenge-reward"
+            id="challenge-reward"
+            aria-label="리워드 수령"
+          >
+            <div class="status-bar" aria-hidden="true"></div>
+            <header class="transaction-header">
+              <a
+                class="back-button"
+                data-route="challenge"
+                aria-label="이전 화면"
+                href="challenge.html"
+              >
+                <img src="images/chevron-left.svg" alt="" />
+              </a>
+            </header>
+            <div class="content">
+              <h1 class="heading" tabindex="-1">10연승 리워드</h1>
+              <p class="subheading">당첨 확인부터 수령 신청까지 한곳에서</p>
+
+              <section class="card prize-hero">
+                <span class="icon-tile challenge-icon"
+                  ><svg
+                    class="ui-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+                    <path d="M5 12v9h14v-9M12 8v13"></path>
+                    <path d="M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z"></path></svg
+                ></span>
+                <p class="prize-eyebrow">10연승 달성자 중 최고 적중률 1명</p>
+                <h2>리워드 수령 안내</h2>
+                <p class="prize-amount">1,000,000<span>원 리워드</span></p>
+                <p>당첨 여부와 수령 자격은 서버 연결 후 확인할 수 있습니다.</p>
+              </section>
+              <section class="card prize-payment" aria-label="네이버페이 지급 안내">
+                <div class="prize-provider">
+                  <img src="images/npay-symbol.svg" width="44" height="44" alt="네이버페이" />
+                  <div>
+                    <h2>네이버페이 포인트</h2>
+                    <p>네이버 ID로 직접 적립</p>
+                  </div>
+                </div>
+                <dl>
+                  <div>
+                    <dt>지급 포인트</dt>
+                    <dd>1,000,000P</dd>
+                  </div>
+                </dl>
+                <p class="prize-note">실제 지급 조건은 서버 연결 후 확인할 수 있습니다.</p>
+                <p class="prize-note">실제 지급 조건은 서버 연결 후 확인할 수 있습니다.</p>
+              </section>
+              <form id="challenge-reward-form" class="card prize-form" novalidate="">
+                <h2 class="card-heading">수령 정보</h2>
+                <div class="form-field">
+                  <label for="reward-recipient">포인트를 받을 네이버 ID</label
+                  ><input
+                    disabled
+                    data-requires-js
+                    id="reward-recipient"
+                    type="text"
+                    inputmode="text"
+                    autocomplete="off"
+                    autocapitalize="none"
+                    spellcheck="false"
+                    maxlength="100"
+                    aria-describedby="reward-recipient-help reward-form-error"
+                    required=""
+                  />
+                  <p id="reward-recipient-help" class="field-help">
+                    닉네임이 아닌 네이버 로그인 ID를 입력해 주세요. 계정 확인은 지급 심사 시
+                    진행됩니다.
+                  </p>
+                </div>
+                <div class="form-field">
+                  <label for="reward-confirm">네이버 ID 다시 입력</label
+                  ><input
+                    disabled
+                    data-requires-js
+                    id="reward-confirm"
+                    type="text"
+                    inputmode="text"
+                    autocomplete="off"
+                    autocapitalize="none"
+                    spellcheck="false"
+                    maxlength="100"
+                    aria-describedby="reward-form-error"
+                    required=""
+                  />
+                </div>
+                <div class="prize-agreements">
+                  <div>
+                    <label class="prize-check"
+                      ><input
+                        disabled
+                        data-requires-js
+                        type="checkbox"
+                        data-reward-agreement="collection"
+                      /><span>수령 정보 수집·이용 동의 (필수)</span></label
+                    >
+                    <details>
+                      <summary>동의 내용 보기</summary>
+                      <p>승인된 동의 내용은 실제 서버 연결 후 제공됩니다.</p>
+                    </details>
+                  </div>
+                  <div>
+                    <label class="prize-check"
+                      ><input
+                        disabled
+                        data-requires-js
+                        type="checkbox"
+                        data-reward-agreement="provision"
+                      /><span>개인정보 제3자 제공 동의 (필수)</span></label
+                    >
+                    <details>
+                      <summary>동의 내용 보기</summary>
+                      <p>승인된 동의 내용은 실제 서버 연결 후 제공됩니다.</p>
+                    </details>
+                  </div>
+                  <label class="prize-check"
+                    ><input
+                      disabled
+                      data-requires-js
+                      id="reward-account-ready"
+                      type="checkbox"
+                    /><span
+                      >입력한 본인 네이버 계정의 네이버페이 이용약관 동의를 완료했으며, 지급 안내를
+                      확인했습니다.</span
+                    ></label
+                  >
+                </div>
+                <p id="reward-form-error" class="prize-form-error" role="alert"></p>
+                <button id="submit-challenge-reward" type="submit" class="primary-button">
+                  수령 신청하기
+                </button>
+                <p class="field-help">
+                  입력 검증만 진행됩니다. 실제 수령 신청에는 서버 연결이 필요합니다.
+                </p>
+              </form>
+              <a class="secondary-button" data-route="challenge" href="challenge.html"
+                >챌린지 안내</a
+              >
+            </div>
+            <nav class="bottom-nav" aria-label="하단 메뉴">
+              <a class="nav-item active" data-route="home" aria-current="page" href="home.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></a
+              ><a class="nav-item" data-route="stock-select" href="stock-select.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20v-4m7 4v-6m7 6v-8" />
+                  <path d="m3 11 5-4 4 3 8-7" />
+                  <path d="M15 3h5v5" /></svg
+                ><span>예측</span></a
+              ><a class="nav-item" data-route="missions" href="missions.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></a
+              ><a class="nav-item" data-route="shop" href="shop.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
+              </a>
+            </nav>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script src="js/backend-config.js"></script>
+    <script src="default/jquery.js"></script>
+    <script src="default/flutter.js"></script>
+    <script src="default/custom.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/pages/forms.js"></script>
+  </body>
+</html>

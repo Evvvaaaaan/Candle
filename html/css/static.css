@@ -1,0 +1,25 @@
+/* The original tidy styles are unchanged; each document contains one screen. */
+.phone > .screen-view {
+  display: var(--screen-display, block);
+}
+a[data-route],
+a[data-stock-picker],
+a[data-legal] {
+  cursor: pointer;
+  text-decoration: none;
+}
+a.primary-button,
+a.secondary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.agreement-line > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#legal-dialog .legal-copy {
+  margin: 16px 0 24px;
+  white-space: pre-wrap;
+}

@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8fafc" />
+    <title>Candle · 내 정보</title>
+    <link rel="icon" href="images/candle-logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/static.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="device-stage" aria-label="Candle 서비스">
+        <div class="phone" id="app">
+          <section class="screen-view" data-screen="profile" id="profile" aria-label="내 정보">
+            <div class="status-bar" aria-hidden="true"></div>
+            <header class="transaction-header">
+              <a class="back-button" data-route="home" aria-label="이전 화면" href="home.html">
+                <img src="images/chevron-left.svg" alt="" />
+              </a>
+              <h1 tabindex="-1">내 정보</h1>
+              <a
+                class="header-account"
+                data-route="settings"
+                aria-label="설정"
+                href="settings.html"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="12" r="3" />
+                  <path
+                    d="M10.19 5.24 10.35 2.64 13.65 2.64 13.81 5.24 15.5 5.94 17.45 4.22 19.78 6.55 18.06 8.5 18.76 10.19 21.36 10.35 21.36 13.65 18.76 13.81 18.06 15.5 19.78 17.45 17.45 19.78 15.5 18.06 13.81 18.76 13.65 21.36 10.35 21.36 10.19 18.76 8.5 18.06 6.55 19.78 4.22 17.45 5.94 15.5 5.24 13.81 2.64 13.65 2.64 10.35 5.24 10.19 5.94 8.5 4.22 6.55 6.55 4.22 8.5 5.94Z"
+                  />
+                </svg>
+              </a>
+            </header>
+            <div class="content">
+              <section class="card account-card">
+                <span class="icon-tile account-avatar"
+                  ><svg
+                    class="ui-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4.5 21a7.5 7.5 0 0 1 15 0"></path></svg
+                ></span>
+                <div class="account-copy">
+                  <p class="card-label">반가워요</p>
+                  <strong>서버 연결 필요</strong>
+                </div>
+              </section>
+              <section class="card points-card">
+                <div class="points-copy">
+                  <p class="card-label">보유 포인트</p>
+                  <p class="number" data-server-value="balance">—</p>
+                </div>
+                <button class="link-button" type="button" data-wallet-tab="all">내역 보기 ›</button>
+              </section>
+              <section class="card stats-card" aria-label="예측 기록">
+                <div class="stats-grid">
+                  <div class="stat-current">
+                    <strong>7</strong
+                    ><span class="stat-label"
+                      ><svg
+                        class="ui-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <path d="M4 20V10m8 10V4m8 16v-7"></path></svg
+                      >현재 연승</span
+                    >
+                  </div>
+                  <div>
+                    <strong>42</strong
+                    ><span class="stat-label"
+                      ><svg
+                        class="ui-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="m8 12.5 3 3 5-6"></path></svg
+                      >최고 연승</span
+                    >
+                  </div>
+                  <div>
+                    <strong>63<small>%</small></strong
+                    ><span class="stat-label"
+                      ><svg
+                        class="ui-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <path d="M19 5 5 19"></path>
+                        <circle cx="7" cy="7" r="2.5"></circle>
+                        <circle cx="17" cy="17" r="2.5"></circle></svg
+                      >적중률</span
+                    >
+                  </div>
+                </div>
+                <p class="stats-total">
+                  <span>조회된 예측</span><strong>24회 중 15회 적중</strong>
+                </p>
+              </section>
+              <section class="card menu-card" aria-label="내 활동과 계정">
+                <a class="menu-row" data-route="prediction-history" href="prediction-history.html">
+                  <span class="menu-label"
+                    ><span class="icon-tile menu-icon"
+                      ><svg
+                        class="ui-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <path d="M4 20V10m8 10V4m8 16v-7"></path></svg></span
+                    >예측 내역</span
+                  ><svg
+                    class="ui-icon menu-chevron"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="m9 5 7 7-7 7"></path>
+                  </svg>
+                </a>
+                <hr />
+                <a class="menu-row" data-route="wallet" href="wallet.html">
+                  <span class="menu-label"
+                    ><span class="icon-tile menu-icon"
+                      ><svg
+                        class="ui-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <path
+                          d="M20 8V5a2 2 0 0 0-2-2L5 6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h15V8H5a2 2 0 0 1 0-4"
+                        ></path>
+                        <path d="M20 12h-5v5h5"></path>
+                        <path d="M16 14.5h.01"></path></svg></span
+                    >포인트 내역</span
+                  ><svg
+                    class="ui-icon menu-chevron"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="m9 5 7 7-7 7"></path>
+                  </svg>
+                </a>
+                <hr />
+                <a class="menu-row" data-route="challenge-reward" href="challenge-reward.html">
+                  <span class="menu-label"
+                    ><span class="icon-tile menu-icon"
+                      ><svg
+                        class="ui-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="m8 12.5 3 3 5-6"></path></svg></span
+                    >10연승 리워드</span
+                  ><svg
+                    class="ui-icon menu-chevron"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="m9 5 7 7-7 7"></path>
+                  </svg>
+                </a>
+                <hr />
+                <a class="menu-row" data-route="settings" href="settings.html">
+                  <span class="menu-label"
+                    ><span class="icon-tile menu-icon"
+                      ><svg
+                        class="ui-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path
+                          d="M10.19 5.24 10.35 2.64 13.65 2.64 13.81 5.24 15.5 5.94 17.45 4.22 19.78 6.55 18.06 8.5 18.76 10.19 21.36 10.35 21.36 13.65 18.76 13.81 18.06 15.5 19.78 17.45 17.45 19.78 15.5 18.06 13.81 18.76 13.65 21.36 10.35 21.36 10.19 18.76 8.5 18.06 6.55 19.78 4.22 17.45 5.94 15.5 5.24 13.81 2.64 13.65 2.64 10.35 5.24 10.19 5.94 8.5 4.22 6.55 6.55 4.22 8.5 5.94Z"
+                        ></path></svg></span
+                    >계정 · 약관</span
+                  ><svg
+                    class="ui-icon menu-chevron"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="m9 5 7 7-7 7"></path>
+                  </svg>
+                </a>
+              </section>
+            </div>
+            <nav class="bottom-nav" aria-label="하단 메뉴">
+              <a class="nav-item" data-route="home" href="home.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
+                ><span>홈</span></a
+              ><a class="nav-item" data-route="stock-select" href="stock-select.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M5 20v-4m7 4v-6m7 6v-8" />
+                  <path d="m3 11 5-4 4 3 8-7" />
+                  <path d="M15 3h5v5" /></svg
+                ><span>예측</span></a
+              ><a class="nav-item" data-route="missions" href="missions.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <rect x="4" y="5" width="16" height="16" rx="4" />
+                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
+                ><span>미션</span></a
+              ><a class="nav-item" data-route="shop" href="shop.html">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 9h16l-1 12H5L4 9Z" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+                ><span>상점</span>
+              </a>
+            </nav>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script src="js/backend-config.js"></script>
+    <script src="default/jquery.js"></script>
+    <script src="default/flutter.js"></script>
+    <script src="default/custom.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/pages/account.js"></script>
+  </body>
+</html>
