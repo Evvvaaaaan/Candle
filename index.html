@@ -1569,6 +1569,28 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         margin: 16px 0 12px;
         text-align: left;
       }
+      .last-result-cards {
+        display: flex;
+        gap: 12px;
+        margin: 16px -24px 12px;
+        padding: 0 24px;
+        overflow-x: auto;
+        scroll-padding: 0 24px;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        text-align: left;
+      }
+      .last-result-cards::-webkit-scrollbar {
+        display: none;
+      }
+      .last-result-cards .summary-card {
+        flex: 0 0 100%;
+        margin-top: 0;
+        scroll-snap-align: start;
+      }
+      .last-result-dots {
+        margin-bottom: 12px;
+      }
       .reward-ad-cancel {
         width: 100%;
         min-height: 44px;
@@ -1773,60 +1795,99 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         background: var(--primary);
       }
 
+      #shop .content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #shop .content > * {
+        flex-shrink: 0;
+      }
+
+      #shop .content > .product-submit {
+        margin-top: auto;
+      }
+
+      .product-list {
+        margin: 12px 0 16px;
+        padding: 0 16px;
+      }
+
       .product-card {
         width: 100%;
-        min-height: 100px;
-        margin-top: 12px;
-        padding: 14px;
-        display: flex;
+        min-height: 72px;
+        padding: 14px 0;
+        display: grid;
+        grid-template-columns: 20px minmax(0, 1fr) auto;
         align-items: center;
         gap: 12px;
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        background: #fff;
+        border: 0;
+        background: none;
         text-align: left;
       }
 
-      .product-card.compact {
-        width: 100%;
-        margin-top: 12px;
+      .product-card + .product-card {
+        border-top: 1px solid var(--border);
       }
 
-      .npay-logo {
-        width: 56px;
-        height: 56px;
-        flex: 0 0 56px;
-        object-fit: contain;
+      .product-radio {
+        width: 20px;
+        height: 20px;
+        border: 1.5px solid var(--border-mid);
+        border-radius: 50%;
+      }
+
+      .product-card[aria-pressed='true'] .product-radio {
+        border: 6px solid var(--primary);
+      }
+
+      .product-card:disabled .product-radio {
+        border-color: var(--border);
       }
 
       .product-copy {
         min-width: 0;
-        flex: 1;
-      }
-
-      .product-copy small {
-        display: block;
-        overflow: hidden;
-        color: var(--text-mid);
-        font-size: 11px;
-        line-height: 16px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
 
       .product-copy strong {
         display: block;
-        margin-top: 1px;
         font-size: 14px;
-        line-height: 20px;
+        line-height: 21px;
       }
 
-      .product-copy span {
+      .product-copy small {
         display: block;
-        color: var(--primary);
-        font-size: 12px;
-        font-weight: 500;
+        margin-top: 2px;
+        color: var(--text-mid);
+        font-size: 11px;
         line-height: 18px;
+      }
+
+      .product-card:disabled .product-copy strong,
+      .product-card:disabled .product-copy small,
+      .product-state {
+        color: var(--text-light);
+        font-size: 11px;
+      }
+
+      .product-card:disabled .product-copy strong {
+        font-size: 14px;
+      }
+
+      .product-card.compact {
+        grid-template-columns: 40px minmax(0, 1fr) auto;
+        margin-top: 12px;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: #fff;
+      }
+
+      .npay-logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        object-fit: contain;
       }
 
       .chevron {
@@ -3128,8 +3189,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         width: 19px;
         height: 19px;
       }
-      .menu-chevron,
-      .product-chevron {
+      .menu-chevron {
         width: 16px;
         height: 16px;
         color: var(--text-light);
@@ -3358,6 +3418,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       .result-card .badge,
       .result-card .primary-button {
         flex-shrink: 0;
+        justify-content: center;
+        min-width: 68px;
+        min-height: 32px;
+        padding: 0 10px;
+        font-size: 11px;
+        line-height: 16px;
       }
       .result-meta {
         margin-top: 2px;
@@ -3378,20 +3444,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
       .result-card .primary-button {
         width: auto;
-        min-height: 32px;
         margin-top: 0;
-        padding: 0 12px;
         border-radius: 999px;
-        font-size: 12px;
       }
       .result-card .primary-button:disabled {
-        min-height: 26px;
-        padding: 5px 8px;
         background: var(--surface-subtle);
         color: var(--text-mid);
-        font-size: 11px;
         font-weight: 400;
-        line-height: 16px;
       }
       .record-date {
         margin-top: 12px;
@@ -4443,7 +4502,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               <button class="primary-button" type="button" data-route="challenge-reward">
                 당첨 확인 · 리워드 수령</button
               ><button class="secondary-button" type="button" data-route="stock-select">예측하러 가기</button
-              ><button class="secondary-button" type="button" data-route="result">내 예측 결과 확인</button>
+              ><button class="secondary-button" type="button" data-route="prediction-history">내 예측 결과 확인</button>
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
               <button class="nav-item active" type="button" data-route="home" aria-current="page">
@@ -5581,102 +5640,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               </button>
             </nav>
           </section>
-          <section class="screen-view" data-screen="result" id="result" aria-label="결과">
-            <div class="status-bar" aria-hidden="true"></div>
-            <header class="transaction-header">
-              <button class="back-button" type="button" data-route="home" aria-label="이전 화면">
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="chevron-left.svg"
-                  alt=""
-                />
-              </button>
-              <h1 tabindex="-1">예측 결과</h1>
-            </header>
-            <div class="content">
-              <section class="card result-card">
-                <span class="icon-tile"
-                  ><svg
-                    class="ui-icon"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.8"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <circle cx="12" cy="12" r="9"></circle>
-                    <path d="M12 7v5l3 2"></path></svg
-                ></span>
-                <div class="result-copy">
-                  <strong class="result-stock">예측 결과</strong>
-                  <p class="result-meta">결과와 보상은 서버 연결 후 확인할 수 있습니다.</p>
-                </div>
-                <button class="primary-button" type="button" data-claim="unavailable">보상 확인</button>
-              </section>
-            </div>
-            <nav class="bottom-nav" aria-label="하단 메뉴">
-              <button class="nav-item" type="button" data-route="home">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" /></svg
-                ><span>홈</span></button
-              ><button class="nav-item active" type="button" data-route="stock-select" aria-current="page">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d="M5 20v-4m7 4v-6m7 6v-8" />
-                  <path d="m3 11 5-4 4 3 8-7" />
-                  <path d="M15 3h5v5" /></svg
-                ><span>예측</span></button
-              ><button class="nav-item" type="button" data-route="missions">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <rect x="4" y="5" width="16" height="16" rx="4" />
-                  <path d="M8 3v4m8-4v4M8 14l3 3 5-6" /></svg
-                ><span>미션</span></button
-              ><button class="nav-item" type="button" data-route="shop">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d="M4 9h16l-1 12H5L4 9Z" />
-                  <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
-                ><span>상점</span>
-              </button>
-            </nav>
-          </section>
           <section class="screen-view" data-screen="missions" id="missions" aria-label="미션">
             <div class="status-bar" aria-hidden="true"></div>
             <header class="app-header">
@@ -5919,126 +5882,73 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                 </div>
                 <button class="link-button" type="button" data-wallet-tab="use">내역 보기 ›</button>
               </section>
-              <button
-                class="product-card"
-                type="button"
-                data-product="naverpay-5000"
-                data-product-amount="5000"
-                data-product-points="5000"
-                data-product-title="네이버페이 5,000원권"
-              >
-                <img
-                  class="npay-logo"
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="npay-symbol.svg"
-                  width="56"
-                  height="56"
-                  alt="네이버페이"
-                /><span class="product-copy"
-                  ><small>네이버페이</small><strong>5,000원권</strong><span>5,000P</span></span
-                ><svg
-                  class="ui-icon product-chevron"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
+              <div class="section-heading">
+                <h2 class="section-title">네이버페이 포인트로 교환</h2>
+                <span>1P = 1원</span>
+              </div>
+              <div class="card product-list">
+                <button
+                  class="product-card"
+                  type="button" aria-pressed="true"
+                  data-product="naverpay-5000"
+                  data-product-amount="5000"
+                  data-product-points="5000"
+                  data-product-title="네이버페이 5,000원권"
                 >
-                  <path d="m9 5 7 7-7 7"></path>
-                </svg></button
-              ><button
-                class="product-card"
-                type="button"
-                data-product="naverpay-10000"
-                data-product-amount="10000"
-                data-product-points="10000"
-                data-product-title="네이버페이 10,000원권"
-              >
-                <img
-                  class="npay-logo"
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="npay-symbol.svg"
-                  width="56"
-                  height="56"
-                  alt="네이버페이"
-                /><span class="product-copy"
-                  ><small>네이버페이</small><strong>10,000원권</strong><span>10,000P</span></span
-                ><svg
-                  class="ui-icon product-chevron"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
+                  <span class="product-radio" aria-hidden="true"></span
+                  ><span class="product-copy"><strong>5,000원</strong><small>5,000P 차감</small></span
+                  ></button
+                ><button
+                  class="product-card"
+                  type="button" aria-pressed="false"
+                  data-product="naverpay-10000"
+                  data-product-amount="10000"
+                  data-product-points="10000"
+                  data-product-title="네이버페이 10,000원권"
                 >
-                  <path d="m9 5 7 7-7 7"></path>
-                </svg></button
-              ><button
-                class="product-card"
-                type="button"
-                data-product="naverpay-50000"
-                data-product-amount="50000"
-                data-product-points="50000"
-                data-product-title="네이버페이 50,000원권"
-              >
-                <img
-                  class="npay-logo"
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="npay-symbol.svg"
-                  width="56"
-                  height="56"
-                  alt="네이버페이"
-                /><span class="product-copy"
-                  ><small>네이버페이</small><strong>50,000원권</strong><span>50,000P</span></span
-                ><svg
-                  class="ui-icon product-chevron"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
+                  <span class="product-radio" aria-hidden="true"></span
+                  ><span class="product-copy"><strong>10,000원</strong><small>10,000P 차감</small></span
+                  ></button
+                ><button
+                  class="product-card"
+                  type="button" disabled
+                  data-product="naverpay-30000"
+                  data-product-amount="30000"
+                  data-product-points="30000"
+                  data-product-title="네이버페이 30,000원권"
                 >
-                  <path d="m9 5 7 7-7 7"></path>
-                </svg></button
-              ><button
-                class="product-card"
-                type="button"
-                data-product="naverpay-100000"
-                data-product-amount="100000"
-                data-product-points="100000"
-                data-product-title="네이버페이 100,000원권"
-              >
-                <img
-                  class="npay-logo"
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                  data-embedded-asset="npay-symbol.svg"
-                  width="56"
-                  height="56"
-                  alt="네이버페이"
-                /><span class="product-copy"
-                  ><small>네이버페이</small><strong>100,000원권</strong><span>100,000P</span></span
-                ><svg
-                  class="ui-icon product-chevron"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
+                  <span class="product-radio" aria-hidden="true"></span
+                  ><span class="product-copy"><strong>30,000원</strong><small>30,000P 차감</small></span
+                  ><span class="product-state">17,550P 부족</span
+                  ></button
+                ><button
+                  class="product-card"
+                  type="button" disabled
+                  data-product="naverpay-50000"
+                  data-product-amount="50000"
+                  data-product-points="50000"
+                  data-product-title="네이버페이 50,000원권"
                 >
-                  <path d="m9 5 7 7-7 7"></path>
-                </svg>
+                  <span class="product-radio" aria-hidden="true"></span
+                  ><span class="product-copy"><strong>50,000원</strong><small>50,000P 차감</small></span
+                  ><span class="product-state">37,550P 부족</span
+                  ></button
+                ><button
+                  class="product-card"
+                  type="button" disabled
+                  data-product="naverpay-100000"
+                  data-product-amount="100000"
+                  data-product-points="100000"
+                  data-product-title="네이버페이 100,000원권"
+                >
+                  <span class="product-radio" aria-hidden="true"></span
+                  ><span class="product-copy"><strong>100,000원</strong><small>100,000P 차감</small></span
+                  ><span class="product-state">87,550P 부족</span
+                  ></button
+                >
+              </div>
+              <button class="primary-button product-submit" type="button" data-route="exchange">
+                5,000원 교환하기
               </button>
             </div>
             <nav class="bottom-nav" aria-label="하단 메뉴">
@@ -6123,9 +6033,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
                   height="56"
                   alt="네이버페이"
                 /><span class="product-copy"
-                  ><small>네이버페이</small><strong data-product-amount-value="">5,000원권</strong
-                  ><span data-product-points-value="">5,000P</span></span
-                >
+                  ><strong data-product-amount-value="">5,000원권</strong><small>네이버페이</small></span
+                ><span class="product-state" data-product-points-value="">5,000P</span>
               </div>
               <section class="summary-card">
                 <div class="summary-row">
@@ -7240,15 +7149,43 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           >
             <div class="sheet-handle" aria-hidden="true"></div>
             <h2 id="last-result-title">지난 예측 결과</h2>
-            <div class="summary-card prediction-review-summary">
-              <div class="summary-row"><span>종목</span><strong>삼성전자</strong></div>
-              <div class="summary-row"><span>내 예측</span><strong class="up-text">상승</strong></div>
-              <div class="summary-row"><span>결과</span><strong>적중</strong></div>
-              <div class="summary-row"><span>보상</span><strong>+15P</strong></div>
+            <div class="last-result-cards" tabindex="0" aria-label="예측 결과 목록">
+              <div class="summary-card">
+                <div class="summary-row"><span>종목</span><strong>SK하이닉스</strong></div>
+                <div class="summary-row"><span>내 예측</span><strong class="up-text">상승</strong></div>
+                <div class="summary-row">
+                  <span>실제 등락</span><strong class="up-text">+2.69%</strong>
+                </div>
+                <div class="summary-row"><span>결과</span><strong>적중</strong></div>
+                <div class="summary-row"><span>보상</span><strong>+15P</strong></div>
+              </div>
+              <div class="summary-card">
+                <div class="summary-row"><span>종목</span><strong>삼성전자</strong></div>
+                <div class="summary-row"><span>내 예측</span><strong class="up-text">상승</strong></div>
+                <div class="summary-row">
+                  <span>실제 등락</span><strong class="up-text">+1.69%</strong>
+                </div>
+                <div class="summary-row"><span>결과</span><strong>적중</strong></div>
+                <div class="summary-row"><span>보상</span><strong>+15P</strong></div>
+              </div>
+              <div class="summary-card">
+                <div class="summary-row"><span>종목</span><strong>카카오</strong></div>
+                <div class="summary-row"><span>내 예측</span><strong class="down-text">하락</strong></div>
+                <div class="summary-row">
+                  <span>실제 등락</span><strong class="up-text">+0.85%</strong>
+                </div>
+                <div class="summary-row"><span>결과</span><strong>미적중</strong></div>
+                <div class="summary-row"><span>보상</span><strong>+5P</strong></div>
+              </div>
+            </div>
+            <div class="tutorial-dots last-result-dots">
+              <button class="tutorial-dot" type="button" aria-label="1번째 결과" aria-current="true"></button
+              ><button class="tutorial-dot" type="button" aria-label="2번째 결과" aria-current="false"></button
+              ><button class="tutorial-dot" type="button" aria-label="3번째 결과" aria-current="false"></button>
             </div>
             <p id="last-result-note" class="reward-ad-note">결과는 서버 연결 후 확인할 수 있어요.</p>
-            <button class="primary-button" type="button" data-route="result" autofocus>상세보기</button>
-            <button id="close-last-result" class="reward-ad-cancel" type="button">닫기</button>
+            <button id="close-last-result" class="primary-button" type="button" autofocus>확인</button>
+            <button class="reward-ad-cancel" type="button" data-route="prediction-history">내역 보기</button>
           </dialog>
           <dialog id="tutorial-dialog" class="tutorial-dialog" aria-labelledby="tutorial-title">
             <h2 id="tutorial-title" class="tutorial-hidden">Candle 이용 안내</h2>
@@ -7433,6 +7370,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           setText('[data-product-title-value]', product.productTitle);
           setText('[data-product-amount-value]', `${format(product.productAmount)}원권`);
           setText('[data-product-points-value]', `${format(product.productPoints)}P`);
+          products.forEach((node) => {
+            if (!node.disabled) node.setAttribute('aria-pressed', String(node.dataset.product === state.productId));
+          });
+          setText('.product-submit', `${format(product.productAmount)}원 교환하기`);
           const amount = app.querySelector('[data-payout-amount-value]');
           amount.replaceChildren(
             document.createTextNode(format(product.productAmount)),
@@ -7615,8 +7556,20 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             closeReview();
         });
 
-        // Shown once per app entry; 상세보기 navigates through the shared data-route handler.
+        // Shown once per app entry; 내역 보기 navigates through the shared data-route handler.
         const lastResultDialog = document.getElementById('last-result-dialog');
+        const lastResultCards = lastResultDialog.querySelector('.last-result-cards');
+        const lastResultDots = [...lastResultDialog.querySelectorAll('.tutorial-dot')];
+        lastResultCards.addEventListener('scroll', () => {
+          const [first, second] = lastResultCards.children;
+          const index = Math.round(lastResultCards.scrollLeft / (second.offsetLeft - first.offsetLeft));
+          lastResultDots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === index)));
+        });
+        lastResultDots.forEach((dot, i) =>
+          dot.addEventListener('click', () =>
+            lastResultCards.children[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+          )
+        );
         const closeLastResult = () => lastResultDialog.close();
         document.getElementById('close-last-result').addEventListener('click', closeLastResult);
         lastResultDialog.addEventListener('cancel', (event) => {
@@ -7800,7 +7753,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           if (button.dataset.product) {
             state.productId = button.dataset.product;
             syncSelection();
-            navigate('exchange');
             return;
           }
           if (button.dataset.legal) {
@@ -7832,7 +7784,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             button.textContent = '수령 완료';
             return;
           }
-          if (button.hasAttribute('data-claim')) return requireServer('보상 확인 및 수령');
           if (button.hasAttribute('data-more')) return requireServer('이전 내역 조회');
           const actions = {
             'consent-submit': '약관 동의 제출',
@@ -7850,7 +7801,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         const dynamicBack = {
           'challenge-reward': ['challenge', 'profile'],
           pass: ['home', 'prediction'],
-          result: ['home', 'challenge'],
+          'prediction-history': ['home', 'profile', 'challenge'],
         };
         let previousRoute = currentRoute();
         function syncRoute() {
