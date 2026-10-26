@@ -16,7 +16,6 @@ const routes = [
   'challenge-reward',
   'stock-select',
   'prediction',
-  'confirm',
   'submitted',
   'pass',
   'ad',
@@ -170,8 +169,26 @@ try {
       await page.locator('[data-login=kakao]').click();
       await waitForHomeRoute();
       assert.equal(await tutorialOpen(), false, 'tutorial is not shown twice');
+      const lastResult = page.locator('#last-result-dialog');
+      await lastResult.waitFor({ state: 'visible' });
+      await page.locator('#close-last-result').click();
+      await lastResult.waitFor({ state: 'hidden' });
+      await go('settings');
+      await go('home');
+      assert.ok(!(await lastResult.isVisible()), 'last result is shown once per app entry');
+      await page.reload();
+      await lastResult.waitFor({ state: 'visible' });
+      await lastResult.locator('[data-route=result]').click();
+      await visible('result');
+      await lastResult.waitFor({ state: 'hidden' });
+      await page.locator('#result .back-button').click();
+      await visible('home');
       await page.evaluate(() => localStorage.clear());
     }
+    assert.equal(await page.locator('#home [data-route=result]').count(), 0);
+    await go('home');
+    await page.locator('#home .streak-card [data-route=prediction-history]').click();
+    await visible('prediction-history');
     await go('consent');
     assert.ok(await page.locator('#consent-submit').isDisabled());
     await page.locator('#agree-all').check();
@@ -197,6 +214,7 @@ try {
     await visible('stock-select');
     assert.equal(await page.locator('#stock-select .nav-item.active').innerText(), '예측');
     assert.equal(await page.locator('#stock-select .back-button').count(), 0);
+    assert.equal(await page.locator('#stock-select h1').innerText(), '어떤 종목을 예측할까요?');
     await page.locator('[data-stock-code="035420"]').click();
     await visible('prediction');
     assert.equal(await page.locator('#prediction .heading').innerText(), 'NAVER');
@@ -223,6 +241,7 @@ try {
     await page.locator('[data-market=watchlist]').click();
     assert.equal(await page.locator('[data-stock-code]:visible').count(), 0);
     assert.match(await page.locator('#stock-empty').innerText(), /관심종목이 없습니다/);
+    assert.equal(await page.locator('#stock-select-list').isVisible(), false);
     await go('home');
     await page.locator('#home .home-ad-slot').click();
     await visible('stock-select');
@@ -244,7 +263,7 @@ try {
 
     await go('home');
     const initial = await serverFacts();
-    assert.equal(await page.locator('#home [data-server-value=balance]').innerText(), '— P');
+    assert.equal(await page.locator('#home [data-server-value=balance]').innerText(), '12,450 P');
     assert.equal(await page.locator('#home .stock-card [data-direction]').count(), 2);
     assert.equal(await page.locator('#home .selected, #home [aria-pressed]').count(), 0);
     await page.locator('#home [data-direction=down]').click();
@@ -253,7 +272,7 @@ try {
       await page.locator('#prediction [data-direction=down]').getAttribute('aria-pressed'),
       'true'
     );
-    await page.locator('#prediction [data-stock-picker]').click();
+    await page.locator('#prediction .bottom-nav [data-route=stock-select]').click();
     await visible('stock-select');
     const search = page.locator('#stock-search-input');
     await search.fill('naver');
@@ -263,29 +282,45 @@ try {
     await page.locator('[data-stock-code="000660"]').click();
     await visible('prediction');
     assert.equal(await page.locator('#prediction .heading').innerText(), 'SK하이닉스');
-    await page.locator('#prediction [data-route=confirm]').click();
-    await visible('confirm');
-    assert.equal(await page.locator('#confirm .stock-name').innerText(), 'SK하이닉스');
-    assert.match(await page.locator('#confirm .sheet-title').innerText(), /하락/);
+    const review = page.locator('#prediction-review-dialog');
+    await page.locator('#prediction [data-prediction-review]').click();
+    await review.waitFor({ state: 'visible' });
+    await visible('prediction');
+    assert.equal(await review.locator('[data-stock-name-value]').innerText(), 'SK하이닉스');
+    assert.equal(await review.locator('[data-direction-value]').innerText(), '하락');
+    assert.equal(await review.locator('[data-direction-value]').getAttribute('class'), 'down-text');
+    await page.locator('#cancel-prediction-review').click();
+    await review.waitFor({ state: 'hidden' });
+    await page.locator('#prediction [data-prediction-review]').click();
+    await page.keyboard.press('Escape');
+    await review.waitFor({ state: 'hidden' });
+    await page.locator('#prediction [data-prediction-review]').click();
     await page.locator('#submit-prediction').click();
-    await visible('confirm');
+    await review.waitFor({ state: 'hidden' });
+    await visible('prediction');
     await serverError();
     assert.deepEqual(await serverFacts(), initial);
-    await page.goBack();
-    await visible('prediction');
     assert.equal(
       await page.locator('#prediction [data-direction=down]').getAttribute('aria-pressed'),
       'true'
     );
-    await page.locator('#prediction [data-stock-picker]').click();
+    await page.locator('#prediction .bottom-nav [data-route=stock-select]').click();
     await page.locator('[data-market="코스닥"]').click();
-    assert.equal(await page.locator('[data-stock-code]:visible').count(), 1);
-    assert.equal(await page.locator('#stock-result-count').innerText(), '1개');
+    assert.equal(await page.locator('[data-stock-code]:visible').count(), 20);
+    assert.equal(await page.locator('#stock-result-count').innerText(), '20개');
     await search.fill('NAVER');
     assert.ok(await page.locator('#stock-empty').isVisible());
+    assert.equal(await page.locator('#stock-select-list').isVisible(), false);
     await search.fill('');
     await page.locator('[data-market=all]').click();
-    assert.equal(await page.locator('[data-stock-code]:visible').count(), 7);
+    assert.equal(await page.locator('[data-stock-code]:visible').count(), 20);
+    assert.equal(
+      await page.locator('#stock-top-note').innerText(),
+      '시가총액 상위 20개 종목을 보여드리고 있어요.\n원하는 종목이 없다면 검색해보세요!'
+    );
+    await search.fill('알테오젠');
+    assert.equal(await page.locator('[data-stock-code]:visible').count(), 1);
+    assert.ok(await page.locator('#stock-top-note').isHidden());
     await search.fill('없는종목');
     assert.ok(await page.locator('#stock-empty').isVisible());
 
