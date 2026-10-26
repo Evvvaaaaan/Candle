@@ -147,10 +147,7 @@ export function demoSnapshot(account = freshAccount(), ledger = emptyLedger()) {
     missions: {
       attended: account.attendedDay === dayKey(),
       streak: account.streak,
-      items: [
-        { title: '오늘의 예측 완료', points: 10, complete: ledger.predictions.length > 0 },
-        { title: '광고 예측권 받기', points: 5, complete: ledger.adRewards.length > 0 },
-      ],
+      items: [{ title: '광고 예측권 받기', points: 5, complete: ledger.adRewards.length > 0 }],
     },
     catalog: demoCatalog,
     claims: { items: account.claims, nextCursor: null },
@@ -222,8 +219,6 @@ export function createDemoService(storage = localStorage) {
       if (submitted.status === 'empty') throw new ApiError('INSUFFICIENT_TICKETS');
       if (submitted.status === 'stock-used') throw new ApiError('ALREADY_PREDICTED');
       if (submitted.status === 'invalid') throw new ApiError('VALIDATION_ERROR');
-      if (submitted.status === 'accepted' && !ledger.predictions.length)
-        transaction(account, '예측 미션', 10, `prediction-${ledger.day}`);
       save(account, submitted.ledger);
       return { id: submitted.record.id };
     } else if (action === 'attendance') {
