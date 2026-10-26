@@ -79,6 +79,7 @@
       if (match) count++;
     });
     document.getElementById('stock-result-count').textContent = `${count}개`;
+    document.getElementById('stock-select-list').hidden = count === 0;
     document.getElementById('stock-empty').hidden = count > 0;
     app.querySelectorAll('[data-market]').forEach((button) => {
       const selected = button.dataset.market === state.market;

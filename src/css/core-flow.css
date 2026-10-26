@@ -151,10 +151,6 @@ input:focus-visible {
   background: #fff;
 }
 
-.transaction-header {
-  border-bottom: 1px solid var(--border);
-}
-
 .back-button {
   width: 40px;
   height: 40px;
@@ -475,10 +471,6 @@ h1[tabindex="-1"]:focus {
 
 .stock-select-row:nth-last-child(1 of :not([hidden])) {
   border-bottom: 0;
-}
-
-.stock-select-row.selected {
-  background: #f6f9ff;
 }
 
 .stock-symbol {
@@ -1076,25 +1068,6 @@ h1[tabindex="-1"]:focus {
 
 .promo-card .primary-button {
   margin-top: 10px;
-}
-
-.balance-card {
-  height: 94px;
-  margin-top: 12px;
-  padding: 16px;
-}
-
-.balance-card .number {
-  margin-top: 12px;
-}
-
-.ticket-wallet {
-  height: auto;
-}
-
-.ticket-wallet .link-button {
-  min-height: 44px;
-  margin-top: 4px;
 }
 
 .result-card {
@@ -2365,7 +2338,7 @@ a.primary-button { display: flex; justify-content: center; align-items: center; 
 .menu-icon .ui-icon { width: 19px; height: 19px; }
 .menu-chevron, .product-chevron { width: 16px; height: 16px; color: var(--text-light); }
 
-.screen-view[data-screen="wallet"] .points-card { min-height: 104px; background: #f7faff; }
+.screen-view[data-screen='wallet'] .points-card { min-height: 104px; background: #f7faff; }
 .points-icon { width: 48px; height: 48px; border-radius: 16px; background: var(--primary-light); }
 .wallet-tabs { margin-top: 18px; }
 .wallet-transaction { margin-top: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
@@ -2381,7 +2354,7 @@ a.primary-button { display: flex; justify-content: center; align-items: center; 
 .transaction-amount.earned strong { color: var(--primary); }
 
 .attendance-summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.attendance-count { font-size: 30px; line-height: 38px; font-weight: 700; letter-spacing: -.02em; }
+.attendance-count { font-size: 30px; line-height: 38px; font-weight: 700; letter-spacing: -0.02em; }
 .attendance-count > span { margin-left: 4px; font-size: 16px; font-weight: 500; }
 .attendance-copy { margin-top: 12px; color: var(--text-mid); font-size: 12px; line-height: 19px; }
 #attendance { display: flex; align-items: center; justify-content: center; gap: 6px; }
@@ -2407,7 +2380,6 @@ a.primary-button { display: flex; justify-content: center; align-items: center; 
 .record-points { font-size: 16px; font-weight: 700; }
 .empty-state { text-align: center; color: var(--text-mid); }
 .empty-icon { width: 52px; height: 52px; margin-bottom: 12px; background: var(--surface-subtle); color: var(--text-mid); }
-
 
 .challenge-card { margin-top: 12px; text-align: center; padding: 24px 16px; }
 .challenge-icon { width: 56px; height: 56px; margin-bottom: 16px; border-radius: 18px; color: #9a6700; background: #fff8e8; }

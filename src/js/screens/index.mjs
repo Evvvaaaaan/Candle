@@ -36,7 +36,7 @@ export const pages = {
   ad: { title: '광고', render: renderAd },
   result: { title: '결과', render: renderResult },
   missions: { title: '미션', render: renderMissions },
-  shop: { title: '포인트 샵', render: renderShop },
+  shop: { title: '포인트 상점', render: renderShop },
   exchange: { title: '교환 확인', render: renderExchange },
   profile: { title: '내 정보', render: renderProfile },
   payout: { title: '지급 신청', render: renderPayout },
