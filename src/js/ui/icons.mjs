@@ -14,6 +14,7 @@ const paths = {
   settings:
     '<circle cx="12" cy="12" r="3"/><path d="m9 3-.5 2-2 1-2-.5-2 3 1.5 1.5v3L2.5 14l2 3 2-.5 2 1 .5 2h4l.5-2 2-1 2 .5 2-3-1.5-1.5v-3L20 8l-2-3-2 .5-2-1-.5-2Z"/>',
   check: '<path d="m5 12 4 4L19 6"/>',
+  alert: '<path d="M12 5v9m0 5h.01"/>',
   clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   inbox: '<path d="m3 13 3-8h12l3 8v7H3v-7Zm0 0h5l2 3h4l2-3h5"/>',
   incoming: '<path d="M18 6 6 18m0-8v8h8"/>',

@@ -249,6 +249,11 @@
       return;
     }
     if (button.dataset.login) return navigate('home');
+    if (button.hasAttribute('data-claim') && button.closest('#prediction-history')) {
+      button.disabled = true;
+      button.textContent = '수령 완료';
+      return;
+    }
     if (button.hasAttribute('data-claim')) return requireServer('보상 확인 및 수령');
     if (button.hasAttribute('data-more')) return requireServer('이전 내역 조회');
     const actions = {
