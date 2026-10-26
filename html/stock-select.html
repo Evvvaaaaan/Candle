@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8fafc" />
+    <title>Candle · 종목 선택</title>
+    <link rel="icon" href="images/candle-logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/static.css" />
+    <script src="default/jquery.js"></script>
+    <script src="default/handlebars.min.js"></script>
+    <script src="js/common.js" defer></script>
+  </head>
+  <body>
+    <!-- This page owns its markup. Edit it directly; no generator or module loader is required. -->
+    <main class="app-shell">
+      <section class="device-stage" aria-label="Candle 서비스">
+        <div id="app" class="phone" aria-label="Candle">
+          <section
+            class="screen-view stock-select-screen"
+            data-screen="stock-select"
+            id="stock-select"
+            aria-label="종목 선택"
+          >
+            <div class="status-bar" aria-hidden="true"></div>
+            <header class="transaction-header">
+              <a class="back-button" data-route="home" aria-label="이전 화면" href="home.html">
+                <img src="images/chevron-left.svg" alt="" />
+              </a>
+              <h1>종목 선택</h1>
+            </header>
+            <div class="stock-select-content">
+              <h1 class="heading" tabindex="-1">예측할 종목을 선택하세요</h1>
+              <label class="stock-search"
+                ><span aria-hidden="true">⌕</span
+                ><input
+                  id="stock-search-input"
+                  type="search"
+                  aria-label="종목명 또는 종목코드 검색"
+                  placeholder="종목명 또는 종목코드 검색"
+                  value=""
+              /></label>
+              <div class="stock-market-tabs" role="group" aria-label="시장 구분">
+                <button type="button" data-market="all" aria-pressed="true" class="active">전체</button
+                ><button type="button" data-market="코스피" aria-pressed="false" class="">코스피</button
+                ><button type="button" data-market="코스닥" aria-pressed="false" class="">코스닥</button
+                ><button type="button" data-market="watchlist" aria-pressed="false" class="">관심종목</button>
+              </div>
+              <div class="stock-list-heading">
+                <h2 id="stock-list-title">국내 종목</h2>
+                <span id="stock-result-count">7개</span>
+              </div>
+              <div id="stock-select-list" class="card stock-select-list">
+                <a
+                  class="stock-select-row"
+                  data-stock-code="005930"
+                  data-stock-name="삼성전자"
+                  data-stock-market="코스피"
+                  href="prediction.html"
+                >
+                  <span class="stock-symbol">삼</span
+                  ><span class="stock-row-copy"><strong>삼성전자</strong><small>005930 · 코스피</small></span
+                  ><span class="stock-row-state">선택됨</span></a
+                ><a
+                  class="stock-select-row"
+                  data-stock-code="000660"
+                  data-stock-name="SK하이닉스"
+                  data-stock-market="코스피"
+                  href="prediction.html"
+                >
+                  <span class="stock-symbol">S</span
+                  ><span class="stock-row-copy"
+                    ><strong>SK하이닉스</strong><small>000660 · 코스피</small></span
+                  ><span class="stock-row-state">선택</span></a
+                ><a
+                  class="stock-select-row"
+                  data-stock-code="035420"
+                  data-stock-name="NAVER"
+                  data-stock-market="코스피"
+                  href="prediction.html"
+                >
+                  <span class="stock-symbol">N</span
+                  ><span class="stock-row-copy"><strong>NAVER</strong><small>035420 · 코스피</small></span
+                  ><span class="stock-row-state">선택</span></a
+                ><a
+                  class="stock-select-row"
+                  data-stock-code="005380"
+                  data-stock-name="현대차"
+                  data-stock-market="코스피"
+                  href="prediction.html"
+                >
+                  <span class="stock-symbol">현</span
+                  ><span class="stock-row-copy"><strong>현대차</strong><small>005380 · 코스피</small></span
+                  ><span class="stock-row-state">선택</span></a
+                ><a
+                  class="stock-select-row"
+                  data-stock-code="068270"
+                  data-stock-name="셀트리온"
+                  data-stock-market="코스피"
+                  href="prediction.html"
+                >
+                  <span class="stock-symbol">셀</span
+                  ><span class="stock-row-copy"><strong>셀트리온</strong><small>068270 · 코스피</small></span
+                  ><span class="stock-row-state">선택</span></a
+                ><a
+                  class="stock-select-row"
+                  data-stock-code="035720"
+                  data-stock-name="카카오"
+                  data-stock-market="코스피"
+                  href="prediction.html"
+                >
+                  <span class="stock-symbol">카</span
+                  ><span class="stock-row-copy"><strong>카카오</strong><small>035720 · 코스피</small></span
+                  ><span class="stock-row-state">선택</span></a
+                ><a
+                  class="stock-select-row"
+                  data-stock-code="247540"
+                  data-stock-name="에코프로비엠"
+                  data-stock-market="코스닥"
+                  href="prediction.html"
+                >
+                  <span class="stock-symbol">에</span
+                  ><span class="stock-row-copy"
+                    ><strong>에코프로비엠</strong><small>247540 · 코스닥</small></span
+                  ><span class="stock-row-state">선택</span>
+                </a>
+              </div>
+              <p id="stock-empty" class="stock-empty" hidden="">검색 결과가 없습니다.</p>
+            </div>
+            <nav class="bottom-nav" aria-label="하단 메뉴">
+              <a class="nav-item" data-route="home" href="home.html">
+                <img src="images/nav-home.svg" alt="" /><span>홈</span></a
+              ><a
+                class="nav-item active"
+                data-route="stock-select"
+                aria-current="page"
+                href="stock-select.html"
+              >
+                <img src="images/nav-prediction-active.svg" alt="" /><span>예측</span></a
+              ><a class="nav-item" data-route="missions" href="missions.html">
+                <img src="images/nav-mission.svg" alt="" /><span>미션</span></a
+              ><a class="nav-item" data-route="shop" href="shop.html">
+                <img src="images/nav-shop.svg" alt="" /><span>상점</span></a
+              ><a class="nav-item" data-route="profile" href="profile.html">
+                <img src="images/nav-profile.svg" alt="" /><span>내 정보</span>
+              </a>
+            </nav>
+          </section>
+          <dialog
+            id="reward-ad-dialog"
+            class="reward-ad-dialog"
+            aria-labelledby="reward-ad-title"
+            aria-describedby="reward-ad-description"
+          >
+            <div class="sheet-handle" aria-hidden="true"></div>
+            <span class="icon-tile reward-ad-icon"
+              ><svg
+                class="ui-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <rect x="3" y="8" width="18" height="4" rx="1" />
+                <path d="M5 12v9h14v-9M12 8v13" />
+                <path d="M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z" /></svg
+            ></span>
+            <h2 id="reward-ad-title">광고 보고 예측권 받기</h2>
+            <p id="reward-ad-description">영상 광고를 끝까지 시청하면<br />예측권 1장을 받을 수 있어요.</p>
+            <div class="reward-ad-allowance">
+              <span>오늘 남은 참여</span><strong>—<span> / —회</span></strong>
+            </div>
+            <p class="reward-ad-note">
+              광고를 본 뒤 이 화면으로 돌아오면 완료 여부를 확인해요.<br />예측은 자동으로 제출되지 않아요.
+            </p>
+            <button id="start-reward-ad" class="primary-button" type="button" autofocus>광고 시청하기</button>
+            <button id="cancel-reward-ad" class="reward-ad-cancel" type="button">나중에 할게요</button>
+          </dialog>
+          <dialog id="tutorial-dialog" class="tutorial-dialog" aria-labelledby="tutorial-title">
+            <h2 id="tutorial-title" class="tutorial-hidden">Candle 이용 안내</h2>
+            <div class="tutorial-header">
+              <button id="tutorial-skip" class="tutorial-skip" type="button">건너뛰기</button>
+            </div>
+            <div class="tutorial-slides" aria-live="polite">
+              <div class="tutorial-slide active" data-tutorial-slide="0">
+                <div class="tutorial-number" aria-hidden="true">10</div>
+                <p class="tutorial-title">10일 연속 예측 성공</p>
+                <p class="tutorial-desc">매일 상승·하락을 맞히면 보상이 쌓여요.</p>
+                <div class="tutorial-rules">
+                  <p>하루 <strong>10회</strong>까지 참여할 수 있어요.</p>
+                  <p>적중률 <strong>50% 초과</strong>면 연승이 유지돼요.</p>
+                </div>
+              </div>
+              <div class="tutorial-slide" data-tutorial-slide="1">
+                <span class="icon-tile reward-ad-icon tutorial-mark"
+                  ><svg
+                    class="ui-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <rect x="3" y="8" width="18" height="4" rx="1" />
+                    <path d="M5 12v9h14v-9M12 8v13" />
+                    <path d="M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z" /></svg
+                ></span>
+                <p class="tutorial-badge">리스크 0%</p>
+                <p class="tutorial-title">광고 시청 → 예측 → <span class="tutorial-accent">100만원</span></p>
+                <p class="tutorial-desc">
+                  접속하면 하루 1장의 예측권이 지급돼요.<br />광고 15초만 보면 예측권을 더 받을 수 있어요.
+                </p>
+              </div>
+              <div class="tutorial-slide" data-tutorial-slide="2">
+                <div class="direction-grid tutorial-direction" aria-hidden="true">
+                  <div class="direction-card wide">
+                    <span class="direction-icon"><img src="images/arrow-up.svg" alt="" /></span>
+                    <span
+                      ><span class="direction-title">상승</span
+                      ><span class="direction-caption">오를 것 같아요</span></span
+                    >
+                  </div>
+                  <div class="direction-card wide down">
+                    <span class="direction-icon down"><img src="images/arrow-down.svg" alt="" /></span>
+                    <span
+                      ><span class="direction-title">하락</span
+                      ><span class="direction-caption">내릴 것 같아요</span></span
+                    >
+                  </div>
+                </div>
+                <p class="tutorial-title">오늘 종가, 오를까요 내릴까요?</p>
+                <p class="tutorial-desc">매일 09:00부터 15:30까지 참여할 수 있어요.</p>
+              </div>
+            </div>
+            <div class="tutorial-footer">
+              <div class="tutorial-dots">
+                <button
+                  class="tutorial-dot"
+                  type="button"
+                  data-tutorial-dot="0"
+                  aria-label="1단계"
+                  aria-current="true"
+                ></button
+                ><button
+                  class="tutorial-dot"
+                  type="button"
+                  data-tutorial-dot="1"
+                  aria-label="2단계"
+                  aria-current="false"
+                ></button
+                ><button
+                  class="tutorial-dot"
+                  type="button"
+                  data-tutorial-dot="2"
+                  aria-label="3단계"
+                  aria-current="false"
+                ></button>
+              </div>
+              <button id="tutorial-next" class="primary-button" type="button">다음</button>
+            </div>
+          </dialog>
+          <dialog id="legal-dialog" class="reward-ad-dialog" aria-labelledby="legal-dialog-title">
+            <h2 id="legal-dialog-title">서비스 이용약관 동의</h2>
+            <div class="legal-copy">승인된 약관 본문을 확인하려면 실제 서버 연결이 필요합니다.</div>
+            <button id="close-legal" class="secondary-button" type="button">닫기</button>
+          </dialog>
+        </div>
+      </section>
+    </main>
+    <script src="default/flutter.js"></script>
+    <script src="default/custom.js"></script>
+    <script>
+      // Page-owned backend integration. Use func_ajax({ url, type, param, success, error }).
+      function listener_load() {
+        // Reference: GET /api/topic/scrollList with perpage, deleted, cate, keyword. cate: empty = all, 110 = KOSPI, 120 = KOSDAQ. Replace the HTML stock rows with the server list; preserve data-stock-* attributes and server topic IDs.
+      }
+    </script>
+  </body>
+</html>

@@ -14,6 +14,7 @@ const types = {
   '.css': 'text/css',
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
+  '.woff': 'font/woff',
 };
 export function createServer({ contract = false, directory = root } = {}) {
   const sessions = new Map();
@@ -123,7 +124,9 @@ export function createServer({ contract = false, directory = root } = {}) {
         res.end();
         return;
       }
-      const pathname = decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname);
+      const pathname = decodeURIComponent(
+        url.pathname === '/' ? '/index.html' : url.pathname === '/html/' ? '/html/index.html' : url.pathname
+      );
       if (directory === root && pathname === '/pages/home.html') {
         res.writeHead(302, {
           Location: `/core-flow.html${url.search}#home`,
@@ -132,7 +135,9 @@ export function createServer({ contract = false, directory = root } = {}) {
         res.end();
         return;
       }
-      if (!/^\/(index\.html|core-flow\.html|config\.js|src\/(assets|css|js)\/[^?]+)$/.test(pathname)) {
+      if (
+        !/^\/(index\.html|core-flow\.html|config\.js|src\/(assets|css|js)\/[^?]+|html\/[^?]+)$/.test(pathname)
+      ) {
         res.writeHead(404);
         res.end();
         return;

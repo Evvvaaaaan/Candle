@@ -10,11 +10,11 @@
     "dev": "node scripts/serve.mjs",
     "dev:contract": "node scripts/serve.mjs --contract",
     "test": "node --test tests/*.test.mjs",
-    "test:e2e": "node tests/static-core-flow.browser.mjs",
+    "test:e2e": "node tests/static-core-flow.browser.mjs && node tests/backend-handoff.browser.mjs",
     "test:e2e:legacy": "node tests/release.browser.mjs && node tests/challenge-reward.browser.mjs && node tests/reward-ad.browser.mjs",
     "build": "node scripts/build.mjs",
-    "format": "prettier --write core-flow.html index.html src/js/core-flow.js src/js/core-flow-ui.js src/js/*-*.mjs 'src/js/screens/*.mjs' 'src/js/ui/*.mjs' scripts/*.mjs tests/*.mjs",
-    "format:check": "prettier --check core-flow.html index.html src/js/core-flow.js src/js/core-flow-ui.js src/js/*-*.mjs 'src/js/screens/*.mjs' 'src/js/ui/*.mjs' scripts/*.mjs tests/*.mjs",
+    "format": "prettier --write core-flow.html index.html 'html/*.html' 'html/css/*.css' 'html/js/*.js' src/js/core-flow.js src/js/core-flow-ui.js src/js/*-*.mjs 'src/js/screens/*.mjs' 'src/js/ui/*.mjs' scripts/*.mjs tests/*.mjs",
+    "format:check": "prettier --check core-flow.html index.html 'html/*.html' 'html/css/*.css' 'html/js/*.js' src/js/core-flow.js src/js/core-flow-ui.js src/js/*-*.mjs 'src/js/screens/*.mjs' 'src/js/ui/*.mjs' scripts/*.mjs tests/*.mjs",
     "check": "npm run format:check && npm test && npm run build && npm run test:e2e"
   },
   "devDependencies": {

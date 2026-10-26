@@ -1,5 +1,15 @@
 # Candle
 
+For the professor's backend integration, edit the independent pages in
+[`html/`](html/README.md). They follow the supplied `backendexample/html` layout:
+page-owned markup and backend functions, shared CSS/images, jQuery AJAX helpers,
+and Flutter login callbacks. Preview them at `http://127.0.0.1:4173/html/` after
+`npm run dev`, or serve/copy the entire `html/` directory. See the handoff README
+for confirmed API contracts and remaining integration work.
+
+The root files below are retained standalone previews. Changes to `html/` are
+independent; no generator overwrites the page-owned files.
+
 `core-flow.html` is the complete, self-contained Core Flow. Copy that file alone
 to any folder and open it directly in a browser. No server, installation, adjacent
 files, or internet connection is required to display and use the interface.
@@ -50,12 +60,14 @@ npm run build
 npm run test:e2e
 ```
 
-The build copies the two self-contained HTML entry points and hosting headers to
-`dist/`. It does not ship any external CSS, JavaScript, images, or font files.
+The build copies the two self-contained HTML entry points, `html/`, and hosting
+headers to `dist/`. The standalone entry points still require no external assets.
 The browser check tests source and built pages, then copies only `core-flow.html`
 to an otherwise empty folder and repeats all controls and 23-screen mobile/desktop
 checks with the network offline. It also verifies that no external file/resource
-requests, business requests, storage, or fabricated server state occur.
+requests, business requests, storage, or fabricated server state occur in the
+standalone preview. A separate browser check covers the page-based handoff,
+selection transfer, forms, native login contracts, and shared token refresh.
 
 `npm run dev` remains available for optional HTTP preview. The separate introduction
 page is in `landing/`. Previous service code/tests remain reference-only; the old

@@ -35,7 +35,11 @@ const html = await readFile(path.join(root, 'core-flow.html'), 'utf8');
 assert.equal(html, await readFile(path.join(root, 'index.html'), 'utf8'));
 assert.doesNotMatch(html, /\son\w+\s*=|javascript:|demo-service|config\.js/i);
 const files = await readdir(path.join(root, 'dist'), { recursive: true });
-assert.deepEqual(files.sort(), ['_headers', 'core-flow.html', 'index.html']);
+assert.deepEqual(files.filter((file) => file !== 'html' && !file.startsWith(`html${path.sep}`)).sort(), [
+  '_headers',
+  'core-flow.html',
+  'index.html',
+]);
 const isolatedDirectory = await mkdtemp(path.join(tmpdir(), 'candle-standalone-'));
 const isolatedFile = path.join(isolatedDirectory, 'core-flow.html');
 await copyFile(path.join(root, 'core-flow.html'), isolatedFile);

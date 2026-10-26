@@ -1,0 +1,36 @@
+/* Page navigation replaces the standalone file's fragment-based screen switch. */
+.phone > .screen-view {
+  display: var(--screen-display, block);
+}
+
+a[data-route],
+a[data-stock-picker],
+a[data-stock-code],
+a[data-product],
+a[data-legal] {
+  cursor: pointer;
+  font: inherit;
+  text-decoration: none;
+}
+
+a.primary-button,
+a.secondary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.agreement-line > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#legal-dialog h2 {
+  margin-bottom: 16px;
+}
+
+#legal-dialog .legal-copy {
+  margin-bottom: 24px;
+  white-space: pre-wrap;
+}

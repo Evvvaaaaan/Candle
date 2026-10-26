@@ -1,5 +1,11 @@
 # Candle 백엔드 연동 가이드
 
+> Current professor handoff: [html/README.md](html/README.md). Edit `html/*.html`
+> and use `html/default/custom.js` (`func_ajax`, `Authorization`, `RefreshToken`).
+> The `/api/v1` cookie-based proposal below is historical and is not used by the
+> new page-based frontend. Its endpoints must not be assumed to exist on the
+> professor's server.
+
 2026-10-11 기준 최신 진입점은 `/core-flow.html`이며 `/`에서 연결됩니다. 기존 `src/js/services/api.js`의 `USE_MOCK` 값을 바꾸는 방법은 최신 앱에 적용되지 않습니다. UI는 `candle-service.mjs` 또는 `demo-service.mjs`에서 받은 동일한 모델을 사용합니다.
 
 ## 실제 구현 확인과 제안 계약
