@@ -446,8 +446,10 @@
                 },
                 "example": {
                   "status": "OPEN",
-                  "serverTime": "2026-10-11T10:46:32.218Z",
-                  "closesAt": "2026-10-11T23:59:59+09:00",
+                  "serverTime": "2026-10-26T06:01:58.472Z",
+                  "closesAt": "2026-10-26T23:59:59+09:00",
+                  "streak": 7,
+                  "bestStreak": 42,
                   "nextCursor": null,
                   "items": [
                     {
@@ -1149,8 +1151,8 @@
                   "amount": 1000000,
                   "payoutPoints": 1000000,
                   "method": "NAVER_ID",
-                  "serverTime": "2026-10-11T10:46:32.218Z",
-                  "claimDeadline": "2026-10-18T10:46:32.218Z",
+                  "serverTime": "2026-10-26T06:01:58.473Z",
+                  "claimDeadline": "2026-11-02T06:01:58.473Z",
                   "taxNotice": "미리보기 지급 예시입니다. 실제 세금 부담 및 실수령 포인트는 운영 정책 확정 후 안내합니다.",
                   "deliveryNotice": "미리보기에서는 신청 흐름만 확인하며 실제 적립이나 쿠폰 발송은 발생하지 않습니다.",
                   "statusNote": "미리보기 신청을 접수했습니다. 실제 당첨 또는 지급 내역이 아닙니다.",
@@ -2845,6 +2847,14 @@
             "type": "string",
             "format": "date-time"
           },
+          "streak": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "bestStreak": {
+            "type": "integer",
+            "minimum": 0
+          },
           "items": {
             "type": "array",
             "items": {
@@ -2862,6 +2872,8 @@
           "status",
           "serverTime",
           "closesAt",
+          "streak",
+          "bestStreak",
           "items",
           "nextCursor"
         ],

@@ -12,12 +12,13 @@ export default function render(context) {
       <div class="account-copy"><p class="card-label">반가워요</p><strong>${e(session.user.nickname)}</strong></div>
     </section>
     ${pointsCard()}
-    <section class="card stats-card">
-      <h2 class="card-heading">조회된 예측 내역</h2>
+    <section class="card stats-card" aria-label="예측 기록">
       <div class="stats-grid">
-        <div><span class="stat-label">${uiIcon('chart')}예측</span><strong>${n(total)}<small>회</small></strong></div>
-        <div><span class="stat-label">${uiIcon('target')}적중</span><strong>${n(won)}<small>회</small></strong></div>
+        <div class="stat-current"><strong>${n(data.predictions.streak)}</strong><span class="stat-label">${uiIcon('chart')}현재 연승</span></div>
+        <div><strong>${n(data.predictions.bestStreak)}</strong><span class="stat-label">${uiIcon('target')}최고 연승</span></div>
+        <div><strong>${total ? Math.round((won / total) * 100) : '—'}<small>%</small></strong><span class="stat-label">${uiIcon('percent')}적중률</span></div>
       </div>
+      <p class="stats-total"><span>조회된 예측</span><strong>${n(total)}회 중 ${n(won)}회 적중</strong></p>
     </section>
     <section class="card menu-card" aria-label="내 활동과 계정">
       ${[

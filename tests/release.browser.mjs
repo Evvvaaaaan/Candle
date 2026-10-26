@@ -381,11 +381,15 @@ try {
   );
   await go('profile');
   check(
-    'both profile statistics fill their row evenly',
+    'all profile statistics fill their row evenly',
     await page.locator('.stats-grid').evaluate((row) => {
-      const [first, second] = [...row.children].map((x) => x.getBoundingClientRect());
+      const cells = [...row.children].map((x) => x.getBoundingClientRect());
       const rect = row.getBoundingClientRect();
-      return Math.abs(first.width - second.width) < 1 && Math.abs(second.right - rect.right) < 1;
+      return (
+        cells.length === 3 &&
+        cells.every((cell) => Math.abs(cell.width - cells[0].width) < 1) &&
+        Math.abs(cells.at(-1).right - rect.right) < 1
+      );
     })
   );
   check(

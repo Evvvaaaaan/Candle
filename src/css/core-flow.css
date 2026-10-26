@@ -2335,12 +2335,16 @@ a.primary-button { display: flex; justify-content: center; align-items: center; 
 .account-copy > strong { display: block; margin-top: 4px; font-size: 18px; line-height: 26px; }
 .points-copy .number { overflow-wrap: anywhere; }
 .card-heading { font-size: 13px; font-weight: 500; color: var(--text-mid); line-height: 20px; }
+.stats-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 0; }
 .stats-grid > div { padding: 2px 8px; }
 .stats-grid > div + div { border-left: 1px solid var(--border); }
-.stats-grid .stat-label { display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 12px; }
-.stat-label .ui-icon { width: 16px; height: 16px; }
-.stats-grid strong { margin-top: 6px; font-variant-numeric: tabular-nums; }
-.stats-grid strong small { margin-left: 3px; font-size: 12px; font-weight: 500; }
+.stats-grid strong { font-size: 22px; line-height: 28px; font-variant-numeric: tabular-nums; }
+.stats-grid strong small { margin-left: 2px; font-size: 14px; font-weight: 600; line-height: 0; }
+.stats-grid .stat-label { display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 4px; font-size: 12px; }
+.stat-label .ui-icon { width: 15px; height: 15px; }
+.stat-current strong { color: var(--primary); }
+.stats-total { margin-top: 14px; padding: 12px 14px; display: flex; justify-content: space-between; gap: 12px; border-radius: 12px; background: var(--surface-subtle); color: var(--text-mid); font-size: 13px; line-height: 20px; }
+.stats-total strong { color: var(--text-dark); font-weight: 600; font-variant-numeric: tabular-nums; }
 .menu-label { min-width: 0; display: flex; align-items: center; gap: 12px; overflow-wrap: anywhere; }
 .menu-icon { width: 32px; height: 32px; border-radius: 10px; }
 .menu-icon .ui-icon { width: 19px; height: 19px; }

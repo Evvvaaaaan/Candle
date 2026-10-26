@@ -121,6 +121,8 @@ export function demoSnapshot(account = freshAccount(), ledger = emptyLedger()) {
       status: 'OPEN',
       serverTime: new Date().toISOString(),
       closesAt: `${dayKey()}T23:59:59+09:00`,
+      streak: 7,
+      bestStreak: 42,
       nextCursor: null,
       items: [
         ...ledger.predictions.map((p) => ({

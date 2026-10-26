@@ -106,7 +106,9 @@ export function validateSnapshot(data) {
   requireValue(
     ['OPEN', 'CLOSED', 'SCHEDULED'].includes(data.predictions?.status) &&
       Number.isFinite(Date.parse(data.predictions.serverTime)) &&
-      Number.isFinite(Date.parse(data.predictions.closesAt))
+      Number.isFinite(Date.parse(data.predictions.closesAt)) &&
+      integer(data.predictions.streak) &&
+      integer(data.predictions.bestStreak)
   );
   requireValue(
     Array.isArray(data.predictions.items) &&

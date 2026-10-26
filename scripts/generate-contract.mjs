@@ -61,6 +61,8 @@ const schemas = {
     status: { enum: ['OPEN', 'CLOSED', 'SCHEDULED'] },
     serverTime: { type: 'string', format: 'date-time' },
     closesAt: { type: 'string', format: 'date-time' },
+    streak: count,
+    bestStreak: count,
     items: array(ref('Prediction')),
     nextCursor: cursor,
   }),
