@@ -63,6 +63,9 @@ void main() {
     await tap(find.text('임시로그인'));
     await settle(3);
     await shot('02-consent');
+    await tap(find.byTooltip('서비스 이용약관 동의'));
+    await shot('02b-terms');
+    await tap(find.text('닫기'));
 
     await tap(find.byKey(const Key('agree-all')));
     await tap(find.byKey(const Key('consent-submit')));
