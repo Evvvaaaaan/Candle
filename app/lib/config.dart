@@ -20,14 +20,15 @@ abstract final class AppConfig {
     defaultValue: 'https://candleapp.kr/privacy',
   );
 
-  // Google's public test rewarded-ad units. Replace with real units for release.
+  // Release builds use Candle's AdMob units; debug and profile builds use
+  // Google's public test units so development never serves (or clicks) real ads.
   static const _rewardedAndroid = String.fromEnvironment(
     'ADMOB_REWARDED_ANDROID',
-    defaultValue: 'ca-app-pub-3940256099942544/5224354917',
+    defaultValue: kReleaseMode ? 'ca-app-pub-1786329512393630/3765977778' : 'ca-app-pub-3940256099942544/5224354917',
   );
   static const _rewardedIos = String.fromEnvironment(
     'ADMOB_REWARDED_IOS',
-    defaultValue: 'ca-app-pub-3940256099942544/1712485313',
+    defaultValue: kReleaseMode ? 'ca-app-pub-1786329512393630/1331386120' : 'ca-app-pub-3940256099942544/1712485313',
   );
   static String get rewardedAdUnit =>
       Platform.isIOS ? _rewardedIos : _rewardedAndroid;

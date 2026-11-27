@@ -64,6 +64,9 @@ android {
             // Without key.properties the release build is debug-signed (local runs only;
             // Play Console rejects it).
             signingConfig = signingConfigs.findByName("release") ?: signingConfigs.getByName("debug")
+            // Candle's AdMob app (debug keeps Google's test app from defaultConfig).
+            manifestPlaceholders["admobAppId"] =
+                (project.findProperty("ADMOB_APP_ID") as String?) ?: "ca-app-pub-1786329512393630~7232956203"
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }

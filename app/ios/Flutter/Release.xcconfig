@@ -2,5 +2,5 @@
 #include "Generated.xcconfig"
 #include? "Secrets.xcconfig"
 
-// AdMob app ID (Google public test app by default). Replace for the store build.
-GAD_APPLICATION_ID=ca-app-pub-3940256099942544~1458002511
+// Candle AdMob app ID (Debug.xcconfig keeps Google's test app).
+GAD_APPLICATION_ID=ca-app-pub-1786329512393630~2330828368
