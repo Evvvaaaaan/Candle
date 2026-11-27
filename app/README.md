@@ -39,12 +39,12 @@ Google 클라이언트 비밀번호와 Apple `AuthKey_*.p8`는 서버용이라 �
 
 서버에 보내는 값(`POST /api/user/{provider}`): kakao·naver `{accessToken}`, google `{token: idToken, accessToken}`, apple `{authorizationCode, identityToken}`.
 
-AdMob **앱 ID**는 네이티브 설정에 있습니다. 기본값은 Google 테스트 앱 ID입니다.
+AdMob은 **출시 빌드에서만 Candle의 실제 ID**를 쓰고, 디버그 빌드는 Google 테스트 ID를 씁니다(개발 중 실제 광고 클릭 방지).
 
-- Android: `flutter build appbundle -P ADMOB_APP_ID=ca-app-pub-...~...` (또는 `android/gradle.properties`)
-- iOS: `ios/Flutter/Release.xcconfig`의 `GAD_APPLICATION_ID`
+- 광고 단위: `lib/config.dart` (`kReleaseMode`로 분기, `--dart-define=ADMOB_REWARDED_IOS/ANDROID`로 덮어쓰기 가능)
+- 앱 ID: Android `android/app/build.gradle.kts`의 release `admobAppId`, iOS `ios/Flutter/Release.xcconfig`의 `GAD_APPLICATION_ID`
 
-테스트 ID로는 광고 표시까지만 확인할 수 있습니다. 예측권 지급은 서버의 AdMob SSV 콜백으로 이루어지므로, 실제 AdMob ID를 연결한 뒤에 확인해야 합니다.
+예측권 지급은 서버의 AdMob SSV 콜백으로 이루어집니다. 콜백 등록 상태는 [docs/backend-requests.md](docs/backend-requests.md)를 보세요.
 
 ## 출시 빌드
 
