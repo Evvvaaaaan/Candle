@@ -269,7 +269,22 @@ class ChallengeScreen extends StatelessWidget {
           PrimaryButton('예측하러 가기', secondary: true, onPressed: () => context.go('/stock-select')),
           const SizedBox(height: 8),
           PrimaryButton('내 예측 결과 확인', secondary: true, onPressed: () => context.push('/prediction-history')),
+          const _AppleNotice(),
         ],
+      );
+}
+
+/// App Store guideline 5.3.2: contest rules must state Apple is not a sponsor.
+class _AppleNotice extends StatelessWidget {
+  const _AppleNotice();
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 16),
+        child: Text(
+          '본 챌린지와 리워드는 Candle이 주최·제공하며, Apple Inc.는 후원사가 아니고 어떠한 방식으로도 관여하지 않습니다.',
+          textAlign: TextAlign.center,
+          style: font(11, height: 17, color: C.textLight),
+        ),
       );
 }
 
@@ -461,6 +476,7 @@ class _ChallengeRewardScreenState extends State<ChallengeRewardScreen> {
           ),
           const SizedBox(height: 12),
           PrimaryButton('챌린지 안내', secondary: true, onPressed: () => context.canPop() ? context.pop() : context.go('/challenge')),
+          const _AppleNotice(),
         ],
       );
 }
