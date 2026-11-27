@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:candle/main.dart';
 import 'package:candle/screens/auth_screens.dart';
 import 'package:candle/state.dart';
@@ -176,6 +178,63 @@ void main() {
     await tester.tap(find.byKey(const Key('consent-submit')));
     await tester.pumpAndSettle();
     expect(find.text('오늘의 종목을 예측해 보세요'), findsOneWidget);
+  });
+
+  testWidgets('signup does not scroll on iOS when it fits; buttons sit at the bottom', (tester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    addTearDown(() => debugDefaultTargetPlatformOverride = null);
+    tester.view.physicalSize = const Size(1170, 2532);
+    tester.view.devicePixelRatio = 3;
+    addTearDown(tester.view.reset);
+    final state = await backend.state(signedIn: false);
+    await tester.pumpWidget(AppScope(
+      state: state,
+      child: const MaterialApp(home: SignupScreen(showDevLogin: false)),
+    ));
+    final logo = find.byKey(const Key('signup-logo'));
+    final before = tester.getTopLeft(logo);
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, 200));
+    await tester.pump(const Duration(milliseconds: 50));
+    expect(tester.getTopLeft(logo), before);
+    expect(tester.getBottomLeft(find.text('Apple로 계속하기')).dy, greaterThan(844 * 0.75));
+    debugDefaultTargetPlatformOverride = null;
+  });
+
+  testWidgets('withdraw needs consent, sends the reason, signs out; a failure stays put', (tester) async {
+    final state = await launch(tester);
+    await tester.tap(find.byTooltip('내 정보'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('계정 · 약관'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byKey(const Key('withdraw')));
+    await tester.tap(find.byKey(const Key('withdraw')));
+    await tester.pumpAndSettle();
+
+    final submit = find.byKey(const Key('withdraw-submit'));
+    await tester.tap(submit);
+    await tester.pumpAndSettle();
+    expect(backend.calls('PUT /api/user/withdraw'), isEmpty, reason: 'disabled until agreed');
+
+    backend.handlers['PUT /api/user/withdraw'] = (_) => http.Response('', 500);
+    await tester.enterText(find.byKey(const Key('withdraw-reason')), '  자주 안 써요 ');
+    await tester.tap(find.byKey(const Key('withdraw-agree')));
+    await tester.pumpAndSettle();
+    await tester.tap(submit);
+    await tester.pumpAndSettle();
+    expect(state.status, AuthStatus.signedIn);
+    expect(find.text('탈퇴하기 전에 확인해 주세요'), findsOneWidget);
+    await tester.pump(const Duration(seconds: 6)); // error SnackBar covers the button
+    await tester.pumpAndSettle();
+
+    backend.handlers['PUT /api/user/withdraw'] = (_) => http.Response('', 200);
+    await tester.tap(submit);
+    await tester.pumpAndSettle();
+    final sent = backend.calls('PUT /api/user/withdraw').last;
+    expect(jsonDecode(sent.body), {'withdraw': '자주 안 써요'});
+    expect(sent.headers['Authorization'], 'a1');
+    expect(state.status, AuthStatus.signedOut);
+    expect(find.text('로그인'), findsOneWidget);
+    expect(await state.api.client.tokens.read('refreshToken'), isNull);
   });
 
   testWidgets('logout and an expired session both return to signup', (tester) async {

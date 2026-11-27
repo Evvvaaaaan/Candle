@@ -189,6 +189,11 @@ class CandleApi {
       client.signIn(provider, credentials);
   Future<void> session() => client.refreshAccess();
 
+  /// Deletes the signed-in account (server revokes Apple too). 200 even when
+  /// already withdrawn.
+  Future<void> withdraw([String reason = '']) => client.request('/api/user/withdraw',
+      method: 'PUT', param: {if (reason.trim().isNotEmpty) 'withdraw': reason.trim()});
+
   Future<Map<String, Object?>> user() async => _map(await _get('/api/user', {'id': 0}));
 
   Future<int> balance() async {

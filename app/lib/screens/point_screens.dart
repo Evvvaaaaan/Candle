@@ -1031,6 +1031,109 @@ class SettingsScreen extends StatelessWidget {
             await AppScope.read(context).logout();
             if (context.mounted) context.go('/signup');
           }),
+          const SizedBox(height: 8),
+          Center(
+            child: TextButton(
+              key: const Key('withdraw'),
+              onPressed: () => context.push('/withdraw'),
+              child: Text('회원 탈퇴', style: font(13, color: C.textLight)),
+            ),
+          ),
+        ],
+      );
+}
+
+/// Account deletion (`PUT /api/user/withdraw`), required by App Store 5.1.1(v).
+class WithdrawScreen extends StatefulWidget {
+  const WithdrawScreen({super.key});
+  @override
+  State<WithdrawScreen> createState() => _WithdrawScreenState();
+}
+
+class _WithdrawScreenState extends State<WithdrawScreen> {
+  final _reason = TextEditingController();
+  bool _agree = false;
+  bool _busy = false;
+
+  @override
+  void dispose() {
+    _reason.dispose();
+    super.dispose();
+  }
+
+  Future<void> _withdraw() async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    final state = AppScope.read(context);
+    try {
+      await state.api.withdraw(_reason.text);
+    } catch (error) {
+      if (mounted) {
+        setState(() => _busy = false);
+        report(context, error);
+      }
+      return;
+    }
+    await state.logout();
+    if (!mounted) return;
+    context.go('/signup');
+    announce(context, '탈퇴가 완료되었습니다. 그동안 이용해 주셔서 감사합니다.');
+  }
+
+  @override
+  Widget build(BuildContext context) => PageBody(
+        header: const PageHeader('회원 탈퇴', fallback: '/settings'),
+        bottom: PrimaryButton('탈퇴하기',
+            key: const Key('withdraw-submit'), onPressed: _agree && !_busy ? _withdraw : null),
+        children: [
+          const Heading('탈퇴하기 전에 확인해 주세요'),
+          CandleCard(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              for (final line in const [
+                '보유 포인트와 연승 기록은 모두 사라지며 되돌릴 수 없습니다.',
+                '같은 계정으로 다시 가입해도 새 계정으로 시작하며, 이전 포인트는 이어지지 않습니다.',
+                '이메일·이름·전화번호 등 개인정보는 바로 삭제됩니다. 포인트·예측·교환 기록은 회원 번호로만 남습니다.',
+                'Apple로 가입한 경우 Apple 계정 연결도 해지됩니다.',
+              ])
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text('•  ', style: font(13, height: 21, color: C.textMid)),
+                    Expanded(child: Text(line, style: font(13, height: 21, color: C.textMid))),
+                  ]),
+                ),
+            ]),
+          ),
+          const SizedBox(height: 20),
+          Text('탈퇴 사유 (선택)', style: font(12, weight: FontWeight.w500, color: C.textMid)),
+          const SizedBox(height: 6),
+          TextField(
+            key: const Key('withdraw-reason'),
+            controller: _reason,
+            maxLength: 200,
+            maxLines: 3,
+            minLines: 2,
+            decoration: const InputDecoration(hintText: '더 나은 서비스를 위해 알려 주세요.', counterText: ''),
+          ),
+          const SizedBox(height: 16),
+          Row(children: [
+            SizedBox(
+              width: 24,
+              height: 24,
+              child: Checkbox(
+                key: const Key('withdraw-agree'),
+                value: _agree,
+                onChanged: _busy ? null : (v) => setState(() => _agree = v ?? false),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: GestureDetector(
+                onTap: _busy ? null : () => setState(() => _agree = !_agree),
+                child: Text('안내를 모두 확인했으며 탈퇴에 동의합니다.', style: font(13, height: 21)),
+              ),
+            ),
+          ]),
         ],
       );
 }

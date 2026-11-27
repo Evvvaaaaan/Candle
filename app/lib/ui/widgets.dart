@@ -309,10 +309,12 @@ class BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         decoration: const BoxDecoration(color: C.surface, border: Border(top: BorderSide(color: C.border))),
+        // 12px below the tabs only when there is no home indicator inset.
         child: SafeArea(
           top: false,
+          minimum: const EdgeInsets.only(bottom: 12),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
             child: Row(children: [
               for (final (key, label, icon, path) in _tabs)
                 Expanded(

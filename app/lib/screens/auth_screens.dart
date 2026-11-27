@@ -141,12 +141,18 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() => _devOpen = true);
   }
 
+  // Brand and title on top; sign-in buttons pinned to the bottom. Scrolls when
+  // the keyboard or the temp login form needs more room.
   @override
   Widget build(BuildContext context) => Scaffold(
         body: SafeArea(
-          child: Column(children: [
-            Expanded(
-              child: ListView(padding: const EdgeInsets.fromLTRB(24, 24, 24, 24), children: [
+          // Clamping: no iOS bounce when everything already fits.
+          child: CustomScrollView(physics: const ClampingScrollPhysics(), slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                 GestureDetector(
                   key: const Key('signup-logo'),
                   onTap: _tapLogo,
@@ -166,6 +172,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 Text('오늘의 시장을 예측하고\n포인트를 모아보세요.',
                     textAlign: TextAlign.center, style: font(14, height: 22, color: C.textMid)),
                 const SizedBox(height: 40),
+                const Spacer(),
                 if (_providers.isNotEmpty) ...[
                   Text('간편 로그인', textAlign: TextAlign.center, style: font(11, weight: FontWeight.w500, height: 16, color: C.textMid)),
                   const SizedBox(height: 10),
@@ -200,12 +207,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     ]),
                   ),
                 ],
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
-              child: Text('처음 이용하는 경우 다음 단계에서 필수 약관을 확인합니다.',
-                  textAlign: TextAlign.center, style: font(11, height: 17, color: C.textLight)),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 12, 0, 16),
+                  child: Text('처음 이용하는 경우 다음 단계에서 필수 약관을 확인합니다.',
+                      textAlign: TextAlign.center, style: font(11, height: 17, color: C.textLight)),
+                ),
+                ]),
+              ),
             ),
           ]),
         ),

@@ -187,7 +187,10 @@ class ApiClient {
     Map<String, Object?>? param,
   }) async {
     final generation = _generation;
-    final userPath = path.startsWith('/api/user/');
+    // Sign-in calls (`/api/user/{provider}`) answer 401 for a bad provider
+    // token; that is not a session failure. Withdraw is an ordinary
+    // authorized call.
+    final userPath = path.startsWith('/api/user/') && path != '/api/user/withdraw';
     var retried = false;
     while (true) {
       if (generation != _generation) throw const ApiException(-1);

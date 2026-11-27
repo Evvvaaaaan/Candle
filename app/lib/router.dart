@@ -5,6 +5,7 @@ import 'screens/auth_screens.dart';
 import 'screens/point_screens.dart';
 import 'screens/predict_screens.dart';
 import 'state.dart';
+import 'theme.dart';
 import 'ui/widgets.dart';
 
 /// Which bottom tab is highlighted for each screen (null: bar without a tab).
@@ -17,11 +18,24 @@ String? tabFor(String path) => switch (path) {
     };
 
 const _public = {'/splash', '/signup'};
+const _tabRoots = {'/home', '/stock-select', '/missions', '/shop'};
 
 GoRouter buildRouter(AppState state) {
   final root = GlobalKey<NavigatorState>();
   GoRoute page(String path, Widget Function(GoRouterState s) build) =>
       GoRoute(path: path, builder: (context, s) => build(s));
+  // Shell screens have no Scaffold of their own: paint the screen color so the
+  // outgoing page does not show through during the iOS slide transition.
+  // Switching bottom tabs is instant, like the web and native tab bars.
+  GoRoute shellPage(String path, Widget Function(GoRouterState s) build) => GoRoute(
+        path: path,
+        pageBuilder: (context, s) {
+          final child = ColoredBox(color: C.screen, child: build(s));
+          return _tabRoots.contains(path)
+              ? NoTransitionPage(key: s.pageKey, child: child)
+              : MaterialPage(key: s.pageKey, child: child);
+        },
+      );
   return GoRouter(
     navigatorKey: root,
     initialLocation: '/splash',
@@ -51,22 +65,23 @@ GoRouter buildRouter(AppState state) {
           );
         },
         routes: [
-          page('/home', (s) => HomeScreen(tutorial: s.uri.queryParameters['tutorial'] == '1')),
-          page('/stock-select', (s) => StockSelectScreen(returnHome: s.uri.queryParameters['return'] == 'home')),
-          page('/prediction', (_) => const PredictionScreen()),
-          page('/pass', (_) => const PassScreen()),
-          page('/prediction-history', (_) => const PredictionHistoryScreen()),
-          page('/missions', (_) => const MissionsScreen()),
-          page('/challenge', (_) => const ChallengeScreen()),
-          page('/challenge-reward', (_) => const ChallengeRewardScreen()),
-          page('/shop', (_) => const ShopScreen()),
-          page('/exchange', (_) => const ExchangeScreen()),
-          page('/wallet', (s) => WalletScreen(
+          shellPage('/home', (s) => HomeScreen(tutorial: s.uri.queryParameters['tutorial'] == '1')),
+          shellPage('/stock-select', (s) => StockSelectScreen(returnHome: s.uri.queryParameters['return'] == 'home')),
+          shellPage('/prediction', (_) => const PredictionScreen()),
+          shellPage('/pass', (_) => const PassScreen()),
+          shellPage('/prediction-history', (_) => const PredictionHistoryScreen()),
+          shellPage('/missions', (_) => const MissionsScreen()),
+          shellPage('/challenge', (_) => const ChallengeScreen()),
+          shellPage('/challenge-reward', (_) => const ChallengeRewardScreen()),
+          shellPage('/shop', (_) => const ShopScreen()),
+          shellPage('/exchange', (_) => const ExchangeScreen()),
+          shellPage('/wallet', (s) => WalletScreen(
                 tab: s.uri.queryParameters['tab'] ?? 'all',
                 requested: s.uri.queryParameters['requested'] == '1',
               )),
-          page('/profile', (_) => const ProfileScreen()),
-          page('/settings', (_) => const SettingsScreen()),
+          shellPage('/profile', (_) => const ProfileScreen()),
+          shellPage('/settings', (_) => const SettingsScreen()),
+          shellPage('/withdraw', (_) => const WithdrawScreen()),
         ],
       ),
     ],
